@@ -1,0 +1,14 @@
+.home {
+    height: 100vh;
+    background-image: url('../../resources/background.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.welcome-text {
+    font-size: 48px;
+    color: white;
+}

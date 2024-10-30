@@ -6,6 +6,8 @@ import Register from "./views/Register/Register";
 import { auth } from "./config/firebase-config";
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { getUserData } from './services/users.service';
+import Header from './components/Header/Header';
+import Authenticated from "./hoc/Authenticated";
 
 function App() {
     const [appState, setAppState] = useState({
@@ -26,6 +28,7 @@ function App() {
     return (
         <BrowserRouter>
             <AppContext.Provider value={{ ...appState, setAppState }}>
+                <Header />
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/register" element={<Register />} />

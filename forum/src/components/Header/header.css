@@ -1,0 +1,53 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: black;
+    color: white;
+}
+
+/* Container for left, center, and right sections */
+.header nav {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Left side link (Recipes) */
+.nav-link {
+    color: white;
+    margin-right: 20px;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+/* Centered logo styling */
+.logo {
+    display: flex;
+    justify-content: center;
+    flex: 1;
+}
+
+.logo img {
+    height: 50px;
+    cursor: pointer;
+}
+
+/* Right side auth links (Register and Login) */
+.auth-links {
+    display: flex;
+    gap: 20px;
+}
+
+.auth-links .nav-link {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.nav-link:hover,
+.auth-links .nav-link:hover {
+    color: #ff6600;
+}

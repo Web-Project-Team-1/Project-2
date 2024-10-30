@@ -1,6 +1,6 @@
 import { useState, useContext } from "react";
 import { AppContext } from "../../store/app.context";
-import { Form, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { registerUser } from "../../services/auth.service";
 import { createUserHandle, getUserByHandle } from "../../services/users.service";
 
