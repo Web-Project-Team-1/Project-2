@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import './Header.css';
-import logo from '../../resources/fflogo.webp';
+import logo from '../../resources/cooking.png';
 
 export default function Header() {
     return (

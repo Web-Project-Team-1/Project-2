@@ -7,6 +7,7 @@ import { auth } from "./config/firebase-config";
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { getUserData } from './services/users.service';
 import Header from './components/Header/Header';
+import Login from "./views/Login/Login";
 import Authenticated from "./hoc/Authenticated";
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
                 <Header />
                 <Routes>
                     <Route path="/" element={<Home />} />
+                    <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
                 </Routes>
             </AppContext.Provider>
