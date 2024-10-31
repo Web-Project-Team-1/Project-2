@@ -19,9 +19,14 @@ function App() {
 
     useEffect(() => {
         if (!user) return;
+
         getUserData(user.uid).then(data => {
-            const userData = data[Object.keys(data)[0]];
-            setAppState({ user, userData });
+            if (data && Object.keys(data).length > 0) {
+                const userData = data[Object.keys(data)[0]];
+                setAppState({ user, userData });
+            } else {
+                setAppState({ user, userData: null });
+            }
         });
     }, [user]);
 
