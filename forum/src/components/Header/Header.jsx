@@ -1,7 +1,8 @@
 import { NavLink } from 'react-router-dom';
 import './Header.css';
 import logo from '../../resources/cooking.png';
-import { useContext } from 'react';
+import defaultProfilePic from '../../resources/default-profile-pic.jpg'; // Add a default profile picture
+import { useContext, useState } from 'react';
 import { AppContext } from '../../store/app.context';
 import { logoutUser } from "../../services/auth.service";
 import { useNavigate } from 'react-router-dom';
@@ -9,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 export default function Header() {
     const { user, userData, setAppState } = useContext(AppContext);
     const navigate = useNavigate();
+    const [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
     const logout = () => {
         logoutUser()
@@ -21,6 +23,9 @@ export default function Header() {
             });
     };
 
+    const handleMouseEnter = () => setIsDropdownVisible(true);
+    const handleMouseLeave = () => setIsDropdownVisible(false);
+
     return (
         <header className="header">
             <nav>
@@ -31,10 +36,28 @@ export default function Header() {
                     </NavLink>
                 </div>
                 {user ? (
-                    <>
+                    <div className="user-section">
                         <NavLink to="/create-recipe" className="nav-navlink">Create Recipe</NavLink>
                         <p className="welcome-message">Welcome, {userData?.handle}</p>
-                    </>
+                        <div
+                            className="profile-picture-wrapper"
+                            onMouseEnter={handleMouseEnter}
+                            onMouseLeave={handleMouseLeave}
+                        >
+                            <img
+                                src={userData?.profilePic || defaultProfilePic}
+                                alt="User Profile"
+                                className="profile-picture"
+                            />
+                            {isDropdownVisible && (
+                                <div className="dropdown-menu">
+                                    <button className="dropdown-button" onClick={() => navigate('/profile')}>Profile</button>
+                                    <button className="dropdown-button" onClick={() => navigate('/favorites')}>Favorites</button>
+                                    <button className="dropdown-button logout" onClick={logout}>Logout</button>
+                                </div>
+                            )}
+                        </div>
+                    </div>
                 ) : (
                     <div className="auth-navlinks">
                         <NavLink to="/register" className="nav-navlink">Register</NavLink>
@@ -42,7 +65,6 @@ export default function Header() {
                     </div>
                 )}
             </nav>
-            {user && <button onClick={logout} className="logout-btn">Logout</button>}
         </header>
     );
 }
