@@ -1,4 +1,4 @@
-import { ref, push, update } from "firebase/database"; 
+import { ref, push, update, get } from "firebase/database"; 
 import { db } from "../config/firebase-config";
 
 export const createRecipe = async (title, description) => {
@@ -16,5 +16,21 @@ export const createRecipe = async (title, description) => {
     } catch (error) {
         console.error('Error creating recipe:', error);
         throw error; 
+    }
+};
+
+export const getAllRecipes = async () => {
+    try {
+        const recipesRef = ref(db, 'recipes');
+        const snapshot = await get(recipesRef);
+        if (snapshot.exists()) {
+            return snapshot.val();
+        } else {
+            console.log("No data available");
+            return null;
+        }
+    } catch (error) {
+        console.error("Error fetching recipes:", error);
+        throw error;
     }
 };

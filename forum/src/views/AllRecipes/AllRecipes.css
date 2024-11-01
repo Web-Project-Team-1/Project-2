@@ -1,0 +1,19 @@
+.recipes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+    max-width: 1200px;
+    margin: 0 auto;
+    /* Center grid horizontally */
+    width: 100%;
+}
+
+.all-recipes-background {
+    /* Full-page background */
+    background-image: url('../../resources/background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    padding: 20px 0;
+}

@@ -12,13 +12,13 @@ export default function Header() {
 
     const logout = () => {
         logoutUser()
-        .then(() => {
-          setAppState({ user: null, userData: null });
-          navigate('/login');
-        })
-        .catch((error) => {
-          console.error('Logout failed', error);
-        });
+            .then(() => {
+                setAppState({ user: null, userData: null });
+                navigate('/login');
+            })
+            .catch((error) => {
+                console.error('Logout failed', error);
+            });
     };
 
     return (

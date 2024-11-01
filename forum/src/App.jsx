@@ -10,6 +10,7 @@ import Header from './components/Header/Header';
 import Login from "./views/Login/Login";
 import Authenticated from "./hoc/Authenticated";
 import CreateRecipe from "./views/CreateRecipe/CreateRecipe";
+import AllRecipes from "./views/AllRecipes/AllRecipes";
 
 function App() {
     const [appState, setAppState] = useState({
@@ -38,6 +39,7 @@ function App() {
                 <Header />
                 <Routes>
                     <Route path="/" element={<Home />} />
+                    <Route path="/recipes" element={<AllRecipes />} />
                     <Route path="/create-recipe" element={<Authenticated><CreateRecipe /></Authenticated>} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
