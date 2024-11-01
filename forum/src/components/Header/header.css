@@ -7,7 +7,6 @@
     color: white;
 }
 
-/* Container for left, center, and right sections */
 .header nav {
     display: flex;
     width: 100%;
@@ -15,15 +14,13 @@
     justify-content: space-between;
 }
 
-/* Left side link (Recipes) */
-.nav-link {
+.nav-navlink {
     color: white;
     margin-right: 20px;
     text-decoration: none;
     font-size: 18px;
 }
 
-/* Centered logo styling */
 .logo {
     display: flex;
     justify-content: center;
@@ -35,19 +32,44 @@
     cursor: pointer;
 }
 
-/* Right side auth links (Register and Login) */
 .auth-links {
     display: flex;
     gap: 20px;
 }
 
-.auth-links .nav-link {
+.auth-links .nav-navlink {
     color: white;
     text-decoration: none;
     font-size: 18px;
 }
 
-.nav-link:hover,
-.auth-links .nav-link:hover {
+.nav-navlink:hover,
+.auth-links .nav-navlink:hover {
     color: #ff6600;
+}
+
+.header nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.auth-navlinks,
+.welcome-message {
+    color: white;
+    margin: 0;
+    font-size: 20px;
+}
+
+
+.logout-btn {
+    color: white;
+    cursor: pointer;
+    width: 80px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 20px;
+    margin-bottom: 15px;
 }
