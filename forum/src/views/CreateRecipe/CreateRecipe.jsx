@@ -6,6 +6,7 @@ export default function CreateRecipes() {
     title: '',
     description: '',
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const updateRecipe = (key, value) => {
     setRecipe(prevRecipe => ({
@@ -15,11 +16,15 @@ export default function CreateRecipes() {
   };
 
   const handleCreateRecipe = async () => {
-    const { title, description } = recipe; 
+    const { title, description } = recipe;
 
     if (!title || !description) {
       return alert('Please fill in all fields!');
     }
+
+    if (isSubmitting) return;
+
+    setIsSubmitting(true);
 
     try {
       await createRecipe(title, description);
@@ -27,6 +32,8 @@ export default function CreateRecipes() {
       setRecipe({ title: '', description: '' });
     } catch (error) {
       alert('Failed to create recipe!');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -34,14 +41,31 @@ export default function CreateRecipes() {
     <>
       <h3>Create Recipe</h3>
       <div>
-        <label htmlFor="title">Title: </label>
-        <input value={recipe.title} onChange={e => updateRecipe('title', e.target.value)} type='text' name='title' id='title'/>
+        <label htmlFor="title">Title:</label>
+        <input
+          value={recipe.title}
+          onChange={e => updateRecipe('title', e.target.value)}
+          type="text"
+          name="title"
+          id="title"
+          autoComplete="off"
+        />
       </div>
       <div>
-        <label htmlFor="description">Description: </label>
-        <textarea value={recipe.description} onChange={e => updateRecipe('description', e.target.value)} name='description' id='description' cols='30' rows='10'/>
+        <label htmlFor="description">Description:</label>
+        <textarea
+          value={recipe.description}
+          onChange={e => updateRecipe('description', e.target.value)}
+          name="description"
+          id="description"
+          cols="30"
+          rows="10"
+          autoComplete="off"
+        />
       </div>
-      <button onClick={handleCreateRecipe}>Create</button>
+      <button onClick={handleCreateRecipe} disabled={isSubmitting}>
+        Create
+      </button>
     </>
   );
 }

@@ -26,6 +26,32 @@
     color: #FF8C00;
 }
 
+.recipe-buttons {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+    justify-content: center;
+}
+
+.recipe-button {
+    background-color: #FF8C00;
+    color: #fff;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.3s ease;
+}
+
+.recipe-button:hover {
+    background-color: #e07600;
+}
+
+.recipe-button:hover {
+    background-color: #e07600;
+}
+
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -58,12 +84,14 @@
     font-size: 1.8em;
     color: #FF8C00;
     margin-bottom: 16px;
+    text-align: center;
 }
 
 .modal-description {
     font-size: 1.1em;
     color: #333;
     margin-bottom: 24px;
+    text-align: center;
 }
 
 .close-button {
@@ -80,6 +108,41 @@
 .close-button:hover {
     background-color: #e07600;
 }
+
+.recipe-button.like {
+    background-color: #28a745;
+    /* Green */
+}
+
+.recipe-button.like:hover {
+    background-color: #218838;
+    /* Darker green on hover */
+}
+
+/* Add to Favorites Button - Yellow/Gold */
+.recipe-button.favorite {
+    background-color: #ffc107;
+    /* Yellow/Gold */
+    color: #333;
+    /* Darker text color for contrast */
+}
+
+.recipe-button.favorite:hover {
+    background-color: #e0a800;
+    /* Darker yellow on hover */
+}
+
+/* Comment Button - Blue */
+.recipe-button.comment {
+    background-color: #007bff;
+    /* Blue */
+}
+
+.recipe-button.comment:hover {
+    background-color: #0056b3;
+    /* Darker blue on hover */
+}
+
 
 /* Animations */
 @keyframes fadeIn {
