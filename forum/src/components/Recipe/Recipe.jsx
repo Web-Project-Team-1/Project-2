@@ -4,7 +4,7 @@ import { AppContext } from '../../store/app.context';
 import { likeRecipe, addToFavorites, getRecipeLikes } from '../../services/recipes.service';
 import CommentModal from './CommentModal';
 
-const Recipe = ({ id, title, description }) => {
+const Recipe = ({ id, title, description, image }) => {
     const { user } = useContext(AppContext);
     const [isExpanded, setIsExpanded] = useState(false);
     const [likes, setLikes] = useState(0);
@@ -64,7 +64,12 @@ const Recipe = ({ id, title, description }) => {
     return (
         <>
             <div className="recipe-card" onClick={openModal}>
-                <h3 className={`recipe-title ${isExpanded ? 'active' : ''}`}>{title}</h3>
+                <h3 className={`recipe-title`}>{title}</h3>
+                {image ? (
+                    <img src={image} alt={title} className="recipe-image" />
+                ) : (
+                    <p>No image available</p>
+                )}
             </div>
 
             {isExpanded && (
@@ -83,6 +88,11 @@ const Recipe = ({ id, title, description }) => {
                         </div>
 
                         <h2 className="modal-title">{title}</h2>
+                        {image ? (
+                            <img src={image} alt={title} className="modal-image" />
+                        ) : (
+                            <p>No image available</p>
+                        )}
                         <p className="modal-description">{description}</p>
                         <button className="close-button" onClick={closeModal}>Close</button>
                     </div>

@@ -3,11 +3,12 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    min-height: 100vh;
+    min-height: 95vh;
     padding: 20px 0;
 }
 
 .welcome-text {
+    text-align: center;
     font-size: 48px;
     color: white;
 }

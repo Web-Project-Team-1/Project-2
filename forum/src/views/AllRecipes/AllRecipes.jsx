@@ -10,7 +10,9 @@ export default function AllRecipes() {
         try {
             const data = await getAllRecipes();
             if (data) {
-                const validRecipes = Object.values(data).filter(recipe => recipe.title && recipe.description);
+                const validRecipes = Object.values(data).filter(recipe => 
+                    recipe.title && recipe.description && recipe.image
+                );
                 setRecipes(validRecipes);
             } else {
                 console.log("No recipes found in the database.");
@@ -28,8 +30,14 @@ export default function AllRecipes() {
         <div className="all-recipes-background">
             <div className="recipes-grid">
                 {recipes.length > 0 ? (
-                    recipes.map((recipe, index) => (
-                        <Recipe key={index} id={recipe.id} title={recipe.title} description={recipe.description} />
+                    recipes.map((recipe) => (
+                        <Recipe 
+                            key={recipe.id} 
+                            id={recipe.id} 
+                            title={recipe.title} 
+                            description={recipe.description} 
+                            image={recipe.image}
+                        />
                     ))
                 ) : (
                     <p>No recipes available.</p>

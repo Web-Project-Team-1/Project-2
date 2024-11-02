@@ -13,6 +13,7 @@ import CreateRecipe from "./views/CreateRecipe/CreateRecipe";
 import AllRecipes from "./views/AllRecipes/AllRecipes";
 import Profile from './views/Profile/Profile';
 import Favorites from './views/Favorites/Favorites';
+import NotFound from './views/NotFound/NotFound';
 
 function App() {
     const [appState, setAppState] = useState({
@@ -47,6 +48,7 @@ function App() {
                     <Route path="/register" element={<Register />} />
                     <Route path="/profile" element={<Authenticated><Profile /></Authenticated>} />
                     <Route path="/favorites" element={<Authenticated><Favorites /></Authenticated>} />
+                    <Route path="*" element={<NotFound />} />
                 </Routes>
             </AppContext.Provider>
         </BrowserRouter>

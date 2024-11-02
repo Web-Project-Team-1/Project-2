@@ -24,7 +24,8 @@ const CommentModal = ({ onClose, recipeId, user }) => {
             alert("You must be logged in to comment.");
             return;
         }
-
+        console.log(user);
+        
         const commentData = {
             author: user.displayName || 'Anonymous',
             date: new Date().toString(),

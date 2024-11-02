@@ -1,10 +1,20 @@
 import { ref, push, get, set } from "firebase/database";
 import { db } from "../config/firebase-config";
+import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage";
 
-export const createRecipe = async (title, description) => {
+export const createRecipe = async (title, description, image) => {
     const newRecipeRef = push(ref(db, 'recipes'));
     const id = newRecipeRef.key;
-    const recipe = { id, title, description, createdOn: new Date().toString() };
+
+    let imageUrl = '';
+    if (image) {
+        const storage = getStorage();
+        const imageRef = storageRef(storage, `recipes/${id}/${image.name}`);
+        await uploadBytes(imageRef, image);
+        imageUrl = await getDownloadURL(imageRef); 
+    }
+
+    const recipe = { id, title, description, image: imageUrl, createdOn: new Date().toString() };
 
     try {
         await set(newRecipeRef, recipe);
@@ -14,6 +24,7 @@ export const createRecipe = async (title, description) => {
         throw error; 
     }
 };
+
 
 export const getAllRecipes = async () => {
     try {

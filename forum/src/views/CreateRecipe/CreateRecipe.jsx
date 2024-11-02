@@ -5,6 +5,7 @@ export default function CreateRecipes() {
   const [recipe, setRecipe] = useState({
     title: '',
     description: '',
+    image: null, 
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -16,9 +17,9 @@ export default function CreateRecipes() {
   };
 
   const handleCreateRecipe = async () => {
-    const { title, description } = recipe;
+    const { title, description, image } = recipe;
 
-    if (!title || !description) {
+    if (!title || !description || !image) {
       return alert('Please fill in all fields!');
     }
 
@@ -27,13 +28,20 @@ export default function CreateRecipes() {
     setIsSubmitting(true);
 
     try {
-      await createRecipe(title, description);
+      await createRecipe(title, description, image);
       alert('Recipe created successfully!');
-      setRecipe({ title: '', description: '' });
+      setRecipe({ title: '', description: '', image: null }); 
     } catch (error) {
       alert('Failed to create recipe!');
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setRecipe(prevRecipe => ({ ...prevRecipe, image: file }));
     }
   };
 
@@ -42,25 +50,17 @@ export default function CreateRecipes() {
       <h3>Create Recipe</h3>
       <div>
         <label htmlFor="title">Title:</label>
-        <input
-          value={recipe.title}
-          onChange={e => updateRecipe('title', e.target.value)}
-          type="text"
-          name="title"
-          id="title"
-          autoComplete="off"
+        <input value={recipe.title} onChange={e => updateRecipe('title', e.target.value)} type="text" name="title" id="title" autoComplete="off"
         />
       </div>
       <div>
         <label htmlFor="description">Description:</label>
-        <textarea
-          value={recipe.description}
-          onChange={e => updateRecipe('description', e.target.value)}
-          name="description"
-          id="description"
-          cols="30"
-          rows="10"
-          autoComplete="off"
+        <textarea value={recipe.description} onChange={e => updateRecipe('description', e.target.value)} name="description" id="description" cols="30" rows="10" autoComplete="off"
+        />
+      </div>
+      <div>
+        <label htmlFor="image">Image:</label>
+        <input type="file" accept="image/*" onChange={handleImageChange} 
         />
       </div>
       <button onClick={handleCreateRecipe} disabled={isSubmitting}>
