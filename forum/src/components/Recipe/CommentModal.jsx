@@ -27,7 +27,7 @@ const CommentModal = ({ onClose, recipeId, user }) => {
         console.log(user);
         
         const commentData = {
-            author: user.displayName || 'Anonymous',
+            author: user.email.split("@")[0] || 'Anonymous',
             date: new Date().toString(),
             content: newComment,
         };
