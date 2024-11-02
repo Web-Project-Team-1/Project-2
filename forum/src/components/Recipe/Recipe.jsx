@@ -70,6 +70,11 @@ const Recipe = ({ id, title, description, image }) => {
                 ) : (
                     <p>No image available</p>
                 )}
+                {user && (
+                    <div className="recipe-user">
+                        <span className="user-username">Created from: <br /> {user.email.split("@")[0]}</span>
+                    </div>
+                )}
             </div>
 
             {isExpanded && (
@@ -94,6 +99,11 @@ const Recipe = ({ id, title, description, image }) => {
                             <p>No image available</p>
                         )}
                         <p className="modal-description">{description}</p>
+                        {user && (
+                            <div className="modal-user">
+                                <span className="user-username">{user.username}</span>
+                            </div>
+                        )}
                         <button className="close-button" onClick={closeModal}>Close</button>
                     </div>
                 </div>
