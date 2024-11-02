@@ -32,20 +32,51 @@ export const likeRecipe = async (recipeId, userId) => {
     const likeCountRef = ref(db, `recipes/${recipeId}/likeCount`);
 
     try {
-        const isLiked = (await get(likeRef)).exists();
-        await set(likeRef, isLiked ? null : { liked: true });
+        const userLikeSnapshot = await get(likeRef);
 
-        const likeCountSnapshot = await get(likeCountRef);
-        const currentLikeCount = likeCountSnapshot.val() || 0;
-        await set(likeCountRef, currentLikeCount + (isLiked ? -1 : 1));
+        if (userLikeSnapshot.exists()) {
+            await set(likeRef, null);
+            const likeCountSnapshot = await get(likeCountRef);
+            const currentLikeCount = likeCountSnapshot.val() || 0;
+            await set(likeCountRef, Math.max(0, currentLikeCount - 1));
+            return false;
+        } else {
+            await set(likeRef, { liked: true });
+            const likeCountSnapshot = await get(likeCountRef);
+            const currentLikeCount = likeCountSnapshot.val() || 0;
+            await set(likeCountRef, currentLikeCount + 1);
+            return true;
+        }
     } catch (error) {
         console.error("Error liking recipe:", error);
         throw error;
     }
 };
 
+export const getRecipeLikes = async (recipeId, userId) => {
+    const likeCountRef = ref(db, `recipes/${recipeId}/likeCount`);
+    const userLikeRef = ref(db, `recipes/${recipeId}/likes/${userId}`);
+
+    try {
+        const [likeCountSnapshot, userLikeSnapshot] = await Promise.all([
+            get(likeCountRef),
+            get(userLikeRef),
+        ]);
+        
+        return {
+            likeCount: likeCountSnapshot.exists() ? likeCountSnapshot.val() : 0,
+            userLiked: userLikeSnapshot.exists(),
+        };
+    } catch (error) {
+        console.error("Error fetching like data:", error);
+        throw error;
+    }
+};
+
 export const addComment = async (recipeId, commentData) => {
-    await push(ref(db, `recipes/${recipeId}/comments`), commentData);
+    const commentRef = ref(db, `recipes/${recipeId}/comments`);
+    const newCommentRef = push(commentRef);
+    await set(newCommentRef, commentData);
 };
 
 export const getComments = async (recipeId) => {
