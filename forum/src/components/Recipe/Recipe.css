@@ -47,7 +47,9 @@
     transform: translateX(-2px);
 }
 
-
+.user-username {
+    color: black;
+}
 
 .recipe-image {
     width: 180px;

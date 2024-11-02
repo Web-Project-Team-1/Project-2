@@ -1,56 +1,57 @@
 import { useState, useContext } from "react";
 import { AppContext } from "../../store/app.context";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { loginUser } from "../../services/auth.service";
 import './Login.css';
 
 export default function Login() {
+    const [credentials, setCredentials] = useState({
+        email: '',
+        password: ''
+    });
 
-  const [user, setUser] = useState({
-    email: '',
-    password: ''
-  })
-  const { setAppState } = useContext(AppContext)
-  const navigate = useNavigate()
-  const location = useLocation()
+    const { setAppState } = useContext(AppContext);
+    const navigate = useNavigate();
 
-  const login = () => {
+    const login = () => {
+        if (!credentials.email || !credentials.password) {
+            return alert('Please enter both email and password');
+        }
 
-    if(!user.email || !user.password) {
-      return alert('Please enter a username')
-    }
+        loginUser(credentials.email, credentials.password)
+            .then(credential => {
+                setAppState({
+                    user: credential.user,
+                    userData: null
+                });
+                navigate('/');
+            })
+            .catch(error => {
+                console.error('Login failed', error);
+            });
+    };
 
-    loginUser(user.email, user.password)
-      .then((credentials) => {
-        setAppState({
-          user: credentials.user,
-          userData: null
-        })
-        navigate(location.state?.from.pathname ?? '/')
-      })
-      .catch((error) => {
-        alert(error.message)
-      });
-  }
+    const updateCredentials = (prop) => (e) => {
+        setCredentials({
+            ...credentials,
+            [prop]: e.target.value
+        });
+    };
 
-  
-  const updateUser = (prop) => (e) => {
-    setUser({
-      ...user,
-      [prop]: e.target.value
-    })
-  } 
-
-  return (
-    <div>
-      <h1>Login</h1>
-      <label htmlFor="email">Email: </label>
-      <input value={user.email} onChange={updateUser('email')} type="text" name="email" id="email" />
-      <br /><br />
-      <label htmlFor="password">Password: </label>
-      <input value={user.password} onChange={updateUser('password')} type="text" name="password" id="password" />
-      <button onClick={login}>Login</button>
-    </div>
-  )
-
+    return (
+        <div className="login">
+            <div className="login-container">
+                <h1>Login</h1>
+                <label htmlFor="email">Email: </label>
+                <input value={credentials.email} onChange={updateCredentials('email')} type="text" id="email" />
+                <br /><br />
+                <label htmlFor="password">Password: </label>
+                <input value={credentials.password} onChange={updateCredentials('password')} type="password" id="password" />
+                <button onClick={login}>Login</button>
+                <div className="footer">
+                    Don't have an account? <a href="/register">Register</a>
+                </div>
+            </div>
+        </div>
+    );
 }

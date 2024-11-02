@@ -1,4 +1,4 @@
-.login-container {
+.register-container {
     max-width: 400px;
     margin: 30px auto;
     padding: 30px;
@@ -8,7 +8,7 @@
     text-align: center;
 }
 
-.login {
+.register {
     min-height: 100vh;
     display: flex;
     justify-content: center;
