@@ -64,46 +64,44 @@ const Recipe = ({ id, title, description, image }) => {
     return (
         <>
             <div className="recipe-card" onClick={openModal}>
-                <h3 className={`recipe-title`}>{title}</h3>
+                <h3 className="recipe-title">{title}</h3>
                 {image ? (
                     <img src={image} alt={title} className="recipe-image" />
                 ) : (
                     <p>No image available</p>
                 )}
-                {user && (
-                    <div className="recipe-user">
-                        <span className="user-username">Created from: <br /> {user.email.split("@")[0]}</span>
-                    </div>
-                )}
+                
             </div>
 
             {isExpanded && (
                 <div className="modal-overlay" onClick={closeModal}>
                     <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                        <div className="recipe-buttons">
-                            <button className={`recipe-button like`} onClick={handleLike}>
-                                {isLiked ? "Unlike" : "Like"} ({likes})
-                            </button>
-                            <button className={`recipe-button favorite`} onClick={handleAddToFavorites}>
-                                Add to Favorites
-                            </button>
-                            <button className={`recipe-button comment`} onClick={handleComment}>
-                                Comment
-                            </button>
-                        </div>
-
                         <h2 className="modal-title">{title}</h2>
                         {image ? (
                             <img src={image} alt={title} className="modal-image" />
                         ) : (
                             <p>No image available</p>
                         )}
+
                         <p className="modal-description">{description}</p>
                         {user && (
                             <div className="modal-user">
-                                <span className="user-username">{user.username}</span>
+                                <span className="user-username">Created from: <br /> {user.email.split("@")[0]}</span>
                             </div>
                         )}
+
+                        <div className="recipe-buttons">
+                            <button className="recipe-button like" onClick={handleLike}>
+                                {isLiked ? "Unlike" : "Like"} ({likes})
+                            </button>
+                            <button className="recipe-button favorite" onClick={handleAddToFavorites}>
+                                Add to Favorites
+                            </button>
+                            <button className="recipe-button comment" onClick={handleComment}>
+                                Comment
+                            </button>
+                        </div>
+
                         <button className="close-button" onClick={closeModal}>Close</button>
                     </div>
                 </div>

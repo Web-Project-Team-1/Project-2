@@ -1,70 +1,128 @@
 .recipe-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     text-align: center;
-    padding: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.8);
-    border-radius: 8px;
-    background-color: rgba(0, 0, 0, 0.7);
-    color: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    padding: 15px;
+    border: 2px solid transparent;
+    border-radius: 20px;
     cursor: pointer;
-    transition: transform 0.3s ease, background-color 0.3s ease;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+    background: linear-gradient(to bottom right, #060606, #4c4a49);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+    
 }
-
 .recipe-card:hover {
-    transform: scale(1.02);
     background-color: rgba(0, 0, 0, 0.8);
 }
 
+.recipe-card:hover .recipe-image {
+    filter: brightness(1.2);
+    box-shadow: 0 4px 8px rgba(255, 140, 0, 0.5);
+}
+
+
+.recipe-card:hover {
+    transform: scale(1.05) rotateX(5deg) rotateY(5deg);
+    transition: transform 0.4s ease;
+}
+
+.recipe-button.like::before {
+    content: "♥ ";
+    transition: transform 0.3s ease;
+}
+
+.recipe-button.favorite::before {
+    content: "★ ";
+    transition: transform 0.3s ease;
+}
+
+.recipe-button.comment::before {
+    content: "💬 ";
+    transition: transform 0.3s ease;
+}
+
+.recipe-button:hover::before {
+    transform: translateX(-2px);
+}
+
+
+
+.recipe-image {
+    width: 180px;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 15px;
+    margin-bottom: 12px;
+    transition: transform 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.recipe-card:hover .recipe-image {
+    transform: scale(1.02);
+}
+
 .recipe-title {
-    margin: 0;
     font-size: 1.2em;
     color: #ffffff;
+    margin-top: 0;
     transition: color 0.3s ease;
+    font-weight: bold;
 }
 
 .recipe-title.active {
     color: #FF8C00;
 }
 
-.recipe-image {
-    width: 200px; 
-    height: 150px; 
-    object-fit: cover;
-    border-radius: 5px; 
-    margin-top: 10px;
-}
-
-.modal-image {
-    width: 200px; 
-    height: 150px;
-    object-fit: cover;
-    border-radius: 5px;
-}
-
 .recipe-buttons {
     display: flex;
     gap: 8px;
+    margin-top: auto;
     margin-bottom: 10px;
     justify-content: center;
 }
 
 .recipe-button {
-    background-color: #FF8C00;
+    background: linear-gradient(135deg, #FF8C00, #e07600);
     color: #fff;
     border: none;
     padding: 6px 12px;
     border-radius: 4px;
     cursor: pointer;
     font-size: 0.9em;
-    transition: background-color 0.3s ease;
+    transition: transform 0.2s ease, background 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .recipe-button:hover {
-    background-color: #e07600;
+    background: linear-gradient(135deg, #e07600, #FF8C00);
+    transform: translateY(-2px);
 }
 
-.recipe-button:hover {
-    background-color: #e07600;
+.recipe-button.like {
+    background: linear-gradient(135deg, #28a745, #218838);
+}
+
+.recipe-button.like:hover {
+    background: linear-gradient(135deg, #218838, #28a745);
+}
+
+.recipe-button.favorite {
+    background: linear-gradient(135deg, #ffc107, #e0a800);
+    color: #333;
+}
+
+.recipe-button.favorite:hover {
+    background: linear-gradient(135deg, #e0a800, #ffc107);
+}
+
+.recipe-button.comment {
+    background: linear-gradient(135deg, #007bff, #0056b3);
+}
+
+.recipe-button.comment:hover {
+    background: linear-gradient(135deg, #0056b3, #007bff);
 }
 
 .modal-overlay {
@@ -73,7 +131,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.8);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -83,14 +141,14 @@
 }
 
 .modal-content {
-    background-color: #c5c5c5;
+    background: #333;
     padding: 24px;
-    border-radius: 8px;
+    border-radius: 12px;
     max-width: 500px;
     width: 80%;
     text-align: center;
     position: relative;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
     transform: scale(0.95);
     animation: scaleUp 0.4s ease forwards;
 }
@@ -102,15 +160,25 @@
     text-align: center;
 }
 
+.modal-image {
+    width: 410px;
+    height: 300px;
+    object-fit: cover;
+    display: block;
+    margin: 0 auto 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
 .modal-description {
     font-size: 1.1em;
-    color: #333;
+    color: #FF8C00;
     margin-bottom: 24px;
     text-align: center;
 }
 
 .close-button {
-    background-color: #FF8C00;
+    background: linear-gradient(135deg, #FF8C00, #e07600);
     color: #fff;
     border: none;
     padding: 8px 16px;
@@ -118,43 +186,17 @@
     cursor: pointer;
     font-size: 1em;
     transition: background-color 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 .close-button:hover {
-    background-color: #e07600;
+    background: linear-gradient(135deg, #e07600, #FF8C00);
 }
-
-.recipe-button.like {
-    background-color: #28a745;
-}
-
-.recipe-button.like:hover {
-    background-color: #218838;
-}
-
-.recipe-button.favorite {
-    background-color: #ffc107;
-    color: #333;
-}
-
-.recipe-button.favorite:hover {
-    background-color: #e0a800;
-}
-
-.recipe-button.comment {
-    background-color: #007bff;
-}
-
-.recipe-button.comment:hover {
-    background-color: #0056b3;
-}
-
 
 @keyframes fadeIn {
     from {
         opacity: 0;
     }
-
     to {
         opacity: 1;
     }
@@ -164,7 +206,6 @@
     from {
         transform: scale(0.95);
     }
-
     to {
         transform: scale(1);
     }
