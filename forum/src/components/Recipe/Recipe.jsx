@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import './Recipe.css';
 import { AppContext } from '../../store/app.context';
-import { FavoritesContext } from '../../store/favorites.context';
+import { FavoritesContext } from '../../store/FavoritesContext';
 import { likeRecipe, getRecipeLikes } from '../../services/recipes.service';
 import CommentModal from './CommentModal';
 

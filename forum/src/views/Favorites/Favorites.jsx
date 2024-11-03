@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { FavoritesContext } from '../../store/favorites.context';
+import { FavoritesContext } from '../../store/FavoritesContext';
 import { AppContext } from '../../store/app.context';
 import { getRecipe } from '../../services/recipes.service';
 import Recipe from '../../components/Recipe/Recipe';

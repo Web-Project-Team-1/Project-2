@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AppContext } from "./store/app.context";
-import { FavoritesProvider } from "./store/favorites.context";
+import { FavoritesProvider } from "./store/FavoritesContext";
 import { useEffect, useState } from 'react';
 import Home from './views/Home/Home';
 import Register from "./views/Register/Register";
