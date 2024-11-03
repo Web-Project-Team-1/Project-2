@@ -16,12 +16,15 @@ const Favorites = () => {
             if (!user) return;
 
             const recipes = [];
+            const missingRecipes = [];
+
             for (const recipeId of favorites) {
                 try {
                     const recipeData = await getRecipe(recipeId);
                     if (recipeData) {
                         recipes.push(recipeData);
                     } else {
+                        missingRecipes.push(recipeId);
                         console.warn(`No data found for recipe ID: ${recipeId}`);
                     }
                 } catch (error) {
@@ -29,6 +32,11 @@ const Favorites = () => {
                     setError(`Error fetching recipe with ID ${recipeId}.`);
                 }
             }
+
+            if (missingRecipes.length > 0) {
+                setError(`Some favorite recipes could not be found: ${missingRecipes.join(', ')}`);
+            }
+
             setFavoriteRecipes(recipes);
         };
 

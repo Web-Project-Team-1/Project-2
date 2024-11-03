@@ -1,4 +1,4 @@
-import { ref, push, get, set, remove, } from "firebase/database";
+import { ref, push, get, set, remove } from "firebase/database";
 import { db } from "../config/firebase-config";
 import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage";
 
