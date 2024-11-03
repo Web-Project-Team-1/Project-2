@@ -5,7 +5,7 @@ import { FavoritesContext } from '../../store/FavoritesContext';
 import { likeRecipe, getRecipeLikes } from '../../services/recipes.service';
 import CommentModal from './CommentModal';
 
-const Recipe = ({ id, title, description, image, creatorHandle }) => {
+const Recipe = ({ id, title, description, image, creatorHandle, onEdit }) => {
     const { user } = useContext(AppContext);
     const { favorites, addToFavorites, removeFromFavorites } = useContext(FavoritesContext);
 
@@ -15,6 +15,7 @@ const Recipe = ({ id, title, description, image, creatorHandle }) => {
     const [showCommentModal, setShowCommentModal] = useState(false);
 
     const isFavorited = favorites.includes(id);
+    const isCreator = user && creatorHandle === user.email.split("@")[0];
 
     useEffect(() => {
         const fetchLikes = async () => {
@@ -92,7 +93,6 @@ const Recipe = ({ id, title, description, image, creatorHandle }) => {
 
                         <p className="modal-description">{description}</p>
 
-                        {/* Display creatorHandle */}
                         <div className="modal-user">
                             <span className="user-username">Created by: <br /> {creatorHandle || "Unknown"}</span>
                         </div>
@@ -106,6 +106,12 @@ const Recipe = ({ id, title, description, image, creatorHandle }) => {
                             </button>
                             <button className="recipe-button comment" onClick={handleComment}>
                                 Comment
+                            </button>
+                            <button
+                                className={`recipe-button edit ${isCreator ? '' : 'disabled'}`}
+                                onClick={isCreator ? onEdit : (e) => e.preventDefault()}
+                            >
+                                Edit
                             </button>
                         </div>
 

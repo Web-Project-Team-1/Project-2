@@ -1,8 +1,7 @@
-import { ref, push, get, set, remove } from "firebase/database";
+import { ref, push, get, set, remove, } from "firebase/database";
 import { db } from "../config/firebase-config";
 import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage";
 
-// Updated createRecipe function to include creatorUsername
 export const createRecipe = async (title, description, image, creatorUsername) => {
     const newRecipeRef = push(ref(db, 'recipes'));
     const id = newRecipeRef.key;
@@ -21,7 +20,7 @@ export const createRecipe = async (title, description, image, creatorUsername) =
         description, 
         image: imageUrl, 
         createdOn: new Date().toString(),
-        createdBy: creatorUsername // Added creatorUsername to recipe data
+        createdBy: creatorUsername
     };
 
     try {
@@ -102,7 +101,6 @@ export const getComments = async (recipeId) => {
     return snapshot.exists() ? Object.values(snapshot.val()) : [];
 };
 
-// Add to Favorites
 export const addToFavorites = async (recipeId, userId) => {
     try {
         await set(ref(db, `users/${userId}/favorites/${recipeId}`), { favorited: true });
@@ -112,7 +110,6 @@ export const addToFavorites = async (recipeId, userId) => {
     }
 };
 
-// Remove from Favorites
 export const removeFromFavorites = async (recipeId, userId) => {
     try {
         await remove(ref(db, `users/${userId}/favorites/${recipeId}`));
@@ -122,7 +119,6 @@ export const removeFromFavorites = async (recipeId, userId) => {
     }
 };
 
-// Get User Favorites
 export const getUserFavorites = async (userId) => {
     try {
         const snapshot = await get(ref(db, `users/${userId}/favorites`));
@@ -144,6 +140,22 @@ export const getRecipe = async (recipeId) => {
         }
     } catch (error) {
         console.error(`Error fetching recipe with ID ${recipeId}:`, error);
+        throw error;
+    }
+};
+
+export const updateRecipe = async (recipeId, updates) => {
+    try {
+        const recipeRef = ref(db, `recipes/${recipeId}`);
+        const snapshot = await get(recipeRef);
+        if (!snapshot.exists()) {
+            throw new Error(`Recipe with ID ${recipeId} does not exist.`);
+        }
+
+        const existingRecipe = snapshot.val();
+        await set(recipeRef, { ...existingRecipe, ...updates, id: recipeId });
+    } catch (error) {
+        console.error(`Error updating recipe with ID ${recipeId}:`, error);
         throw error;
     }
 };

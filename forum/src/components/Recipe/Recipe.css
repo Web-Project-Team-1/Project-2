@@ -11,8 +11,9 @@
     transition: transform 0.3s ease, border-color 0.3s ease;
     background: linear-gradient(to bottom right, #060606, #4c4a49);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
-    
+
 }
+
 .recipe-card:hover {
     background-color: rgba(0, 0, 0, 0.8);
 }
@@ -195,10 +196,26 @@
     background: linear-gradient(135deg, #e07600, #FF8C00);
 }
 
+.recipe-button.edit.disabled {
+    background-color: #d3d3d3;
+    color: #7a7a7a;
+    cursor: not-allowed;
+    pointer-events: none;
+    box-shadow: none;
+    transition: none;
+}
+
+.recipe-button.edit.disabled:hover {
+    background-color: #d3d3d3;
+}
+
+
+
 @keyframes fadeIn {
     from {
         opacity: 0;
     }
+
     to {
         opacity: 1;
     }
@@ -208,6 +225,7 @@
     from {
         transform: scale(0.95);
     }
+
     to {
         transform: scale(1);
     }
