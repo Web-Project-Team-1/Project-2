@@ -20,7 +20,7 @@ const EditModal = ({ onClose, recipeId, currentTitle, currentDescription, refetc
         <div className="edit-modal-overlay" onClick={onClose}>
             <div className="edit-modal-content" onClick={(e) => e.stopPropagation()}>
                 <h3 className="edit-modal-title">Edit Recipe</h3>
-
+                <p>Title</p>
                 <input
                     type="text"
                     className="edit-modal-input"
@@ -28,7 +28,7 @@ const EditModal = ({ onClose, recipeId, currentTitle, currentDescription, refetc
                     onChange={(e) => setTitle(e.target.value)}
                     placeholder="Recipe Title"
                 />
-
+                <p>Description</p>
                 <textarea
                     className="edit-modal-input"
                     value={description}
