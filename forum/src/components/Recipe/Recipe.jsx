@@ -1,15 +1,20 @@
 import React, { useState, useEffect, useContext } from 'react';
 import './Recipe.css';
 import { AppContext } from '../../store/app.context';
-import { likeRecipe, addToFavorites, getRecipeLikes } from '../../services/recipes.service';
+import { FavoritesContext } from '../../store/favorites.context';
+import { likeRecipe, getRecipeLikes } from '../../services/recipes.service';
 import CommentModal from './CommentModal';
 
 const Recipe = ({ id, title, description, image }) => {
     const { user } = useContext(AppContext);
+    const { favorites, addToFavorites, removeFromFavorites } = useContext(FavoritesContext);
+
     const [isExpanded, setIsExpanded] = useState(false);
     const [likes, setLikes] = useState(0);
     const [isLiked, setIsLiked] = useState(false);
     const [showCommentModal, setShowCommentModal] = useState(false);
+
+    const isFavorited = favorites.includes(id);
 
     useEffect(() => {
         const fetchLikes = async () => {
@@ -45,17 +50,20 @@ const Recipe = ({ id, title, description, image }) => {
         }
     };
 
-    const handleAddToFavorites = async () => {
+    const handleToggleFavorite = async () => {
         if (!user) {
             alert("You must be logged in to add to favorites.");
             return;
         }
 
         try {
-            await addToFavorites(id, user.uid);
-            alert("Added to favorites!");
+            if (isFavorited) {
+                await removeFromFavorites(id, user.uid);
+            } else {
+                await addToFavorites(id, user.uid);
+            }
         } catch (error) {
-            console.error("Error adding to favorites:", error);
+            console.error("Error updating favorites:", error);
         }
     };
 
@@ -70,7 +78,6 @@ const Recipe = ({ id, title, description, image }) => {
                 ) : (
                     <p>No image available</p>
                 )}
-                
             </div>
 
             {isExpanded && (
@@ -94,8 +101,8 @@ const Recipe = ({ id, title, description, image }) => {
                             <button className="recipe-button like" onClick={handleLike}>
                                 {isLiked ? "Unlike" : "Like"} ({likes})
                             </button>
-                            <button className="recipe-button favorite" onClick={handleAddToFavorites}>
-                                Add to Favorites
+                            <button className="recipe-button favorite" onClick={handleToggleFavorite}>
+                                {isFavorited ? "Remove from Favorites" : "Add to Favorites"}
                             </button>
                             <button className="recipe-button comment" onClick={handleComment}>
                                 Comment

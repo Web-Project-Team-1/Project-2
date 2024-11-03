@@ -1,4 +1,4 @@
-import { ref, push, get, set } from "firebase/database";
+import { ref, push, get, set, remove } from "firebase/database";
 import { db } from "../config/firebase-config";
 import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage";
 
@@ -25,7 +25,6 @@ export const createRecipe = async (title, description, image) => {
     }
 };
 
-
 export const getAllRecipes = async () => {
     try {
         const snapshot = await get(ref(db, 'recipes'));
@@ -46,7 +45,7 @@ export const likeRecipe = async (recipeId, userId) => {
         const userLikeSnapshot = await get(likeRef);
 
         if (userLikeSnapshot.exists()) {
-            await set(likeRef, null);
+            await remove(likeRef);
             const likeCountSnapshot = await get(likeCountRef);
             const currentLikeCount = likeCountSnapshot.val() || 0;
             await set(likeCountRef, Math.max(0, currentLikeCount - 1));
@@ -95,6 +94,48 @@ export const getComments = async (recipeId) => {
     return snapshot.exists() ? Object.values(snapshot.val()) : [];
 };
 
+// Add to Favorites
 export const addToFavorites = async (recipeId, userId) => {
-    await set(ref(db, `users/${userId}/favorites/${recipeId}`), { favorited: true });
+    try {
+        await set(ref(db, `users/${userId}/favorites/${recipeId}`), { favorited: true });
+    } catch (error) {
+        console.error("Error adding to favorites:", error);
+        throw error;
+    }
+};
+
+// Remove from Favorites
+export const removeFromFavorites = async (recipeId, userId) => {
+    try {
+        await remove(ref(db, `users/${userId}/favorites/${recipeId}`));
+    } catch (error) {
+        console.error("Error removing from favorites:", error);
+        throw error;
+    }
+};
+
+// Get User Favorites
+export const getUserFavorites = async (userId) => {
+    try {
+        const snapshot = await get(ref(db, `users/${userId}/favorites`));
+        return snapshot.exists() ? Object.keys(snapshot.val()) : [];
+    } catch (error) {
+        console.error("Error fetching user favorites:", error);
+        throw error;
+    }
+};
+
+export const getRecipe = async (recipeId) => {
+    try {
+        const snapshot = await get(ref(db, `recipes/${recipeId}`));
+        if (snapshot.exists()) {
+            return snapshot.val();
+        } else {
+            console.warn(`No data found for recipe ID: ${recipeId}`);
+            return null;
+        }
+    } catch (error) {
+        console.error(`Error fetching recipe with ID ${recipeId}:`, error);
+        throw error;
+    }
 };

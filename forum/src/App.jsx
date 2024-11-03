@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AppContext } from "./store/app.context";
+import { FavoritesProvider } from "./store/favorites.context";
 import { useEffect, useState } from 'react';
 import Home from './views/Home/Home';
 import Register from "./views/Register/Register";
@@ -39,17 +40,19 @@ function App() {
     return (
         <BrowserRouter>
             <AppContext.Provider value={{ ...appState, setAppState }}>
-                <Header />
-                <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/recipes" element={<AllRecipes />} />
-                    <Route path="/create-recipe" element={<Authenticated><CreateRecipe /></Authenticated>} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/register" element={<Register />} />
-                    <Route path="/profile" element={<Authenticated><Profile /></Authenticated>} />
-                    <Route path="/favorites" element={<Authenticated><Favorites /></Authenticated>} />
-                    <Route path="*" element={<NotFound />} />
-                </Routes>
+                <FavoritesProvider>
+                    <Header />
+                    <Routes>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/recipes" element={<AllRecipes />} />
+                        <Route path="/create-recipe" element={<Authenticated><CreateRecipe /></Authenticated>} />
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/register" element={<Register />} />
+                        <Route path="/profile" element={<Authenticated><Profile /></Authenticated>} />
+                        <Route path="/favorites" element={<Authenticated><Favorites /></Authenticated>} />
+                        <Route path="*" element={<NotFound />} />
+                    </Routes>
+                </FavoritesProvider>
             </AppContext.Provider>
         </BrowserRouter>
     );
