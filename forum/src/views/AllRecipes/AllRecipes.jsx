@@ -10,7 +10,7 @@ export default function AllRecipes() {
         try {
             const data = await getAllRecipes();
             if (data) {
-                const validRecipes = Object.values(data).filter(recipe => 
+                const validRecipes = Object.values(data).filter(recipe =>
                     recipe.title && recipe.description && recipe.image
                 );
                 setRecipes(validRecipes);
@@ -31,12 +31,13 @@ export default function AllRecipes() {
             <div className="recipes-grid">
                 {recipes.length > 0 ? (
                     recipes.map((recipe) => (
-                        <Recipe 
-                            key={recipe.id} 
-                            id={recipe.id} 
-                            title={recipe.title} 
-                            description={recipe.description} 
+                        <Recipe
+                            key={recipe.id}
+                            id={recipe.id}
+                            title={recipe.title}
+                            description={recipe.description}
                             image={recipe.image}
+                            creatorHandle={recipe.createdBy}
                         />
                     ))
                 ) : (

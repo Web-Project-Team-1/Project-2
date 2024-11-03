@@ -5,7 +5,7 @@ import { FavoritesContext } from '../../store/FavoritesContext';
 import { likeRecipe, getRecipeLikes } from '../../services/recipes.service';
 import CommentModal from './CommentModal';
 
-const Recipe = ({ id, title, description, image }) => {
+const Recipe = ({ id, title, description, image, creatorHandle }) => {
     const { user } = useContext(AppContext);
     const { favorites, addToFavorites, removeFromFavorites } = useContext(FavoritesContext);
 
@@ -91,11 +91,11 @@ const Recipe = ({ id, title, description, image }) => {
                         )}
 
                         <p className="modal-description">{description}</p>
-                        {user && (
-                            <div className="modal-user">
-                                <span className="user-username">Created from: <br /> {user.email.split("@")[0]}</span>
-                            </div>
-                        )}
+
+                        {/* Display creatorHandle */}
+                        <div className="modal-user">
+                            <span className="user-username">Created by: <br /> {creatorHandle || "Unknown"}</span>
+                        </div>
 
                         <div className="recipe-buttons">
                             <button className="recipe-button like" onClick={handleLike}>

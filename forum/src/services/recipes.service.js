@@ -2,7 +2,8 @@ import { ref, push, get, set, remove } from "firebase/database";
 import { db } from "../config/firebase-config";
 import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage";
 
-export const createRecipe = async (title, description, image) => {
+// Updated createRecipe function to include creatorUsername
+export const createRecipe = async (title, description, image, creatorUsername) => {
     const newRecipeRef = push(ref(db, 'recipes'));
     const id = newRecipeRef.key;
 
@@ -14,7 +15,14 @@ export const createRecipe = async (title, description, image) => {
         imageUrl = await getDownloadURL(imageRef); 
     }
 
-    const recipe = { id, title, description, image: imageUrl, createdOn: new Date().toString() };
+    const recipe = { 
+        id, 
+        title, 
+        description, 
+        image: imageUrl, 
+        createdOn: new Date().toString(),
+        createdBy: creatorUsername // Added creatorUsername to recipe data
+    };
 
     try {
         await set(newRecipeRef, recipe);

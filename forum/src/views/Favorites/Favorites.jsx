@@ -50,6 +50,7 @@ const Favorites = () => {
                             title={recipe.title}
                             description={recipe.description}
                             image={recipe.image}
+                            creatorHandle={recipe.createdBy}
                         />
                     ))
                 ) : (

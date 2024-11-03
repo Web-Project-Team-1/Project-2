@@ -31,8 +31,12 @@ export default function Register() {
                 return createUserHandle(user.handle, credential.user.uid, user.email)
                     .then(() => {
                         setAppState({
-                            user: credential.user,
-                            userData: null
+                            user: {
+                                uid: credential.user.uid,
+                                email: user.email,
+                                handle: user.handle, // Set handle in app state
+                            },
+                            userData: null,
                         });
                         navigate('/');
                     })
@@ -41,6 +45,7 @@ export default function Register() {
                     });
             });
     };
+
     const updateUser = (prop) => (e) => {
         setUser({
             ...user,
@@ -48,9 +53,8 @@ export default function Register() {
         });
     };
 
-
     return (
-        <div className="register-backgruond">
+        <div className="register-background">
             <div className="register">
                 <div className="register-container">
                     <h1>Register</h1>
@@ -70,5 +74,4 @@ export default function Register() {
             </div>
         </div>
     );
-
 }
