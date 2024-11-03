@@ -39,17 +39,19 @@ export default function Login() {
     };
 
     return (
-        <div className="login">
-            <div className="login-container">
-                <h1>Login</h1>
-                <label htmlFor="email">Email: </label>
-                <input value={credentials.email} onChange={updateCredentials('email')} type="text" id="email" />
-                <br /><br />
-                <label htmlFor="password">Password: </label>
-                <input value={credentials.password} onChange={updateCredentials('password')} type="password" id="password" />
-                <button onClick={login}>Login</button>
-                <div className="footer">
-                    Don't have an account? <a href="/register">Register</a>
+        <div className="login-background">
+            <div className="login">
+                <div className="login-container">
+                    <h1>Login</h1>
+                    <label htmlFor="email">Email: </label>
+                    <input value={credentials.email} onChange={updateCredentials('email')} type="text" id="email" />
+                    <br /><br />
+                    <label htmlFor="password">Password: </label>
+                    <input value={credentials.password} onChange={updateCredentials('password')} type="password" id="password" />
+                    <button onClick={login}>Login</button>
+                    <div className="footer">
+                        Don't have an account? <a href="/register">Register</a>
+                    </div>
                 </div>
             </div>
         </div>

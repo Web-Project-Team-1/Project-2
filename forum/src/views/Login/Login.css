@@ -8,6 +8,15 @@
     text-align: center;
 }
 
+/* .login-background {
+     background-image: url('../../resources/background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    padding: 20px 0;
+} */
+
 .login {
     min-height: 100vh;
     display: flex;

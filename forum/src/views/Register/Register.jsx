@@ -50,23 +50,25 @@ export default function Register() {
 
 
     return (
-        <div className="register">
-            <div className="register-container">
-                <h1>Register</h1>
-                <label htmlFor="handle">Username: </label>
-                <input value={user.handle} onChange={updateUser('handle')} type="text" id="handle" />
-                <br /><br />
-                <label htmlFor="email">Email: </label>
-                <input value={user.email} onChange={updateUser('email')} type="text" id="email" />
-                <br /><br />
-                <label htmlFor="password">Password: </label>
-                <input value={user.password} onChange={updateUser('password')} type="password" id="password" />
-                <button onClick={register}>Register</button>
-                <div className="footer">
-                    Already have an account? <a href="/login">Login</a>
+        <div className="register-backgruond">
+            <div className="register">
+                <div className="register-container">
+                    <h1>Register</h1>
+                    <label htmlFor="handle">Username: </label>
+                    <input value={user.handle} onChange={updateUser('handle')} type="text" id="handle" />
+                    <br /><br />
+                    <label htmlFor="email">Email: </label>
+                    <input value={user.email} onChange={updateUser('email')} type="text" id="email" />
+                    <br /><br />
+                    <label htmlFor="password">Password: </label>
+                    <input value={user.password} onChange={updateUser('password')} type="password" id="password" />
+                    <button onClick={register}>Register</button>
+                    <div className="footer">
+                        Already have an account? <a href="/login">Login</a>
+                    </div>
                 </div>
             </div>
         </div>
     );
-    
+
 }

@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import './Header.css';
 import logo from '../../resources/cooking.png';
-import defaultProfilePic from '../../resources/default-profile-pic.jpg'; // Add a default profile picture
+import defaultProfilePic from '../../resources/default-profile-pic.jpg'; 
 import { useContext, useState } from 'react';
 import { AppContext } from '../../store/app.context';
 import { logoutUser } from "../../services/auth.service";
