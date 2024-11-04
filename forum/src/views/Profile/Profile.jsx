@@ -1,38 +1,29 @@
 import React, { useContext, useState, useEffect, useRef } from 'react';
 import { AppContext } from '../../store/app.context';
-import { uploadProfilePicture } from '../../services/users.service';
+import { ProfileNamesContext } from '../../store/ProfileNamesContext';
+import { uploadProfilePicture, updateUserNames } from '../../services/users.service';
 import './Profile.css';
 
 export default function Profile() {
-    const { user, userData, updateUser } = useContext(AppContext);
-    const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-    const [profilePicture, setProfilePicture] = useState('default-profile-pic.jpg');
-    const [username, setUsername] = useState('Username');
-    const [name, setName] = useState('');
-    const [accountCreatedDate, setAccountCreatedDate] = useState('');
-    const [postCount, setPostCount] = useState(0);
-    const [loading, setLoading] = useState(true);
+    const { user, userData } = useContext(AppContext); 
+    const { setUser, updateUser } = useContext(ProfileNamesContext);
 
-    // Reference to the hidden file input
+    const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [profilePicture, setProfilePicture] = useState('default-profile-pic.jpg');
+    const [loading, setLoading] = useState(true);
     const fileInputRef = useRef(null);
 
     useEffect(() => {
         if (user && userData) {
             setProfilePicture(userData.photoURL || 'default-profile-pic.jpg');
-            setUsername(userData.displayName || 'Username');
-
-            // Retrieve the actual creation date or set default text
-            setAccountCreatedDate(userData.createdOn || 'Unknown');
-            setPostCount(userData.postCount || 0);
+            setFirstName(userData.firstName || '');
+            setLastName(userData.lastName || '');
             setLoading(false);
         }
     }, [user, userData]);
 
-    const handleToggleSettings = () => {
-        setIsSettingsOpen(!isSettingsOpen);
-    };
-
-    // Trigger the hidden file input when profile picture is clicked
     const handleProfilePictureClick = () => {
         fileInputRef.current.click();
     };
@@ -51,16 +42,33 @@ export default function Profile() {
         }
     };
 
-    const handleSaveSettings = () => {
-        const updatedUser = {
-            ...user,
-            displayName: username,
-            photoURL: profilePicture,
-            name
-        };
-        updateUser(updatedUser);
-        setIsSettingsOpen(false);
-        alert('Profile settings saved successfully!');
+    const handleNamesChange = async () => {
+        try {
+            const handle = user.email.split('@')[0];
+            await updateUserNames(user.uid, handle, firstName, lastName);
+            setUser({ ...user, firstName, lastName, displayName: `${firstName} ${lastName}` });
+        } catch (error) {
+            console.error("Error updating names:", error);
+        }
+    };
+
+    const handleSaveSettings = async () => {
+        try {
+            const updatedUser = {
+                ...user,
+                displayName: `${firstName} ${lastName}`,
+                photoURL: profilePicture,
+            };
+
+            await updateUser(updatedUser);
+            await handleNamesChange();
+
+            setIsSettingsOpen(false);
+            alert('Profile settings saved successfully!');
+        } catch (error) {
+            console.error("Error saving settings:", error);
+            alert("Failed to save settings. Please try again.");
+        }
     };
 
     if (loading) {
@@ -71,51 +79,34 @@ export default function Profile() {
         <div className="profile-background">
             <div className="profile-page">
                 <div className="profile-header">
-                    {/* Profile picture with click event and hover text */}
                     <div className="profile-picture-container">
-                        <img
-                            src={profilePicture}
-                            alt="Profile"
-                            className="profile-picture"
-                            onClick={handleProfilePictureClick}
-                            style={{ cursor: 'pointer' }}
+                        <img src={profilePicture} alt="Profile" className="profile-picture" onClick={handleProfilePictureClick} style={{ cursor: 'pointer' }}
                         />
                         <span className="profile-picture-hover-text">Change Profile Picture</span>
                     </div>
-                    <input
-                        type="file"
-                        accept="image/*"
-                        ref={fileInputRef}
-                        onChange={handleProfilePictureChange}
-                        style={{ display: 'none' }}
+                    <input type="file" accept="image/*" ref={fileInputRef} onChange={handleProfilePictureChange} style={{ display: 'none' }}
                     />
-
-                    <h2 className="profile-username">{username}</h2>
+                    <h2 className="profile-name">{firstName} {lastName}</h2>
                 </div>
 
-                <button onClick={handleToggleSettings} className="settings-button">
+                <button onClick={() => setIsSettingsOpen(!isSettingsOpen)} className="settings-button">
                     {isSettingsOpen ? 'Close Settings' : 'Open Settings'}
                 </button>
 
                 {isSettingsOpen && (
                     <div className="profile-settings">
-                        <label>
-                            Username:
-                            <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+                        <label htmlFor="firstName">First Name:
+                            <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} placeholder="First Name" />
                         </label>
-
-                        <label>
-                            Change Name:
-                            <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
+                        <label htmlFor="lastName">Last Name:
+                            <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} placeholder="Last Name" />
                         </label>
-
                         <button onClick={handleSaveSettings} className="save-button">Save Settings</button>
                     </div>
                 )}
 
                 <div className="profile-footer">
-                    <p>Account Created: {accountCreatedDate}</p>
-                    <p>Posts Created: {postCount}</p>
+                    <p>Account Created: {userData?.createdOn || 'Unknown'}</p>
                 </div>
             </div>
         </div>

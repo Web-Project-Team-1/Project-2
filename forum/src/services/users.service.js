@@ -7,7 +7,8 @@ export const getUserByHandle = async (handle) => {
   return snapshot.val();
 };
 
-export const createUserHandle = async (handle, uid, email) => {
+export const createUserHandle = async (email, uid) => {
+  const handle = email.split('@')[0]; 
   const user = {
     handle,
     uid,
@@ -17,6 +18,7 @@ export const createUserHandle = async (handle, uid, email) => {
 
   await set(ref(db, `users/${handle}`), user);
 };
+
 
 export const getUserData = async (uid) => {
   const snapshot = await get(query(ref(db, 'users'), orderByChild('uid'), equalTo(uid)));
@@ -45,4 +47,13 @@ export async function uploadProfilePicture(file, userId, handle) {
   await update(userRef, { photoURL: downloadURL });
 
   return downloadURL;
+};
+
+export async function updateUserNames(userId, handle, firstName, lastName) {
+  const userRef = ref(db, `users/${handle}`);
+  await update(userRef, {
+      firstName,
+      lastName
+  });
 }
+
