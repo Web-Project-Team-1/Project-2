@@ -5,7 +5,7 @@ import { FavoritesContext } from '../../store/FavoritesContext';
 import { likeRecipe, getRecipeLikes, deleteRecipe } from '../../services/recipes.service';
 import CommentModal from './CommentModal';
 
-const Recipe = ({ id, title, description, image, creatorHandle, onEdit, onDelete }) => {
+const Recipe = ({ id, title, description, image, creatorHandle, creationDate, onEdit, onDelete }) => {
     const { user } = useContext(AppContext);
     const { favorites, addToFavorites, removeFromFavorites } = useContext(FavoritesContext);
 
@@ -16,6 +16,16 @@ const Recipe = ({ id, title, description, image, creatorHandle, onEdit, onDelete
 
     const isFavorited = favorites.includes(id);
     const isCreator = user && creatorHandle === user.email.split("@")[0];
+
+    const formatDate = (dateString) => {
+        if (!dateString) return 'Unknown';
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+        });
+    };
 
     useEffect(() => {
         const fetchLikes = async () => {
@@ -106,7 +116,13 @@ const Recipe = ({ id, title, description, image, creatorHandle, onEdit, onDelete
                         <p className="modal-description">{description}</p>
 
                         <div className="modal-user">
-                            <span className="user-username">Created by: <br /> {creatorHandle || "Unknown"}</span>
+                            <span className="user-username">
+                                Created by: {creatorHandle || "Unknown"}
+                            </span>
+                            <br />
+                            <span className="recipe-date">
+                                Created on: {formatDate(creationDate)}
+                            </span>
                         </div>
 
                         <div className="recipe-buttons">

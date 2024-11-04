@@ -5,6 +5,7 @@ import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "fire
 export const createRecipe = async (title, description, image, creatorUsername) => {
     const newRecipeRef = push(ref(db, 'recipes'));
     const id = newRecipeRef.key;
+    const creationDate = new Date().toISOString();
 
     let imageUrl = '';
     if (image) {
@@ -20,7 +21,8 @@ export const createRecipe = async (title, description, image, creatorUsername) =
         description, 
         image: imageUrl, 
         createdOn: new Date().toString(),
-        createdBy: creatorUsername
+        createdBy: creatorUsername,
+        creationDate,
     };
 
     try {

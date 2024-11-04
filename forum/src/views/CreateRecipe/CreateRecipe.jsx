@@ -4,7 +4,7 @@ import { AppContext } from "../../store/app.context";
 import "./CreateRecipe.css";
 
 export default function CreateRecipes() {
-  const { user, userData } = useContext(AppContext); // Access userData
+  const { user, userData } = useContext(AppContext);
   const [recipe, setRecipe] = useState({
     title: '',
     description: '',
@@ -26,7 +26,7 @@ export default function CreateRecipes() {
       return alert('Please fill in all fields!');
     }
 
-    if (!user || !userData?.handle) { // Check userData.handle
+    if (!user || !userData?.handle) {
       alert('User is not logged in or username is missing.');
       return;
     }
@@ -34,7 +34,6 @@ export default function CreateRecipes() {
     setIsSubmitting(true);
 
     try {
-      // Pass userData.handle when calling createRecipe
       await createRecipe(title, description, image, userData.handle);
       alert('Recipe created successfully!');
       setRecipe({ title: '', description: '', image: null });
