@@ -3,6 +3,7 @@ import { AppContext } from '../../store/app.context';
 import { ProfileNamesContext } from '../../store/ProfileNamesContext';
 import { uploadProfilePicture, updateUserNames } from '../../services/users.service';
 import './Profile.css';
+import { FIRST_NAME_MAX_LENGTH, FIRST_NAME_MIN_LENGTH, LAST_NAME_MAX_LENGTH, LAST_NAME_MIN_LENGTH } from '../../common/constants';
 
 export default function Profile() {
     const { user, userData } = useContext(AppContext); 
@@ -54,7 +55,7 @@ export default function Profile() {
 
     const handleSaveSettings = async () => {
         if (!validateFirstName(firstName) || !validateLastName(lastName)) {
-            return; // Exit if validation fails
+            return; 
         }
 
         try {
@@ -76,22 +77,22 @@ export default function Profile() {
     };
 
     const validateFirstName = (name) => {
-        if (name.length < 3) {
-            alert('First name must be at least 3 characters long.');
+        if (name.length < FIRST_NAME_MIN_LENGTH) {
+            alert(`First name must be at least ${FIRST_NAME_MIN_LENGTH} characters long.`);
             return false;
-        } else if (name.length > 42) {
-            alert('First name cannot exceed 42 characters.');
+        } else if (name.length > FIRST_NAME_MAX_LENGTH) {
+            alert(`First name cannot exceed ${FIRST_NAME_MAX_LENGTH} characters.`);
             return false;
         }
         return true;
     };
 
     const validateLastName = (name) => {
-        if (name.length < 3) {
-            alert('Last name must be at least 3 characters long.');
+        if (name.length < LAST_NAME_MIN_LENGTH) {
+            alert(`Last name must be at least ${LAST_NAME_MIN_LENGTH} characters long.`);
             return false;
-        } else if (name.length > 42) {
-            alert('Last name cannot exceed 42 characters.');
+        } else if (name.length > LAST_NAME_MAX_LENGTH) {
+            alert(`Last name cannot exceed ${LAST_NAME_MAX_LENGTH} characters.`);
             return false;
         }
         return true;

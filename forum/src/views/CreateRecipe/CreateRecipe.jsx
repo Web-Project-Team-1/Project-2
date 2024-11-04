@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { createRecipe } from "../../services/recipes.service";
 import { AppContext } from "../../store/app.context";
 import "./CreateRecipe.css";
+import { TITLE_MAX_LENGTH, TITLE_MIN_LENGTH, DESCRIPTION_MAX_LENGTH, DESCRIPTION_MIN_LENGTH } from "../../common/constants";
 
 export default function CreateRecipes() {
   const { user, userData } = useContext(AppContext);
@@ -24,6 +25,14 @@ export default function CreateRecipes() {
 
     if (!title || !description || !image) {
       return alert('Please fill in all fields!');
+    }
+
+    if (title.length < TITLE_MIN_LENGTH || title.length > TITLE_MAX_LENGTH) {
+      return alert(`Title must be between ${TITLE_MIN_LENGTH} and ${TITLE_MAX_LENGTH} characters long.`);
+    }
+
+    if (description.length < DESCRIPTION_MIN_LENGTH || description.length > DESCRIPTION_MAX_LENGTH) {
+      return alert(`Description must be between ${DESCRIPTION_MIN_LENGTH} and ${DESCRIPTION_MAX_LENGTH} characters long.`);
     }
 
     if (!user || !userData?.handle) {
