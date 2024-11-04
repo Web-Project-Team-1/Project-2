@@ -8,9 +8,8 @@ export default function AllRecipes() {
     const [recipes, setRecipes] = useState([]);
     const [showEditModal, setShowEditModal] = useState(false);
     const [currentRecipe, setCurrentRecipe] = useState(null);
-    const [sortOrder, setSortOrder] = useState("newest"); // Default to newest first
+    const [sortOrder, setSortOrder] = useState("newest");
 
-    // Fetch recipes from the service
     const fetchRecipes = async () => {
         try {
             const data = await getAllRecipes();
@@ -27,39 +26,31 @@ export default function AllRecipes() {
         }
     };
 
-    // Refetch recipes after edit
-    const refetchRecipes = () => {
-        fetchRecipes();
+    const handleRecipeDelete = (deletedRecipeId) => {
+        setRecipes((prevRecipes) => prevRecipes.filter((recipe) => recipe.id !== deletedRecipeId));
     };
 
-    // Fetch recipes on component mount
     useEffect(() => {
         fetchRecipes();
     }, []);
 
-    // Handle opening the edit modal
     const handleEdit = (recipe) => {
         setCurrentRecipe(recipe);
         setShowEditModal(true);
     };
 
-    // Sorting function for recipes based on sortOrder
     const sortedRecipes = recipes.slice().sort((a, b) => {
         if (sortOrder === "newest") {
-            return new Date(b.creationDate) - new Date(a.creationDate); // Newest first
+            return new Date(b.creationDate) - new Date(a.creationDate);
         } else if (sortOrder === "oldest") {
-            return new Date(a.creationDate) - new Date(b.creationDate); // Oldest first
+            return new Date(a.creationDate) - new Date(b.creationDate);
         } else if (sortOrder === "a-z") {
-            return a.title.localeCompare(b.title); // Alphabetical A-Z
+            return a.title.localeCompare(b.title);
         } else if (sortOrder === "z-a") {
-            return b.title.localeCompare(a.title); // Alphabetical Z-A
+            return b.title.localeCompare(a.title);
         }
         return 0;
     });
-
-    // AllRecipes.jsx
-
-    // AllRecipes.jsx
 
     return (
         <div className="all-recipes-background">
@@ -90,6 +81,7 @@ export default function AllRecipes() {
                             creatorHandle={recipe.createdBy}
                             creationDate={recipe.creationDate}
                             onEdit={() => handleEdit(recipe)}
+                            onDelete={handleRecipeDelete}
                         />
                     ))
                 ) : (
@@ -102,7 +94,7 @@ export default function AllRecipes() {
                     recipeId={currentRecipe.id}
                     currentTitle={currentRecipe.title}
                     currentDescription={currentRecipe.description}
-                    refetchRecipes={refetchRecipes}
+                    refetchRecipes={fetchRecipes}
                 />
             )}
         </div>

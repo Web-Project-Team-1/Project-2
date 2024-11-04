@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Recipe.css';
 import { AppContext } from '../../store/app.context';
 import { FavoritesContext } from '../../store/FavoritesContext';
@@ -8,6 +9,7 @@ import CommentModal from './CommentModal';
 const Recipe = ({ id, title, description, image, creatorHandle, creationDate, onEdit, onDelete }) => {
     const { user } = useContext(AppContext);
     const { favorites, addToFavorites, removeFromFavorites } = useContext(FavoritesContext);
+    const navigate = useNavigate();
 
     const [isExpanded, setIsExpanded] = useState(false);
     const [likes, setLikes] = useState(0);
@@ -91,6 +93,7 @@ const Recipe = ({ id, title, description, image, creatorHandle, creationDate, on
             try {
                 await deleteRecipe(id);
                 if (onDelete) onDelete(id);
+                navigate('/recipes');
             } catch (error) {
                 console.error("Error deleting recipe:", error);
                 alert("Failed to delete the recipe. Please try again.");
