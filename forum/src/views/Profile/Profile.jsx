@@ -6,7 +6,7 @@ import './Profile.css';
 import { FIRST_NAME_MAX_LENGTH, FIRST_NAME_MIN_LENGTH, LAST_NAME_MAX_LENGTH, LAST_NAME_MIN_LENGTH } from '../../common/constants';
 
 export default function Profile() {
-    const { user, userData } = useContext(AppContext); 
+    const { user, userData } = useContext(AppContext);
     const { setUser, updateUser } = useContext(ProfileNamesContext);
 
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -55,7 +55,7 @@ export default function Profile() {
 
     const handleSaveSettings = async () => {
         if (!validateFirstName(firstName) || !validateLastName(lastName)) {
-            return; 
+            return;
         }
 
         try {
@@ -106,10 +106,37 @@ export default function Profile() {
         <div className="profile-background">
             <div className="profile-page">
                 <div className="profile-header">
-                    <div className="profile-picture-container">
-                        <img src={profilePicture} alt="Profile" className="profile-picture" onClick={handleProfilePictureClick} style={{ cursor: 'pointer' }} />
+                    <div className="profile-picture-container" style={{ position: 'relative', display: 'inline-block' }}>
+                        <span
+                            style={{
+                                fontWeight: 'bold',
+                                cursor: 'pointer',
+                                position: 'absolute',
+                                top: '-30px',
+                                left: '50%',
+                                transform: 'translateX(-50%)',
+                                fontSize: '24px',
+                            }}>
+                            
+                        </span>
+                        <img
+                            src={profilePicture}
+                            alt="Profile"
+                            className="profile-picture-profile"
+                            onClick={handleProfilePictureClick}
+                            style={{
+                                cursor: 'pointer',
+                                width: '80px',
+                                height: '80px',
+                                borderRadius: '50%',
+                                objectFit: 'cover',
+                            }}
+                        />
                         <span className="profile-picture-hover-text">Change Profile Picture</span>
                     </div>
+
+
+
                     <input type="file" accept="image/*" ref={fileInputRef} onChange={handleProfilePictureChange} style={{ display: 'none' }} />
                     <h2 className="profile-name">{firstName} {lastName}</h2>
                 </div>
