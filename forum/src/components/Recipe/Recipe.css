@@ -209,6 +209,16 @@
     background-color: #d3d3d3;
 }
 
+.recipe-button.delete {
+    background-color: #ff4d4d;
+    color: white;
+    cursor: pointer;
+}
+
+.recipe-button.delete.disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
 
 
 @keyframes fadeIn {

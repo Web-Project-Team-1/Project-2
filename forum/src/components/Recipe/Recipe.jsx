@@ -2,10 +2,10 @@ import React, { useState, useEffect, useContext } from 'react';
 import './Recipe.css';
 import { AppContext } from '../../store/app.context';
 import { FavoritesContext } from '../../store/FavoritesContext';
-import { likeRecipe, getRecipeLikes } from '../../services/recipes.service';
+import { likeRecipe, getRecipeLikes, deleteRecipe } from '../../services/recipes.service';
 import CommentModal from './CommentModal';
 
-const Recipe = ({ id, title, description, image, creatorHandle, onEdit }) => {
+const Recipe = ({ id, title, description, image, creatorHandle, onEdit, onDelete }) => {
     const { user } = useContext(AppContext);
     const { favorites, addToFavorites, removeFromFavorites } = useContext(FavoritesContext);
 
@@ -70,6 +70,19 @@ const Recipe = ({ id, title, description, image, creatorHandle, onEdit }) => {
 
     const handleComment = () => setShowCommentModal(true);
 
+    // New delete handler
+    const handleDelete = async () => {
+        if (isCreator && window.confirm("Are you sure you want to delete this recipe?")) {
+            try {
+                await deleteRecipe(id);
+                if (onDelete) onDelete(id); // Notify parent to remove from the list if needed
+            } catch (error) {
+                console.error("Error deleting recipe:", error);
+                alert("Failed to delete the recipe. Please try again.");
+            }
+        }
+    };
+
     return (
         <>
             <div className="recipe-card" onClick={openModal}>
@@ -112,6 +125,12 @@ const Recipe = ({ id, title, description, image, creatorHandle, onEdit }) => {
                                 onClick={isCreator ? onEdit : (e) => e.preventDefault()}
                             >
                                 Edit
+                            </button>
+                            <button
+                                className={`recipe-button delete ${isCreator ? '' : 'disabled'}`}
+                                onClick={isCreator ? handleDelete : (e) => e.preventDefault()}
+                            >
+                                Delete
                             </button>
                         </div>
 

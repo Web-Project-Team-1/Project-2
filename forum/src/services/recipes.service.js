@@ -159,3 +159,13 @@ export const updateRecipe = async (recipeId, updates) => {
         throw error;
     }
 };
+
+export const deleteRecipe = async (recipeId) => {
+    try {
+        const recipeRef = ref(db, `recipes/${recipeId}`);
+        await remove(recipeRef);
+    } catch (error) {
+        console.error("Error deleting recipe:", error);
+        throw error;
+    }
+};
