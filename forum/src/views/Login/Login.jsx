@@ -20,10 +20,6 @@ export default function Login() {
 
         loginUser(credentials.email, credentials.password)
             .then(credential => {
-                setAppState({
-                    user: credential.user,
-                    userData: null
-                });
                 navigate('/');
             })
             .catch(error => {

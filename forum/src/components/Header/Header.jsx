@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import './Header.css';
 import logo from '../../resources/cooking.png';
-import defaultProfilePic from '../../resources/default-profile-pic.jpg'; 
+import defaultProfilePic from '../../resources/default-profile-pic.jpg';
 import { useContext, useState } from 'react';
 import { AppContext } from '../../store/app.context';
 import { logoutUser } from "../../services/auth.service";
@@ -45,7 +45,7 @@ export default function Header() {
                             onMouseLeave={handleMouseLeave}
                         >
                             <img
-                                src={userData?.profilePic || defaultProfilePic}
+                                src={userData?.photoURL || defaultProfilePic}
                                 alt="User Profile"
                                 className="profile-picture"
                             />

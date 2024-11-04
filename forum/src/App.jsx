@@ -22,24 +22,29 @@ function App() {
         userData: null
     });
 
-    const [user] = useAuthState(auth);
+    const [user, loading] = useAuthState(auth);
+
+    const updateUser = (updatedUserData) => {
+        setAppState((prevState) => ({
+            ...prevState,
+            userData: { ...prevState.userData, ...updatedUserData }
+        }));
+    };
 
     useEffect(() => {
-        if (!user) return;
+        if (!user) {
+            setAppState({ user: null, userData: null });
+            return;
+        }
 
         getUserData(user.uid).then(data => {
-            if (data && Object.keys(data).length > 0) {
-                const userData = data[Object.keys(data)[0]];
-                setAppState({ user, userData });
-            } else {
-                setAppState({ user, userData: null });
-            }
+            setAppState({ user, userData: data || null });
         });
     }, [user]);
 
     return (
         <BrowserRouter>
-            <AppContext.Provider value={{ ...appState, setAppState }}>
+            <AppContext.Provider value={{ ...appState, setAppState, updateUser }}>
                 <FavoritesProvider>
                     <Header />
                     <Routes>
