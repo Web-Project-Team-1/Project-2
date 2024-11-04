@@ -44,6 +44,16 @@
     transition: transform 0.3s ease;
 }
 
+.recipe-button.edit::before {
+    content: "✏️ ";
+    transition: transform 0.3s ease;
+}
+
+.recipe-button.delete::before {
+    content: "🗑️ ";
+    transition: transform 0.3s ease;
+}
+
 .recipe-button:hover::before {
     transform: translateX(-2px);
 }
@@ -196,13 +206,14 @@
     background: linear-gradient(135deg, #e07600, #FF8C00);
 }
 
-.recipe-button.edit.disabled {
-    background-color: #d3d3d3;
-    color: #7a7a7a;
+.recipe-button.edit {
+    background: linear-gradient(135deg, #d48b03, #d48b03);
+}
+
+.recipe-button.edit.disabled:hover {
+    background: linear-gradient(135deg, #9b6502, #9b6502);
     cursor: not-allowed;
-    pointer-events: none;
-    box-shadow: none;
-    transition: none;
+    color: gray;
 }
 
 .recipe-button.edit.disabled:hover {
@@ -210,14 +221,13 @@
 }
 
 .recipe-button.delete {
-    background-color: #ff4d4d;
-    color: white;
-    cursor: pointer;
+    background: linear-gradient(135deg, #d60000, #d60000);
 }
 
-.recipe-button.delete.disabled {
-    background-color: #cccccc;
+.recipe-button.delete.disabled:hover {
+    background: linear-gradient(135deg, #960202, #960202);
     cursor: not-allowed;
+    color: gray;
 }
 
 

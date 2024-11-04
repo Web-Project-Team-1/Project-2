@@ -70,12 +70,11 @@ const Recipe = ({ id, title, description, image, creatorHandle, onEdit, onDelete
 
     const handleComment = () => setShowCommentModal(true);
 
-    // New delete handler
     const handleDelete = async () => {
         if (isCreator && window.confirm("Are you sure you want to delete this recipe?")) {
             try {
                 await deleteRecipe(id);
-                if (onDelete) onDelete(id); // Notify parent to remove from the list if needed
+                if (onDelete) onDelete(id);
             } catch (error) {
                 console.error("Error deleting recipe:", error);
                 alert("Failed to delete the recipe. Please try again.");
