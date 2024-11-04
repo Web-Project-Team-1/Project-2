@@ -78,7 +78,13 @@ const Recipe = ({ id, title, description, image, creatorHandle, creationDate, on
         }
     };
 
-    const handleComment = () => setShowCommentModal(true);
+    const handleComment = () => {
+        if (!user) {
+            alert("You must be logged in to comment on a recipe.");
+            return;
+        }
+        setShowCommentModal(true);
+    };
 
     const handleDelete = async () => {
         if (isCreator && window.confirm("Are you sure you want to delete this recipe?")) {
@@ -126,24 +132,42 @@ const Recipe = ({ id, title, description, image, creatorHandle, creationDate, on
                         </div>
 
                         <div className="recipe-buttons">
-                            <button className="recipe-button like" onClick={handleLike}>
+                            <button
+                                className={`recipe-button like ${!user ? 'disabled' : ''}`}
+                                onClick={user ? handleLike : (e) => e.preventDefault()}
+                                title={!user ? "Please log in to like the recipe." : ""}
+                            >
                                 {isLiked ? "Unlike" : "Like"} ({likes})
                             </button>
-                            <button className="recipe-button favorite" onClick={handleToggleFavorite}>
+
+                            <button
+                                className={`recipe-button favorite ${!user ? 'disabled' : ''}`}
+                                onClick={user ? handleToggleFavorite : (e) => e.preventDefault()}
+                                title={!user ? "Please log in to add the recipe in favorites." : ""}
+                            >
                                 {isFavorited ? "Remove from Favorites" : "Add to Favorites"}
                             </button>
-                            <button className="recipe-button comment" onClick={handleComment}>
+
+                            <button
+                                className={`recipe-button comment ${!user ? 'disabled' : ''}`}
+                                onClick={user ? handleComment : (e) => e.preventDefault()}
+                                title={!user ? "Please log in to comment the recipe." : ""}
+                            >
                                 Comment
                             </button>
+
                             <button
                                 className={`recipe-button edit ${isCreator ? '' : 'disabled'}`}
                                 onClick={isCreator ? onEdit : (e) => e.preventDefault()}
+                                title={!isCreator ? "Only the creator can edit." : ""}
                             >
                                 Edit
                             </button>
+
                             <button
                                 className={`recipe-button delete ${isCreator ? '' : 'disabled'}`}
                                 onClick={isCreator ? handleDelete : (e) => e.preventDefault()}
+                                title={!isCreator ? "Only the creator can delete." : ""}
                             >
                                 Delete
                             </button>

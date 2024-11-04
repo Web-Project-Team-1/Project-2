@@ -5,12 +5,13 @@
     padding: 10px 20px;
     background-color: black;
     color: white;
+    position: relative;
 }
 
 .header nav {
     display: flex;
-    width: 100%;
     align-items: center;
+    width: 100%;
     justify-content: space-between;
 }
 
@@ -21,15 +22,19 @@
     font-size: 18px;
 }
 
+.nav-navlink:first-child {
+    margin-left: 70px;
+}
+
 .nav-navlink:hover {
     color: #ff6600;
     transition: color 0.3s ease;
 }
 
 .logo {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .logo img {
@@ -37,9 +42,11 @@
     cursor: pointer;
 }
 
+.auth-navlinks,
 .user-section {
     display: flex;
     align-items: center;
+    gap: 20px;
 }
 
 .welcome-message {
@@ -96,7 +103,11 @@
 }
 
 .logout {
-    color: #ff6600;
+    color: #ffffff;
+}
+
+.dropdown-button.logout {
+    background-color: #860101;
 }
 
 .dropdown-button.logout:hover {
