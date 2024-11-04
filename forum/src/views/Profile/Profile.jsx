@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useRef } from 'react';
 import { AppContext } from '../../store/app.context';
 import { uploadProfilePicture } from '../../services/users.service';
 import './Profile.css';
@@ -13,10 +13,15 @@ export default function Profile() {
     const [postCount, setPostCount] = useState(0);
     const [loading, setLoading] = useState(true);
 
+    // Reference to the hidden file input
+    const fileInputRef = useRef(null);
+
     useEffect(() => {
         if (user && userData) {
             setProfilePicture(userData.photoURL || 'default-profile-pic.jpg');
             setUsername(userData.displayName || 'Username');
+
+            // Retrieve the actual creation date or set default text
             setAccountCreatedDate(userData.createdOn || 'Unknown');
             setPostCount(userData.postCount || 0);
             setLoading(false);
@@ -25,6 +30,11 @@ export default function Profile() {
 
     const handleToggleSettings = () => {
         setIsSettingsOpen(!isSettingsOpen);
+    };
+
+    // Trigger the hidden file input when profile picture is clicked
+    const handleProfilePictureClick = () => {
+        fileInputRef.current.click();
     };
 
     const handleProfilePictureChange = async (event) => {
@@ -61,7 +71,25 @@ export default function Profile() {
         <div className="profile-background">
             <div className="profile-page">
                 <div className="profile-header">
-                    <img src={profilePicture} alt="Profile" className="profile-picture" />
+                    {/* Profile picture with click event and hover text */}
+                    <div className="profile-picture-container">
+                        <img
+                            src={profilePicture}
+                            alt="Profile"
+                            className="profile-picture"
+                            onClick={handleProfilePictureClick}
+                            style={{ cursor: 'pointer' }}
+                        />
+                        <span className="profile-picture-hover-text">Change Profile Picture</span>
+                    </div>
+                    <input
+                        type="file"
+                        accept="image/*"
+                        ref={fileInputRef}
+                        onChange={handleProfilePictureChange}
+                        style={{ display: 'none' }}
+                    />
+
                     <h2 className="profile-username">{username}</h2>
                 </div>
 
@@ -74,11 +102,6 @@ export default function Profile() {
                         <label>
                             Username:
                             <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
-                        </label>
-
-                        <label>
-                            Change Profile Picture:
-                            <input type="file" accept="image/*" onChange={handleProfilePictureChange} />
                         </label>
 
                         <label>
