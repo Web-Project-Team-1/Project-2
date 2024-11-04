@@ -1,6 +1,7 @@
 import { ref, push, get, set, remove } from "firebase/database";
 import { db } from "../config/firebase-config";
 import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage";
+import { collection, getDocs } from "firebase/firestore";
 
 export const createRecipe = async (title, description, image, creatorUsername) => {
     const newRecipeRef = push(ref(db, 'recipes'));
@@ -171,3 +172,9 @@ export const deleteRecipe = async (recipeId) => {
         throw error;
     }
 };
+
+export async function getRecipeCount() {
+    const recipesRef = ref(db, 'recipes');
+    const snapshot = await get(recipesRef);
+    return snapshot.exists() ? Object.keys(snapshot.val()).length : 0;
+  }

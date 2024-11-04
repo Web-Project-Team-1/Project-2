@@ -3,12 +3,68 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    min-height: 100vh;
-    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    color: #3f2408;
+    font-family: 'Arial', sans-serif;
+    text-align: center;
 }
 
 .welcome-text {
+    font-size: 4rem;
+    color: #6b2929;
+    margin-bottom: 70px; 
+    animation: colorPulse 3s infinite alternate, textGrow 3s ease-in-out infinite;
+}
+
+.counter {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.counter p {
+    font-size: 2rem;
+    color: #f9f8ef;
+    margin: 10px 0;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1); 
+    border: 2px solid #6b2929;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 300px;
     text-align: center;
-    font-size: 48px;
-    color: white;
+    text-shadow: 0 0 10px rgba(76, 101, 147, 0.7), 0 0 20px rgba(18, 223, 231, 0.5);
+    transition: color 0.5s ease, transform 0.3s ease;
+}
+
+.counter p:hover {
+    color: #e74b3d;
+    transform: scale(1.05);
+}
+
+@keyframes colorPulse {
+    0% {
+        color: #dacdb7;
+    }
+    50% {
+        color: #d5e464;
+    }
+    100% {
+        color: #aa500c;
+    }
+}
+
+@keyframes textGrow {
+    0%, 100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
 }

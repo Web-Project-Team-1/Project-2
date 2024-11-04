@@ -1,6 +1,7 @@
 import { get, set, ref, query, equalTo, orderByChild, update } from 'firebase/database';
 import { db, storage } from '../config/firebase-config';
 import { getDownloadURL, ref as storageRef, uploadBytes } from 'firebase/storage';
+import { collection, getDocs } from "firebase/firestore";
 
 export const getUserByHandle = async (handle) => {
   const snapshot = await get(ref(db, `users/${handle}`));
@@ -55,5 +56,11 @@ export async function updateUserNames(userId, handle, firstName, lastName) {
       firstName,
       lastName
   });
+};
+
+export async function getUserCount() {
+  const usersRef = ref(db, 'users');
+  const snapshot = await get(usersRef);
+  return snapshot.exists() ? Object.keys(snapshot.val()).length : 0;
 }
 
