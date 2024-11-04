@@ -53,6 +53,10 @@ export default function Profile() {
     };
 
     const handleSaveSettings = async () => {
+        if (!validateFirstName(firstName) || !validateLastName(lastName)) {
+            return; // Exit if validation fails
+        }
+
         try {
             const updatedUser = {
                 ...user,
@@ -71,6 +75,28 @@ export default function Profile() {
         }
     };
 
+    const validateFirstName = (name) => {
+        if (name.length < 3) {
+            alert('First name must be at least 3 characters long.');
+            return false;
+        } else if (name.length > 42) {
+            alert('First name cannot exceed 42 characters.');
+            return false;
+        }
+        return true;
+    };
+
+    const validateLastName = (name) => {
+        if (name.length < 3) {
+            alert('Last name must be at least 3 characters long.');
+            return false;
+        } else if (name.length > 42) {
+            alert('Last name cannot exceed 42 characters.');
+            return false;
+        }
+        return true;
+    };
+
     if (loading) {
         return <div>Loading profile...</div>;
     }
@@ -80,12 +106,10 @@ export default function Profile() {
             <div className="profile-page">
                 <div className="profile-header">
                     <div className="profile-picture-container">
-                        <img src={profilePicture} alt="Profile" className="profile-picture" onClick={handleProfilePictureClick} style={{ cursor: 'pointer' }}
-                        />
+                        <img src={profilePicture} alt="Profile" className="profile-picture" onClick={handleProfilePictureClick} style={{ cursor: 'pointer' }} />
                         <span className="profile-picture-hover-text">Change Profile Picture</span>
                     </div>
-                    <input type="file" accept="image/*" ref={fileInputRef} onChange={handleProfilePictureChange} style={{ display: 'none' }}
-                    />
+                    <input type="file" accept="image/*" ref={fileInputRef} onChange={handleProfilePictureChange} style={{ display: 'none' }} />
                     <h2 className="profile-name">{firstName} {lastName}</h2>
                 </div>
 
