@@ -32,23 +32,30 @@
     margin-bottom: 5px;
     font-weight: bold;
     font-size: 18px;
-    color: orange;
+    color: rgb(222, 236, 152);
 }
 
 .sort-select {
-    padding: 5px;
-    font-size: 14px;
-    border: 2px solid #ff9100;
-    border-radius: 5px;
-    background-color: #f8f9fa;
-    transition: border-color 0.3s ease;
+    padding: 8px 12px; 
+    font-size: 14px; 
+    border: 2px solid #efc185;
+    border-radius: 20px; 
+    background-color: #e3cf86;
+    color: #000000; 
+    transition: border-color 0.3s ease, background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease; 
+    cursor: pointer; 
 }
 
 .sort-select:hover {
-    border-color: #06c7ce;
+    border-color: #ab5c02; 
+    background-color: #d0b56b;
+    transform: translateY(-1px);  
+    box-shadow: 0 0 10px rgba(220, 184, 5, 0.8), 0 0 20px rgba(225, 193, 113, 0.5); 
 }
 
 .sort-select:focus {
-    outline: none;
-    border-color: #f08a06;
+    outline: none;  
+    border-color: #f08a06;  
+    box-shadow: 0 0 10px rgba(200, 178, 117, 0.8), 0 0 20px rgba(231, 217, 18, 0.5);
 }
+
