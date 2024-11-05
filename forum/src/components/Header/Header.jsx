@@ -30,6 +30,7 @@ export default function Header() {
         <header className="header">
             <nav>
                 <NavLink to="/recipes" className="nav-navlink">Recipes</NavLink>
+                <NavLink to="/discussions" className="nav-navlink">Discussions</NavLink>
                 <div className="logo">
                     <NavLink to="/">
                         <img src={logo} alt="Flavor Fusion Logo" />

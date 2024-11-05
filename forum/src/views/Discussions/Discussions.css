@@ -1,0 +1,111 @@
+.discussions-background {
+    background-image: url('../../resources/background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.discussions-page {
+    padding: 20px;
+    text-align: center;
+}
+
+h2 {
+    margin-bottom: 20px;
+    font-size: 2em;
+    color: #fff;
+}
+
+.create-discussion-button {
+    font-size: 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s, transform 0.3s;
+    position: relative;
+}
+
+.create-discussion-button:hover {
+    background-color: #0056b3;
+    transform: scale(1.1);
+}
+
+.create-discussion-button:hover::after {
+    content: 'Create a new discussion';
+    position: absolute;
+    top: -30px;
+    right: -200px;
+    background-color: #333;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.9em;
+    white-space: nowrap;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.discussion-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+    max-width: 1200px;
+    margin: 40px auto 0;
+    padding: 0 10px;
+}
+
+@media (min-width: 600px) {
+    .discussion-list {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (min-width: 900px) {
+    .discussion-list {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+
+.discussion-item {
+    border: 3px solid #333;
+    border-radius: 15px;
+    padding: 15px;
+    background: linear-gradient(to bottom right, #444, #333);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+    cursor: pointer;
+    color: #fff;
+}
+
+.discussion-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    border-color: #007bff;
+}
+
+.discussion-item h3 {
+    margin: 0;
+    font-size: 1.2em;
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.discussion-item small {
+    font-size: 0.8em;
+    color: #bbb;
+}

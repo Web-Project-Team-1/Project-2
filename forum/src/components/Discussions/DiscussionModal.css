@@ -1,0 +1,135 @@
+/* Modal overlay */
+.discussion-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+/* Main modal container */
+.discussion-modal-container {
+    background: rgba(30, 30, 30, 0.95);
+    color: white;
+    padding: 25px;
+    border-radius: 12px;
+    width: 600px;
+    max-width: 90%;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
+    position: relative;
+}
+
+/* Labels and titles */
+.discussion-label {
+    color: #ffcc00;
+}
+
+.discussion-title {
+    margin-top: 0;
+    color: white;
+    font-size: 1.5em;
+}
+
+.discussion-content {
+    color: white;
+    margin-bottom: 20px;
+}
+
+.discussion-meta {
+    color: #aaa;
+    margin-bottom: 15px;
+}
+
+/* Replies section */
+.replies-title {
+    color: #ffcc00;
+    margin-top: 20px;
+}
+
+.replies-list {
+    margin-top: 10px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.reply-item {
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    margin-bottom: 12px;
+}
+
+.reply-item p {
+    margin: 0;
+}
+
+.reply-item p strong {
+    color: #ffcc00;
+}
+
+/* Add reply section */
+.add-reply-section {
+    margin-top: 25px;
+}
+
+.reply-label {
+    display: block;
+    margin-bottom: 8px;
+    color: #ffcc00;
+    font-weight: bold;
+}
+
+.reply-textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #555;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    resize: none;
+    max-height: 50px;
+}
+
+.reply-textarea::placeholder {
+    color: #ccc;
+}
+
+/* Reply button */
+.reply-button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+    font-size: 0.9em;
+}
+
+.reply-button:hover {
+    background-color: #218838;
+}
+
+/* Close button */
+.typklas {
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 15px;
+    width: 100%;
+    font-size: 0.9em;
+    transition: background-color 0.3s;
+}
+
+.close-modal-button:hover {
+    background-color: #c9302c;
+}

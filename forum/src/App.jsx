@@ -16,6 +16,7 @@ import Profile from './views/Profile/Profile';
 import Favorites from './views/Favorites/Favorites';
 import NotFound from './views/NotFound/NotFound';
 import { ProfileProvider } from './store/ProfileNamesContext';
+import Discussions from './views/Discussions/Discussions';
 
 function App() {
     const [appState, setAppState] = useState({
@@ -52,11 +53,12 @@ function App() {
                         <Route path="/" element={<Home />} />
                         <Route path="/recipes" element={<AllRecipes />} />
                         <Route path="/create-recipe" element={<Authenticated><CreateRecipe /></Authenticated>} />
+                        <Route path="/discussions" element={<Authenticated><Discussions /></Authenticated>} />
                         <Route path="/login" element={<Login />} />
                         <Route path="/register" element={<Register />} />
                         <Route path="/profile" element={
                             <Authenticated>
-                                <ProfileProvider> 
+                                <ProfileProvider>
                                     <Profile />
                                 </ProfileProvider>
                             </Authenticated>
