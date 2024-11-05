@@ -120,3 +120,42 @@
 .profile-picture-container:hover .profile-picture-hover-text {
     display: inline-block;
 }
+
+.plus-profile {
+    font-size: 20px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    display: flex;
+    font-weight: bold;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s, transform 0.3s;
+    position: absolute;
+    top: 50%;
+    right: -10%;
+    transform: translateY(-5%);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.plus-profile:hover {
+    background-color: #0056b3;
+}
+
+.plus-profile:hover::after {
+    content: 'Upload Profile Picture';
+    position: absolute;
+    top: -30px;
+    right: -60px;
+    background-color: #333;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.9em;
+    white-space: nowrap;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}

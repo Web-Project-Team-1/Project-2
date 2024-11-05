@@ -107,17 +107,10 @@ export default function Profile() {
             <div className="profile-page">
                 <div className="profile-header">
                     <div className="profile-picture-container" style={{ position: 'relative', display: 'inline-block' }}>
-                        <span
-                            style={{
-                                fontWeight: 'bold',
-                                cursor: 'pointer',
-                                position: 'absolute',
-                                top: '-30px',
-                                left: '50%',
-                                transform: 'translateX(-50%)',
-                                fontSize: '24px',
-                            }}>
-                            
+                        <span className="plus-profile"
+                            onClick={handleProfilePictureClick}
+                          >
+                            +
                         </span>
                         <img
                             src={profilePicture}
@@ -132,10 +125,8 @@ export default function Profile() {
                                 objectFit: 'cover',
                             }}
                         />
-                        <span className="profile-picture-hover-text">Change Profile Picture</span>
+                        {/* <span className="profile-picture-hover-text">Change Profile Picture</span> */}
                     </div>
-
-
 
                     <input type="file" accept="image/*" ref={fileInputRef} onChange={handleProfilePictureChange} style={{ display: 'none' }} />
                     <h2 className="profile-name">{firstName} {lastName}</h2>
