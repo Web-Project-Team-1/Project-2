@@ -125,7 +125,6 @@ export default function Profile() {
                                 objectFit: 'cover',
                             }}
                         />
-                        {/* <span className="profile-picture-hover-text">Change Profile Picture</span> */}
                     </div>
 
                     <input type="file" accept="image/*" ref={fileInputRef} onChange={handleProfilePictureChange} style={{ display: 'none' }} />
