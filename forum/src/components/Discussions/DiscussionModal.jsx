@@ -41,7 +41,6 @@ const DiscussionModal = ({ onClose, discussion, user }) => {
     return (
         <div className="discussion-modal-overlay" onClick={onClose}>
             <div className="discussion-modal-container" onClick={(e) => e.stopPropagation()}>
-
                 <label className="discussion-label" htmlFor="discussion-title">Title:</label>
                 <h2 className="discussion-title" id="discussion-title">{discussion.title}</h2>
 
@@ -75,8 +74,7 @@ const DiscussionModal = ({ onClose, discussion, user }) => {
                     <button className="reply-button" onClick={handleAddReply}>Add Reply</button>
                 </div>
 
-                <button className="typklas" style={{ backgroundColor: "red" }} onClick={onClose}>Close</button>
-
+                <button className="close-modal-button" onClick={onClose}>Close</button>
             </div>
         </div>
     );

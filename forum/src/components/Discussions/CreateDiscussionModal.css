@@ -16,7 +16,7 @@
     color: #fff;
     padding: 30px;
     border-radius: 10px;
-    width: 500px;
+    width: 400px;
     max-width: 90%;
     box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5);
     position: relative;
@@ -49,6 +49,10 @@
     outline: none;
 }
 
+.create-discussion-modal-content textarea {
+    height: 100px; 
+}
+
 .create-discussion-modal-content input[type="text"]::placeholder,
 .create-discussion-modal-content textarea::placeholder {
     color: #aaa;
@@ -60,8 +64,8 @@
     border-radius: 5px;
     cursor: pointer;
     font-size: 1em;
-    transition: background-color 0.3s ease;
     margin-top: 10px;
+    margin-left: 10px;
 }
 
 .create-discussion-modal-content button:disabled {
@@ -70,20 +74,20 @@
 }
 
 .create-discussion-modal-content .close-button {
-    background-color: #ff4444;
+    background-color: orange; 
     color: #fff;
     margin-left: 10px;
 }
 
 .create-discussion-modal-content .close-button:hover {
-    background-color: #d93636;
+    background-color: #743c0a; 
 }
 
 .create-discussion-modal-content button:not(.close-button) {
-    background-color: #28a745;
+    background: linear-gradient(45deg, #28a745, #218838); 
     color: #fff;
 }
 
 .create-discussion-modal-content button:not(.close-button):hover {
-    background-color: #218838;
+    background: linear-gradient(45deg, #218838, #2d8642); 
 }

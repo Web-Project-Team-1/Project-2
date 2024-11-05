@@ -64,8 +64,8 @@ const CreateDiscussionModal = ({ onClose }) => {
                         onChange={e => updateDiscussion('content', e.target.value)}
                         name="content"
                         id="content"
-                        cols="30"
-                        rows="10"
+                        cols="10"
+                        rows="6"
                         placeholder="Enter discussion content"
                         autoComplete="off"
                     />
