@@ -1,3 +1,5 @@
+// User registration and authentication code remains unchanged
+
 import React, { useEffect, useState } from "react";
 import { getDatabase, ref, onValue, update, remove } from "firebase/database";
 import "./AdminDashboard.css";
@@ -45,6 +47,30 @@ const AdminDashboard = () => {
         }
     };
 
+    const blockUser = async (handle) => {
+        const db = getDatabase();
+        const userRef = ref(db, `users/${handle}`);
+
+        try {
+            await update(userRef, { isBlocked: true });
+            console.log(`User ${handle} blocked.`);
+        } catch (error) {
+            console.error("Error blocking user:", error);
+        }
+    };
+
+    const unblockUser = async (handle) => {
+        const db = getDatabase();
+        const userRef = ref(db, `users/${handle}`);
+
+        try {
+            await update(userRef, { isBlocked: false });
+            console.log(`User ${handle} unblocked.`);
+        } catch (error) {
+            console.error("Error unblocking user:", error);
+        }
+    };
+
     return (
         <div className="admin-dashboard">
             <h1>Admin Dashboard</h1>
@@ -61,6 +87,21 @@ const AdminDashboard = () => {
                                     onClick={() => promoteToAdmin(user.handle)}
                                 >
                                     Promote to Admin
+                                </button>
+                            )}
+                            {user.isBlocked ? (
+                                <button
+                                    className="unblock-button"
+                                    onClick={() => unblockUser(user.handle)}
+                                >
+                                    Unblock User
+                                </button>
+                            ) : (
+                                <button
+                                    className="block-button"
+                                    onClick={() => blockUser(user.handle)}
+                                >
+                                    Block User
                                 </button>
                             )}
                             <button
