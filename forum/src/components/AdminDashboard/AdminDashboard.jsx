@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getDatabase, ref, get, set, remove, onValue } from "firebase/database";
+import { getDatabase, ref, onValue, update, remove } from "firebase/database";
 import "./AdminDashboard.css";
 
 const AdminDashboard = () => {
@@ -12,38 +12,37 @@ const AdminDashboard = () => {
         onValue(usersRef, (snapshot) => {
             const data = snapshot.val();
             const usersArray = data
-                ? Object.keys(data).map((key) => ({ uid: key, ...data[key] }))
+                ? Object.keys(data).map((handle) => ({
+                    handle,
+                    ...data[handle],
+                }))
                 : [];
             setUsers(usersArray);
         });
     }, []);
 
-    const promoteToAdmin = async (uid) => {
+    const promoteToAdmin = async (handle) => {
         const db = getDatabase();
-        const userRef = ref(db, `users/${uid}`);
+        const userRef = ref(db, `users/${handle}`);
 
         try {
-            const snapshot = await get(userRef);
-            if (snapshot.exists()) {
-                const userData = snapshot.val();
-                userData.isAdmin = true;
-
-                await set(userRef, userData);
-                console.log(`User ${uid} promoted to admin.`);
-            } else {
-                console.error("User data not found.");
-            }
+            await update(userRef, { isAdmin: true });
+            console.log(`User ${handle} promoted to admin.`);
         } catch (error) {
             console.error("Error promoting user to admin:", error);
         }
     };
 
-    const deleteUser = (uid) => {
+    const deleteUser = async (handle) => {
         const db = getDatabase();
-        const userRef = ref(db, `users/${uid}`);
-        remove(userRef).catch((error) => {
+        const userRef = ref(db, `users/${handle}`);
+
+        try {
+            await remove(userRef);
+            console.log(`User ${handle} deleted.`);
+        } catch (error) {
             console.error("Error deleting user:", error);
-        });
+        }
     };
 
     return (
@@ -51,22 +50,22 @@ const AdminDashboard = () => {
             <h1>Admin Dashboard</h1>
             <ul className="user-list">
                 {users.map((user) => (
-                    <li key={user.uid} className="user-item">
+                    <li key={user.handle} className="user-item">
                         <span>{user.email}</span>
-                        <div className="action-buttons">
+                        <div>
                             {user.isAdmin ? (
-                                <span className="admin-label"> - Admin</span>
+                                <span> - Admin</span>
                             ) : (
                                 <button
                                     className="promote-button"
-                                    onClick={() => promoteToAdmin(user.uid)}
+                                    onClick={() => promoteToAdmin(user.handle)}
                                 >
                                     Promote to Admin
                                 </button>
                             )}
                             <button
                                 className="delete-button"
-                                onClick={() => deleteUser(user.uid)}
+                                onClick={() => deleteUser(user.handle)}
                             >
                                 Delete User
                             </button>
