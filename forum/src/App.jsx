@@ -1,3 +1,5 @@
+// App.jsx
+
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AppContext } from "./store/app.context";
 import { FavoritesProvider } from "./store/FavoritesContext";
@@ -17,11 +19,13 @@ import Favorites from './views/Favorites/Favorites';
 import NotFound from './views/NotFound/NotFound';
 import { ProfileProvider } from './store/ProfileNamesContext';
 import Discussions from './views/Discussions/Discussions';
+import AdminDashboard from './components/AdminDashboard/AdminDashboard'; // Import AdminDashboard
 
 function App() {
     const [appState, setAppState] = useState({
         user: null,
-        userData: null
+        userData: null,
+        isAdmin: false
     });
 
     const [user, loading] = useAuthState(auth);
@@ -35,12 +39,16 @@ function App() {
 
     useEffect(() => {
         if (!user) {
-            setAppState({ user: null, userData: null });
+            setAppState({ user: null, userData: null, isAdmin: false });
             return;
         }
 
         getUserData(user.uid).then(data => {
-            setAppState({ user, userData: data || null });
+            setAppState({
+                user,
+                userData: data || null,
+                isAdmin: data?.isAdmin || false  // Set isAdmin based on user data
+            });
         });
     }, [user]);
 
@@ -64,6 +72,9 @@ function App() {
                             </Authenticated>
                         } />
                         <Route path="/favorites" element={<Authenticated><Favorites /></Authenticated>} />
+
+                        {appState.isAdmin && <Route path="/admin" element={<AdminDashboard />} />}
+
                         <Route path="*" element={<NotFound />} />
                     </Routes>
                 </FavoritesProvider>

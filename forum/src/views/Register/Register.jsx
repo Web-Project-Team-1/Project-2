@@ -16,8 +16,8 @@ export default function Register() {
     const navigate = useNavigate();
 
     const register = () => {
-        if (!user.email || !user.password) {
-            return alert('Please enter a username');
+        if (!user.handle || !user.email || !user.password) {
+            return alert('Please enter a username, email, and password');
         }
 
         getUserByHandle(user.handle)
@@ -25,7 +25,7 @@ export default function Register() {
                 if (userFromDB) {
                     throw new Error(`User ${user.handle} already exists`);
                 }
-                return registerUser(user.email, user.password);
+                return registerUser(user.email, user.password, user.handle);
             })
             .then(credential => {
                 return createUserHandle(user.handle, credential.user.uid, user.email)
@@ -34,7 +34,7 @@ export default function Register() {
                             user: {
                                 uid: credential.user.uid,
                                 email: user.email,
-                                handle: user.handle, // Set handle in app state
+                                handle: user.handle,
                             },
                             userData: null,
                         });
@@ -43,6 +43,9 @@ export default function Register() {
                     .catch(error => {
                         console.error('Register failed', error);
                     });
+            })
+            .catch(error => {
+                alert(error.message);
             });
     };
 

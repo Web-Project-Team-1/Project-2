@@ -7,6 +7,7 @@ export const AppContext = createContext({
     handle: null,
   },
   userData: null,
+  isAdmin: false,
   setAppState: () => {},
   updateUser: () => {},
 });

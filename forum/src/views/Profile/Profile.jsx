@@ -4,10 +4,12 @@ import { ProfileNamesContext } from '../../store/ProfileNamesContext';
 import { uploadProfilePicture, updateUserNames } from '../../services/users.service';
 import './Profile.css';
 import { FIRST_NAME_MAX_LENGTH, FIRST_NAME_MIN_LENGTH, LAST_NAME_MAX_LENGTH, LAST_NAME_MIN_LENGTH } from '../../common/constants';
+import { useNavigate } from 'react-router-dom';
 
 export default function Profile() {
     const { user, userData } = useContext(AppContext);
     const { setUser, updateUser } = useContext(ProfileNamesContext);
+    const navigate = useNavigate();
 
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
     const [firstName, setFirstName] = useState('');
@@ -107,11 +109,7 @@ export default function Profile() {
             <div className="profile-page">
                 <div className="profile-header">
                     <div className="profile-picture-container" style={{ position: 'relative', display: 'inline-block' }}>
-                        <span className="plus-profile"
-                            onClick={handleProfilePictureClick}
-                          >
-                            +
-                        </span>
+                        <span className="plus-profile" onClick={handleProfilePictureClick}>+</span>
                         <img
                             src={profilePicture}
                             alt="Profile"
@@ -145,6 +143,12 @@ export default function Profile() {
                         </label>
                         <button onClick={handleSaveSettings} className="save-button">Save Settings</button>
                     </div>
+                )}
+
+                {userData?.isAdmin && (
+                    <button onClick={() => navigate('/admin')} className="admin-button">
+                        Go to Admin Dashboard
+                    </button>
                 )}
 
                 <div className="profile-footer">
