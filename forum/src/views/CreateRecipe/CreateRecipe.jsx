@@ -23,6 +23,11 @@ export default function CreateRecipes() {
   const handleCreateRecipe = async () => {
     const { title, description, image } = recipe;
 
+    if (userData.isBlocked) {
+      alert('You are blocked and cannot create recipes.');
+      return;
+    }
+
     if (!title || !description || !image) {
       return alert('Please fill in all fields!');
     }

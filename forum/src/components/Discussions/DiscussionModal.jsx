@@ -18,6 +18,11 @@ const DiscussionModal = ({ onClose, discussion, user }) => {
     }, [discussion]);
 
     const handleAddReply = async () => {
+        if (user.isBlocked) {
+            alert("You are currently blocked.");
+            return;
+        }
+
         if (!user) {
             alert("You must be logged in to reply.");
             return;

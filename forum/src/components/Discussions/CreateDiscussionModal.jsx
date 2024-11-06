@@ -27,6 +27,11 @@ const CreateDiscussionModal = ({ onClose }) => {
             return;
         }
 
+        if (userData.isBlocked) {
+            alert('You are blocked and cannot create discussions.');
+            return;
+        }
+
         setIsSubmitting(true);
 
         try {

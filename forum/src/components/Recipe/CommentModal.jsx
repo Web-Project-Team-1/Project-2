@@ -20,6 +20,11 @@ const CommentModal = ({ onClose, recipeId, user }) => {
     }, [recipeId]);
 
     const handleAddComment = async () => {
+        if (user.isBlocked) {
+            alert("You are currently blocked.");
+            return;
+        }
+
         if (!user) {
             alert("You must be logged in to comment.");
             return;

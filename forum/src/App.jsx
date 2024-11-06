@@ -18,6 +18,7 @@ import NotFound from './views/NotFound/NotFound';
 import { ProfileProvider } from './store/ProfileNamesContext';
 import Discussions from './views/Discussions/Discussions';
 import AdminDashboard from './components/AdminDashboard/AdminDashboard';
+import { BlockAsAdminProvider } from "./store/BlockAsAdminContext"; 
 
 function App() {
     const [appState, setAppState] = useState({
@@ -56,27 +57,29 @@ function App() {
         <BrowserRouter>
             <AppContext.Provider value={{ ...appState, setAppState, updateUser }}>
                 <FavoritesProvider>
-                    <Header />
-                    <Routes>
-                        <Route path="/" element={<Home />} />
-                        <Route path="/recipes" element={<AllRecipes />} />
-                        <Route path="/create-recipe" element={<Authenticated><CreateRecipe /></Authenticated>} />
-                        <Route path="/discussions" element={<Authenticated><Discussions /></Authenticated>} />
-                        <Route path="/login" element={<Login />} />
-                        <Route path="/register" element={<Register />} />
-                        <Route path="/profile" element={
-                            <Authenticated>
-                                <ProfileProvider>
-                                    <Profile />
-                                </ProfileProvider>
-                            </Authenticated>
-                        } />
-                        <Route path="/favorites" element={<Authenticated><Favorites /></Authenticated>} />
-
-                        {appState.isAdmin && <Route path="/admin" element={<AdminDashboard />} />}
-
-                        <Route path="*" element={<NotFound />} />
-                    </Routes>
+                    <BlockAsAdminProvider> 
+                        <Header />
+                        <Routes>
+                            <Route path="/" element={<Home />} />
+                            <Route path="/recipes" element={<AllRecipes />} />
+                            <Route path="/create-recipe" element={<Authenticated><CreateRecipe /></Authenticated>} />
+                            <Route path="/discussions" element={<Authenticated><Discussions /></Authenticated>} />
+                            <Route path="/login" element={<Login />} />
+                            <Route path="/register" element={<Register />} />
+                            <Route path="/profile" element={
+                                <Authenticated>
+                                    <ProfileProvider>
+                                        <Profile />
+                                    </ProfileProvider>
+                                </Authenticated>
+                            } />
+                            <Route path="/favorites" element={<Authenticated><Favorites /></Authenticated>} />
+                            
+                            {appState.isAdmin && <Route path="/admin" element={<AdminDashboard />} />}
+                            
+                            <Route path="*" element={<NotFound />} />
+                        </Routes>
+                    </BlockAsAdminProvider> 
                 </FavoritesProvider>
             </AppContext.Provider>
         </BrowserRouter>

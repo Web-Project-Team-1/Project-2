@@ -7,7 +7,7 @@ import { likeRecipe, getRecipeLikes, deleteRecipe } from '../../services/recipes
 import CommentModal from './CommentModal';
 
 const Recipe = ({ id, title, description, image, creatorHandle, creationDate, onEdit, onDelete }) => {
-    const { user } = useContext(AppContext);
+    const { user, userData } = useContext(AppContext); 
     const { favorites, addToFavorites, removeFromFavorites } = useContext(FavoritesContext);
     const navigate = useNavigate();
 
@@ -85,6 +85,12 @@ const Recipe = ({ id, title, description, image, creatorHandle, creationDate, on
             alert("You must be logged in to comment on a recipe.");
             return;
         }
+
+        if (userData.isBlocked) {
+            alert('You are blocked and cannot comment on recipes.');
+            return;
+        }
+
         setShowCommentModal(true);
     };
 
@@ -146,7 +152,7 @@ const Recipe = ({ id, title, description, image, creatorHandle, creationDate, on
                             <button
                                 className={`recipe-button favorite ${!user ? 'disabled' : ''}`}
                                 onClick={user ? handleToggleFavorite : (e) => e.preventDefault()}
-                                title={!user ? "Please log in to add the recipe in favorites." : ""}
+                                title={!user ? "Please log in to add the recipe to favorites." : ""}
                             >
                                 {isFavorited ? "Remove from Favorites" : "Add to Favorites"}
                             </button>
@@ -154,7 +160,7 @@ const Recipe = ({ id, title, description, image, creatorHandle, creationDate, on
                             <button
                                 className={`recipe-button comment ${!user ? 'disabled' : ''}`}
                                 onClick={user ? handleComment : (e) => e.preventDefault()}
-                                title={!user ? "Please log in to comment the recipe." : ""}
+                                title={!user ? "Please log in to comment on the recipe." : ""}
                             >
                                 Comment
                             </button>
