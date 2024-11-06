@@ -1,5 +1,3 @@
-// App.jsx
-
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AppContext } from "./store/app.context";
 import { FavoritesProvider } from "./store/FavoritesContext";
@@ -19,7 +17,7 @@ import Favorites from './views/Favorites/Favorites';
 import NotFound from './views/NotFound/NotFound';
 import { ProfileProvider } from './store/ProfileNamesContext';
 import Discussions from './views/Discussions/Discussions';
-import AdminDashboard from './components/AdminDashboard/AdminDashboard'; // Import AdminDashboard
+import AdminDashboard from './components/AdminDashboard/AdminDashboard';
 
 function App() {
     const [appState, setAppState] = useState({
@@ -43,14 +41,16 @@ function App() {
             return;
         }
 
-        getUserData(user.uid).then(data => {
-            setAppState({
-                user,
-                userData: data || null,
-                isAdmin: data?.isAdmin || false  // Set isAdmin based on user data
+        if (!appState.userData) {
+            getUserData(user.uid).then(data => {
+                setAppState({
+                    user,
+                    userData: data || null,
+                    isAdmin: data?.isAdmin || false
+                });
             });
-        });
-    }, [user]);
+        }
+    }, [user, appState.userData]);
 
     return (
         <BrowserRouter>

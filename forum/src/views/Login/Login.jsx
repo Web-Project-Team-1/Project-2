@@ -1,7 +1,8 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { AppContext } from "../../store/app.context";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../../services/auth.service";
+import { getUserData } from "../../services/users.service";
 import './Login.css';
 
 export default function Login() {
@@ -9,22 +10,28 @@ export default function Login() {
         email: '',
         password: ''
     });
+    const [redirectToProfile, setRedirectToProfile] = useState(false);
 
-    const { setAppState } = useContext(AppContext);
+    const { setAppState, userData } = useContext(AppContext);
     const navigate = useNavigate();
 
-    const login = () => {
+    const login = async () => {
         if (!credentials.email || !credentials.password) {
             return alert('Please enter both email and password');
         }
 
-        loginUser(credentials.email, credentials.password)
-            .then(credential => {
-                navigate('/');
-            })
-            .catch(error => {
-                console.error('Login failed', error);
-            });
+        try {
+            const credential = await loginUser(credentials.email, credentials.password);
+            const uid = credential.user.uid;
+            const fetchedUserData = await getUserData(uid);
+
+            setAppState({ user: credential.user, userData: fetchedUserData });
+
+            setRedirectToProfile(true);
+        } catch (error) {
+            console.error('Login failed', error);
+            alert("Failed to login. Please check your credentials.");
+        }
     };
 
     const updateCredentials = (prop) => (e) => {
@@ -33,6 +40,12 @@ export default function Login() {
             [prop]: e.target.value
         });
     };
+
+    useEffect(() => {
+        if (redirectToProfile && userData) {
+            navigate('/profile');
+        }
+    }, [redirectToProfile, userData, navigate]);
 
     return (
         <div className="login-background">
