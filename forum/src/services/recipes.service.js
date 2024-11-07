@@ -38,7 +38,13 @@ export const createRecipe = async (title, description, image, creatorUsername) =
 export const getAllRecipes = async () => {
     try {
         const snapshot = await get(ref(db, 'recipes'));
-        return snapshot.exists() ? snapshot.val() : null;
+        if (!snapshot.exists()) return null;
+
+        const recipes = snapshot.val();
+        return Object.keys(recipes).map((key) => ({
+            ...recipes[key],
+            commentCount: recipes[key].comments ? Object.keys(recipes[key].comments).length : 0,
+        }));
     } catch (error) {
         console.error("Error fetching recipes:", error);
         throw error;

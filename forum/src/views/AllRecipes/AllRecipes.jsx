@@ -3,23 +3,37 @@ import { getAllRecipes } from '../../services/recipes.service';
 import Recipe from '../../components/Recipe/Recipe';
 import './AllRecipes.css';
 import EditModal from '../../components/Recipe/EditModal';
+import { getAuth } from 'firebase/auth';
 
 export default function AllRecipes() {
     const [recipes, setRecipes] = useState([]);
     const [showEditModal, setShowEditModal] = useState(false);
     const [currentRecipe, setCurrentRecipe] = useState(null);
     const [sortOrder, setSortOrder] = useState("newest");
+    const [isAnonymousUser, setIsAnonymousUser] = useState(true);
 
     const fetchRecipes = async () => {
         try {
             const data = await getAllRecipes();
-            if (data) {
-                const validRecipes = Object.values(data).filter(recipe =>
-                    recipe.title && recipe.description && recipe.image
-                );
-                setRecipes(validRecipes);
+            let validRecipes = Object.values(data).filter(recipe =>
+                recipe.title && recipe.description && recipe.image
+            );
+
+            if (isAnonymousUser) {
+                const mostCommented = validRecipes
+                    .slice()
+                    .sort((a, b) => (b.commentCount || 0) - (a.commentCount || 0))
+                    .slice(0, 10);
+
+                const mostRecent = validRecipes
+                    .slice()
+                    .sort((a, b) => new Date(b.creationDate) - new Date(a.creationDate))
+                    .slice(0, 10);
+
+                const combinedRecipes = Array.from(new Set([...mostCommented, ...mostRecent]));
+                setRecipes(combinedRecipes);
             } else {
-                console.log("No recipes found in the database.");
+                setRecipes(validRecipes);
             }
         } catch (error) {
             console.error("Failed to load recipes:", error);
@@ -31,7 +45,11 @@ export default function AllRecipes() {
     };
 
     useEffect(() => {
-        fetchRecipes();
+        const auth = getAuth();
+        auth.onAuthStateChanged(user => {
+            setIsAnonymousUser(!user);
+            fetchRecipes();
+        });
     }, []);
 
     const handleEdit = (recipe) => {
