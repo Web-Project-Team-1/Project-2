@@ -75,8 +75,8 @@ const AdminDashboard = () => {
     };
 
     const filteredUsers = users.filter((user) =>
-        user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        user.handle.toLowerCase().includes(searchTerm.toLowerCase())
+        (user.email && user.email.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (user.handle && user.handle.toLowerCase().includes(searchTerm.toLowerCase()))
     );
 
     return (
@@ -127,7 +127,7 @@ const AdminDashboard = () => {
             </div>
         </div>
     );
-    
+
 };
 
 export default AdminDashboard;
