@@ -23,12 +23,14 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="home">
-      <div className="background">
-        <h1 className="welcome-text">Welcome to Flavor Fusion</h1>
-        <div className="counter">
-          <p>Total of users in Flavor Fusion 👉 {userCount} <br /></p>
-          <p>Total of recipes in Flavor Fusion 👉 {recipeCount}</p>
+    <div className="home-page">
+      <div className="home-background">
+        <div className="home-container">
+          <h1 className="welcome-text">Welcome to Flavor Fusion</h1>
+          <div className="counter">
+            <p>Total of users in Flavor Fusion 👉 {userCount}</p>
+            <p>Total of recipes in Flavor Fusion 👉 {recipeCount}</p>
+          </div>
         </div>
       </div>
     </div>

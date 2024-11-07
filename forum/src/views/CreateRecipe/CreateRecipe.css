@@ -1,16 +1,27 @@
+.recipe-background {
+    background-image: url('../../resources/background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .create-recipe-container {
-    max-width: 500px;
-    margin: 40px auto;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    background-color: #ffffff;
+    max-width: 400px;
+    padding: 30px;
+    border-radius: 15px;
+    background: none;
+    box-shadow: none;
+    text-align: center;
 }
 
 .create-recipe-container h3 {
     text-align: center;
-    color: #333;
+    color: #fd9103;
     font-family: 'Arial', sans-serif;
     margin-bottom: 20px;
 }
@@ -19,13 +30,14 @@
     display: block;
     margin: 10px 0 5px;
     font-weight: bold;
-    color: #555;
+    color: #ffffff;
 }
 
 .create-recipe-container input[type="text"],
 .create-recipe-container textarea,
 .create-recipe-container input[type="file"] {
     width: calc(100% - 22px);
+    color: white;
     padding: 10px;
     margin: 5px 0 15px;
     border: 1px solid #ccc;
@@ -33,21 +45,23 @@
     font-size: 16px;
     font-family: 'Arial', sans-serif;
     transition: border-color 0.3s;
+    background: rgba(255, 255, 255, 0.1) !important;
 }
 
 .create-recipe-container input[type="text"]:focus,
 .create-recipe-container textarea:focus {
-    border-color: #007BFF;
+    border-color: #ff8800;
     outline: none;
+    background: rgba(255, 255, 255, 0.1) !important;
 }
 
 .create-recipe-container button {
-    width: 100%;
+    width: 50%;
     padding: 12px;
-    background-color: #007BFF;
+    background-color: #ff8800;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 20px;
     font-size: 16px;
     font-family: 'Arial', sans-serif;
     cursor: pointer;
@@ -64,7 +78,7 @@
 }
 
 .create-recipe-container input[type="file"] {
-    display: block; 
-    width: calc(100% - 22px); 
-    margin: 5px 0 15px; 
+    display: block;
+    width: calc(100% - 22px);
+    margin: 5px 0 15px;
 }

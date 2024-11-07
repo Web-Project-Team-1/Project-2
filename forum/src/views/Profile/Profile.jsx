@@ -5,6 +5,7 @@ import { uploadProfilePicture, updateUserNames } from '../../services/users.serv
 import './Profile.css';
 import { FIRST_NAME_MAX_LENGTH, FIRST_NAME_MIN_LENGTH, LAST_NAME_MAX_LENGTH, LAST_NAME_MIN_LENGTH } from '../../common/constants';
 import { useNavigate } from 'react-router-dom';
+import defaultProfilePic from '../../resources/default-profile-pic.jpg';
 
 export default function Profile() {
     const { user, userData } = useContext(AppContext);
@@ -14,13 +15,13 @@ export default function Profile() {
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
-    const [profilePicture, setProfilePicture] = useState('default-profile-pic.jpg');
+    const [profilePicture, setProfilePicture] = useState(defaultProfilePic);
     const [loading, setLoading] = useState(true);
     const fileInputRef = useRef(null);
 
     useEffect(() => {
         if (user && userData) {
-            setProfilePicture(userData.photoURL || 'default-profile-pic.jpg');
+            setProfilePicture(userData.photoURL || defaultProfilePic);
             setFirstName(userData.firstName || '');
             setLastName(userData.lastName || '');
             setLoading(false);
@@ -100,10 +101,6 @@ export default function Profile() {
         return true;
     };
 
-    if (loading) {
-        return <div>Loading profile...</div>;
-    }
-
     return (
         <div className="profile-background">
             <div className="profile-page">
@@ -122,6 +119,7 @@ export default function Profile() {
                                 borderRadius: '50%',
                                 objectFit: 'cover',
                             }}
+                            onError={(e) => e.target.src = defaultProfilePic}
                         />
                     </div>
 

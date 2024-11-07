@@ -29,13 +29,17 @@ export default function Header() {
     return (
         <header className="header">
             <nav>
-                <NavLink to="/recipes" className="nav-navlink">Recipes</NavLink>
-                <NavLink to="/discussions" className="nav-navlink">Discussions</NavLink>
+                <div className="nav-links">
+                    <NavLink to="/recipes" className="nav-navlink">Recipes</NavLink>
+                    <NavLink to="/discussions" className="nav-navlink">Discussions</NavLink>
+                </div>
+
                 <div className="logo">
                     <NavLink to="/">
                         <img src={logo} alt="Flavor Fusion Logo" />
                     </NavLink>
                 </div>
+
                 {user ? (
                     <div className="user-section">
                         <NavLink to="/create-recipe" className="nav-navlink">Create Recipe</NavLink>

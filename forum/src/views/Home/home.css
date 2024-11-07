@@ -1,22 +1,45 @@
-.home {
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.home-page .home-background {
     background-image: url('../../resources/background.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    min-height: 100vh;
+    padding: 20px 0;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    height: 100vh;
-    color: #3f2408;
-    font-family: 'Arial', sans-serif;
+    justify-content: flex-start;
+}
+
+.home-page .home-container {
+    max-width: 500px;
     text-align: center;
+    padding: 30px;
+    border-radius: 15px;
+
+    margin-top: 20px;
 }
 
 .welcome-text {
-    font-size: 4rem;
-    color: #6b2929;
-    margin-bottom: 70px; 
+    font-family: 'Pacifico', sans-serif;
+    font-size: 3rem;
+    color: #ffffff;
+    margin-bottom: 20px;
+    font-weight: 600;
+    letter-spacing: 2px;
     animation: colorPulse 3s infinite alternate, textGrow 3s ease-in-out infinite;
 }
 
@@ -24,19 +47,19 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
+    gap: 10px;
 }
 
 .counter p {
-    font-size: 2rem;
+    font-size: 1rem;
     color: #f9f8ef;
     margin: 10px 0;
-    padding: 20px;
-    background: rgba(255, 255, 255, 0.1); 
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.1);
     border: 2px solid #6b2929;
     border-radius: 12px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    width: 300px;
+    width: 250px;
     text-align: center;
     text-shadow: 0 0 10px rgba(76, 101, 147, 0.7), 0 0 20px rgba(18, 223, 231, 0.5);
     transition: color 0.5s ease, transform 0.3s ease;
@@ -51,16 +74,20 @@
     0% {
         color: #dacdb7;
     }
+
     50% {
         color: #d5e464;
     }
+
     100% {
         color: #aa500c;
     }
 }
 
 @keyframes textGrow {
-    0%, 100% {
+
+    0%,
+    100% {
         transform: scale(1);
     }
 

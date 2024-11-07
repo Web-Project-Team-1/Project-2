@@ -1,100 +1,103 @@
-.register-container {
-    max-width: 400px;
-    margin: 30px auto;
-    padding: 30px;
-    background: rgba(255, 255, 255, 0.9);
-    border-radius: 15px;
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
-    text-align: center;
-}
-
-/* .register-background {
+.register-page .register-background {
     background-image: url('../../resources/background.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     min-height: 100vh;
     padding: 20px 0;
-} */
-
-.register {
-    min-height: 100vh;
     display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    background-color: #f8f9fa;
-    margin-top: 20px;
+    flex-direction: column;
+    align-items: center;
 }
 
-h1 {
+.register-page .register {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.register-page .register-container {
+    max-width: 400px;
+    padding: 30px;
+    border-radius: 15px;
+    background: none;
+    box-shadow: none;
+    text-align: center;
+}
+
+.register-page h1 {
     font-size: 26px;
     margin-bottom: 20px;
-    color: #333;
+    color: #ff8800;
     font-weight: 600;
     letter-spacing: 1px;
     text-transform: uppercase;
 }
 
-label {
+.register-page label {
     font-size: 14px;
-    color: #555;
+    color: #cccccc !important;
     display: block;
     margin-top: 20px;
     transition: color 0.3s;
 }
 
-input[type="text"],
-input[type="password"] {
-    width: calc(100% - 20px);
+.register-page input[type="text"],
+.register-page input[type="password"] {
+    width: 100%;
     padding: 14px;
     margin-top: 6px;
-    border: 1px solid #ccc;
+    border: 1px solid #555;
     border-radius: 6px;
+    color: #ffffff;
     box-sizing: border-box;
     transition: border-color 0.3s, box-shadow 0.3s, transform 0.2s;
     font-size: 15px;
+    background: rgba(255, 255, 255, 0.1) !important;
 }
 
-input[type="text"]:focus,
-input[type="password"]:focus {
-    border-color: #007bff;
+.register-page input[type="text"]:focus,
+.register-page input[type="password"]:focus {
+    border-color: #ff8800;
     box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
     outline: none;
     transform: scale(1.02);
+    background: rgba(255, 255, 255, 0.1) !important;
 }
 
-button {
-    width: calc(100% - 20px);
+.register-page button {
+    width: calc(100% - 40px);
     padding: 14px;
-    margin-top: 25px;
-    background: linear-gradient(135deg, #007bff, #0056b3);
+    margin-top: 15px;
+    background-color: #ff8800;
     color: white;
     border: none;
-    border-radius: 6px;
+    border-radius: 30px;
     cursor: pointer;
     font-size: 17px;
     font-weight: bold;
     transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
 }
 
-button:hover {
-    background: linear-gradient(135deg, #0056b3, #007bff);
+.register-page button:hover {
+    background: linear-gradient(135deg, #0056b3, #007bff) !important;
     transform: translateY(-2px);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
 }
 
-.footer {
+.register-page .footer {
     margin-top: 15px;
     font-size: 14px;
-    color: #666;
+    color: #cccccc !important;
 }
 
-.footer a {
-    color: #007bff;
+.register-page .footer a {
+    color: #007bff !important;
     text-decoration: none;
     transition: color 0.3s;
 }
 
-.footer a:hover {
-    color: #0056b3;
+.register-page .footer a:hover {
+    color: #0056b3 !important;
 }

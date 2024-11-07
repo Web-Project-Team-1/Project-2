@@ -66,42 +66,44 @@ export default function CreateRecipes() {
   };
 
   return (
-    <div className="create-recipe-container">
-      <h3>Create Recipe</h3>
-      <div>
-        <label htmlFor="title">Title:</label>
-        <input
-          value={recipe.title}
-          onChange={e => updateRecipe('title', e.target.value)}
-          type="text"
-          name="title"
-          id="title"
-          autoComplete="off"
-        />
+    <div className="recipe-background">
+      <div className="create-recipe-container">
+        <h3>Create Recipe</h3>
+        <div>
+          <label htmlFor="title">Title:</label>
+          <input
+            value={recipe.title}
+            onChange={e => updateRecipe('title', e.target.value)}
+            type="text"
+            name="title"
+            id="title"
+            autoComplete="off"
+          />
+        </div>
+        <div>
+          <label htmlFor="description">Description:</label>
+          <textarea
+            value={recipe.description}
+            onChange={e => updateRecipe('description', e.target.value)}
+            name="description"
+            id="description"
+            cols="30"
+            rows="10"
+            autoComplete="off"
+          />
+        </div>
+        <div>
+          <label htmlFor="image">Image:</label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+          />
+        </div>
+        <button onClick={handleCreateRecipe} disabled={isSubmitting}>
+          Create
+        </button>
       </div>
-      <div>
-        <label htmlFor="description">Description:</label>
-        <textarea
-          value={recipe.description}
-          onChange={e => updateRecipe('description', e.target.value)}
-          name="description"
-          id="description"
-          cols="30"
-          rows="10"
-          autoComplete="off"
-        />
-      </div>
-      <div>
-        <label htmlFor="image">Image:</label>
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleImageChange}
-        />
-      </div>
-      <button onClick={handleCreateRecipe} disabled={isSubmitting}>
-        Create
-      </button>
     </div>
   );
 }

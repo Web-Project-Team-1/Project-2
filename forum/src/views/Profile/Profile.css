@@ -36,30 +36,39 @@
 }
 
 .settings-button,
-.save-button {
+.save-button,
+.admin-button {
     background-color: #FF8C00;
     color: #fff;
     border: none;
-    padding: 10px 20px; 
+    padding: 10px 20px;
+    /* Reduced padding for smaller buttons */
     border-radius: 5px;
     cursor: pointer;
-    font-size: 1em;
+    font-size: 0.9em;
+    /* Adjusted font size for smaller buttons */
     margin-top: 10px;
-    width: 100%; 
-    transition: background-color 0.3s, transform 0.2s;
+    width: 50%;
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+    text-align: center;
 }
 
 .settings-button:hover,
-.save-button:hover {
-    background-color: #e07600; 
+.save-button:hover,
+.admin-button:hover {
+    background-color: #e07600;
     transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(255, 140, 0, 0.6);
+    /* Glow effect added */
 }
-
 
 .profile-settings {
     margin-top: 15px;
     width: 100%;
     text-align: left;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .profile-settings label {
@@ -165,5 +174,5 @@
 }
 
 .admin-button {
-    width: 400px;
+    width: 70%;
 }
