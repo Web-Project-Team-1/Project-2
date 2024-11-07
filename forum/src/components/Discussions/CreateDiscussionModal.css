@@ -61,7 +61,8 @@
 .create-discussion-modal-content button {
     padding: 10px 15px;
     border: none;
-    border-radius: 5px;
+    width: 320px;
+    border-radius: 20px;
     cursor: pointer;
     font-size: 1em;
     margin-top: 10px;
@@ -77,6 +78,8 @@
     background-color: orange; 
     color: #fff;
     margin-left: 10px;
+    width: 320px;
+    border-radius: 20px;
 }
 
 .create-discussion-modal-content .close-button:hover {

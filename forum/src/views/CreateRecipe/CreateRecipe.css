@@ -14,9 +14,10 @@
     max-width: 400px;
     padding: 30px;
     border-radius: 15px;
-    background: none;
-    box-shadow: none;
+    background: rgba(0, 0, 0, 0.7);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
     text-align: center;
+    backdrop-filter: blur(10px);
 }
 
 .create-recipe-container h3 {
@@ -27,7 +28,6 @@
 }
 
 .create-recipe-container label {
-    display: block;
     margin: 10px 0 5px;
     font-weight: bold;
     color: #ffffff;
@@ -44,15 +44,16 @@
     border-radius: 4px;
     font-size: 16px;
     font-family: 'Arial', sans-serif;
-    transition: border-color 0.3s;
+    transition: border-color 0.3s, box-shadow 0.3s;
     background: rgba(255, 255, 255, 0.1) !important;
 }
 
 .create-recipe-container input[type="text"]:focus,
 .create-recipe-container textarea:focus {
-    border-color: #ff8800;
+    border: 1px solid #ccc;
     outline: none;
-    background: rgba(255, 255, 255, 0.1) !important;
+    background: rgba(255, 255, 255, 0.2) !important;
+    box-shadow: 0 0 5px rgba(255, 136, 0, 0.5);
 }
 
 .create-recipe-container button {
@@ -65,11 +66,12 @@
     font-size: 16px;
     font-family: 'Arial', sans-serif;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, transform 0.2s;
 }
 
 .create-recipe-container button:hover {
     background-color: #0056b3;
+    transform: scale(1.05);
 }
 
 .create-recipe-container button:disabled {
@@ -78,7 +80,24 @@
 }
 
 .create-recipe-container input[type="file"] {
-    display: block;
     width: calc(100% - 22px);
     margin: 5px 0 15px;
+}
+
+.image-preview {
+    margin-top: 8px;
+    max-width: 100%;
+    max-height: 200px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+@media (max-width: 480px) {
+    .create-recipe-container {
+        padding: 20px;
+    }
+
+    .create-recipe-container button {
+        width: 100%;
+    }
 }

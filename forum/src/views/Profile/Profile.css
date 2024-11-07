@@ -42,13 +42,12 @@
     color: #fff;
     border: none;
     padding: 10px 20px;
-    /* Reduced padding for smaller buttons */
     border-radius: 5px;
     cursor: pointer;
     font-size: 0.9em;
-    /* Adjusted font size for smaller buttons */
+    width: 250px;
+    border-radius: 20px;
     margin-top: 10px;
-    width: 50%;
     transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
     text-align: center;
 }
@@ -59,7 +58,6 @@
     background-color: #e07600;
     transform: scale(1.05);
     box-shadow: 0 0 10px rgba(255, 140, 0, 0.6);
-    /* Glow effect added */
 }
 
 .profile-settings {

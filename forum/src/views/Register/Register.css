@@ -1,4 +1,4 @@
-.register-page .register-background {
+.register-background {
     background-image: url('../../resources/background.jpg');
     background-size: cover;
     background-position: center;
@@ -10,23 +10,23 @@
     align-items: center;
 }
 
-.register-page .register {
+.register {
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 20px;
 }
 
-.register-page .register-container {
-    max-width: 400px;
+.register-container {
+    width: 400px;
     padding: 30px;
     border-radius: 15px;
-    background: none;
-    box-shadow: none;
+    background: rgba(0, 0, 0, 0.7);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
     text-align: center;
 }
 
-.register-page h1 {
+h1 {
     font-size: 26px;
     margin-bottom: 20px;
     color: #ff8800;
@@ -35,7 +35,7 @@
     text-transform: uppercase;
 }
 
-.register-page label {
+label {
     font-size: 14px;
     color: #cccccc !important;
     display: block;
@@ -43,8 +43,8 @@
     transition: color 0.3s;
 }
 
-.register-page input[type="text"],
-.register-page input[type="password"] {
+input[type="text"],
+input[type="password"] {
     width: 100%;
     padding: 14px;
     margin-top: 6px;
@@ -57,16 +57,16 @@
     background: rgba(255, 255, 255, 0.1) !important;
 }
 
-.register-page input[type="text"]:focus,
-.register-page input[type="password"]:focus {
+input[type="text"]:focus,
+input[type="password"]:focus {
     border-color: #ff8800;
-    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
+    box-shadow: 0 4px 8px rgba(255, 136, 0, 0.5);
     outline: none;
     transform: scale(1.02);
     background: rgba(255, 255, 255, 0.1) !important;
 }
 
-.register-page button {
+button {
     width: calc(100% - 40px);
     padding: 14px;
     margin-top: 15px;
@@ -80,24 +80,34 @@
     transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
 }
 
-.register-page button:hover {
+button:hover {
     background: linear-gradient(135deg, #0056b3, #007bff) !important;
     transform: translateY(-2px);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
 }
 
-.register-page .footer {
+.footer {
     margin-top: 15px;
     font-size: 14px;
     color: #cccccc !important;
 }
 
-.register-page .footer a {
+.footer a {
     color: #007bff !important;
     text-decoration: none;
     transition: color 0.3s;
 }
 
-.register-page .footer a:hover {
+.footer a:hover {
     color: #0056b3 !important;
+}
+
+@media (max-width: 480px) {
+    .register-container {
+        padding: 20px;
+    }
+
+    button {
+        width: 100%;
+    }
 }

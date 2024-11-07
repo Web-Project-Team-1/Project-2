@@ -7,7 +7,7 @@ import { likeRecipe, getRecipeLikes, deleteRecipe } from '../../services/recipes
 import CommentModal from './CommentModal';
 
 const Recipe = ({ id, title, description, image, creatorHandle, creationDate, onEdit, onDelete }) => {
-    const { user, userData } = useContext(AppContext); 
+    const { user, userData } = useContext(AppContext);
     const { favorites, addToFavorites, removeFromFavorites } = useContext(FavoritesContext);
     const navigate = useNavigate();
 
@@ -146,7 +146,7 @@ const Recipe = ({ id, title, description, image, creatorHandle, creationDate, on
                                 onClick={user ? handleLike : (e) => e.preventDefault()}
                                 title={!user ? "Please log in to like the recipe." : ""}
                             >
-                                {isLiked ? "Unlike" : "Like"} ({likes})
+                                {isLiked ? "Unlike" : "Like"} ➾{likes}
                             </button>
 
                             <button

@@ -1,4 +1,4 @@
-.login-page .login-background {
+.login-background {
     background-image: url('../../resources/background.jpg');
     background-size: cover;
     background-position: center;
@@ -10,23 +10,23 @@
     align-items: center;
 }
 
-.login-page .login {
+.login {
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 20px;
 }
 
-.login-page .login-container {
+.login-container {
     max-width: 400px;
     padding: 30px;
     border-radius: 15px;
-    background: none;
-    box-shadow: none;
+    background: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); /* Soft shadow */
     text-align: center;
 }
 
-.login-page h1 {
+h1 {
     font-size: 26px;
     margin-bottom: 20px;
     color: #ff8800;
@@ -35,7 +35,7 @@
     text-transform: uppercase;
 }
 
-.login-page label {
+label {
     font-size: 14px;
     color: #cccccc !important;
     display: block;
@@ -43,8 +43,8 @@
     transition: color 0.3s;
 }
 
-.login-page input[type="text"],
-.login-page input[type="password"] {
+input[type="text"],
+input[type="password"] {
     width: 75%;
     padding: 14px;
     margin-top: 6px;
@@ -57,16 +57,16 @@
     background: rgba(255, 255, 255, 0.1) !important;
 }
 
-.login-page input[type="text"]:focus,
-.login-page input[type="password"]:focus {
+input[type="text"]:focus,
+input[type="password"]:focus {
     border-color: #ff8800;
-    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2) !important;
+    box-shadow: 0 4px 8px rgba(255, 136, 0, 0.5) !important;
     outline: none !important;
     transform: scale(1.02);
     background: rgba(255, 255, 255, 0.1) !important;
 }
 
-.login-page button {
+button {
     width: calc(60% - 20px);
     padding: 14px;
     margin-top: 30px;
@@ -80,24 +80,35 @@
     transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
 }
 
-.login-page button:hover {
+button:hover {
     background: linear-gradient(135deg, #0056b3, #007bff);
     transform: translateY(-2px);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
 }
 
-.login-page .footer {
+.footer {
     margin-top: 15px;
     font-size: 14px;
     color: #cccccc;
 }
 
-.login-page .footer a {
+.footer a {
     color: #007bff;
     text-decoration: none;
     transition: color 0.3s;
 }
 
-.login-page .footer a:hover {
+.footer a:hover {
     color: #0056b3;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+    .login-container {
+        padding: 20px; /* Adjust padding for smaller screens */
+    }
+
+    button {
+        width: 100%; /* Full width button on smaller screens */
+    }
 }

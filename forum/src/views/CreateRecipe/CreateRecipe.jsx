@@ -94,7 +94,7 @@ export default function CreateRecipes() {
         </div>
         <div>
           <label htmlFor="image">Image:</label>
-          <input
+          <input className="recipe-image-input"
             type="file"
             accept="image/*"
             onChange={handleImageChange}

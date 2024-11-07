@@ -58,3 +58,15 @@ export const deleteDiscussion = async (discussionId) => {
         throw error;
     }
 };
+
+export const deleteReply = async (discussionId, replyId) => {
+    try {
+        const replyRef = ref(db, `discussions/${discussionId}/replies/${replyId}`);
+        await remove(replyRef);
+    } catch (error) {
+        console.error("Error deleting reply:", error);
+        throw error;
+    }
+};
+
+
