@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { addReply, getReplies, deleteReply, deleteDiscussion } from '../../services/discussions.service'; 
+import { addReply, getReplies, deleteReply, deleteDiscussion } from '../../services/discussions.service';
 import './DiscussionModal.css';
 
-const DiscussionModal = ({ onClose, discussion, user }) => {
+const DiscussionModal = ({ onClose, discussion, user, userData }) => {
     const [replies, setReplies] = useState([]);
     const [newReply, setNewReply] = useState('');
-    const [replyToDelete, setReplyToDelete] = useState(null); 
+    const [replyToDelete, setReplyToDelete] = useState(null);
 
     useEffect(() => {
         const fetchReplies = async () => {
             if (discussion) {
                 const fetchedReplies = await getReplies(discussion.id);
-                console.log('Fetched replies:', fetchedReplies);
                 setReplies(fetchedReplies || []);
             }
         };
@@ -32,14 +31,14 @@ const DiscussionModal = ({ onClose, discussion, user }) => {
 
         const replyData = {
             content: newReply,
-            createdBy: user.displayName || user.email.split("@")[0],
+            createdBy: userData?.handle || user.displayName,
             createdOn: new Date().toISOString(),
         };
 
         try {
-            const replyRef = await addReply(discussion.id, replyData); 
-            const replyId = replyRef.key; 
-            setReplies([...replies, { ...replyData, id: replyId }]); 
+            const replyRef = await addReply(discussion.id, replyData);
+            const replyId = replyRef?.key || Date.now().toString();
+            setReplies([...replies, { ...replyData, id: replyId }]);
             setNewReply('');
         } catch (error) {
             console.error("Error adding reply:", error);
@@ -50,9 +49,9 @@ const DiscussionModal = ({ onClose, discussion, user }) => {
         if (replyToDelete) {
             if (window.confirm("Are you sure you want to delete this reply?")) {
                 try {
-                    await deleteReply(discussion.id, replyToDelete.id); 
-                    setReplies(replies.filter(r => r.id !== replyToDelete.id)); 
-                    setReplyToDelete(null); 
+                    await deleteReply(discussion.id, replyToDelete.id);
+                    setReplies(replies.filter(r => r.id !== replyToDelete.id));
+                    setReplyToDelete(null);
                 } catch (error) {
                     console.error("Error deleting reply:", error);
                 }
@@ -63,13 +62,15 @@ const DiscussionModal = ({ onClose, discussion, user }) => {
     const handleDeleteDiscussion = async () => {
         if (window.confirm("Are you sure you want to delete this discussion? This action cannot be undone.")) {
             try {
-                    await deleteDiscussion(discussion.id); 
-                onClose(); 
+                await deleteDiscussion(discussion.id);
+                onClose();
             } catch (error) {
                 console.error("Error deleting discussion:", error);
             }
         }
     };
+
+    const isUserCreator = discussion.createdBy === (userData.handle || user.email.split("@")[0]);
 
     return (
         <div className="discussion-modal-overlay" onClick={onClose}>
@@ -89,7 +90,11 @@ const DiscussionModal = ({ onClose, discussion, user }) => {
                                 <p><strong>{reply.createdBy}</strong> on {new Date(reply.createdOn).toLocaleString()}</p>
                                 <p>{reply.content}</p>
                                 {reply.createdBy === (user.displayName || user.email.split("@")[0]) && (
-                                    <button onClick={() => setReplyToDelete(reply)} className="delete-reply-button">Select to Delete</button>
+                                    <button
+                                        onClick={() => setReplyToDelete(reply)}
+                                        className="delete-reply-button">
+                                        Select to Delete
+                                    </button>
                                 )}
                             </div>
                         ))
@@ -112,7 +117,13 @@ const DiscussionModal = ({ onClose, discussion, user }) => {
 
                 <button className="close-modal-button" onClick={onClose}>Close</button>
 
-                <button className="delete-discussion-button" onClick={handleDeleteDiscussion}>Delete Discussion</button>
+                <button
+                    className={`delete-discussion-button ${isUserCreator ? '' : 'disabled'}`}
+                    onClick={isUserCreator ? handleDeleteDiscussion : null}
+                    disabled={!isUserCreator}
+                    title={isUserCreator ? '' : 'Only the creator can delete this discussion'}>
+                    Delete Discussion
+                </button>
             </div>
         </div>
     );

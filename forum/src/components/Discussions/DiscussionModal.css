@@ -136,6 +136,37 @@
     font-size: 14px;
 }
 
-.delete-discussion-button:hover {
-    background: #c82333;
+.delete-discussion-button.disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+}
+
+.delete-discussion-button.disabled:hover {
+    background: #6c757d;
+}
+
+.delete-discussion-button[disabled] {
+    position: relative;
+}
+
+.delete-discussion-button[disabled]::after {
+    content: attr(title);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.75);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s;
+}
+
+.delete-discussion-button[disabled]:hover::after {
+    opacity: 1;
+    visibility: visible;
 }

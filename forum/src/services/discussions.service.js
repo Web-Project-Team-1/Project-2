@@ -42,6 +42,8 @@ export const addReply = async (discussionId, replyData) => {
     const replyRef = ref(db, `discussions/${discussionId}/replies`);
     const newReplyRef = push(replyRef);
     await set(newReplyRef, replyData);
+
+    return newReplyRef;
 };
 
 export const getReplies = async (discussionId) => {
@@ -68,5 +70,3 @@ export const deleteReply = async (discussionId, replyId) => {
         throw error;
     }
 };
-
-

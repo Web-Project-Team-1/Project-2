@@ -6,7 +6,7 @@ import DiscussionModal from '../../components/Discussions/DiscussionModal';
 import './Discussions.css';
 
 const Discussions = () => {
-    const { user } = useContext(AppContext);
+    const { user, userData } = useContext(AppContext);
     const [discussions, setDiscussions] = useState([]);
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
     const [selectedDiscussion, setSelectedDiscussion] = useState(null);
@@ -35,7 +35,7 @@ const Discussions = () => {
                 <h2>Discussions</h2>
                 <button className="create-discussion-button" onClick={() => setIsCreateModalOpen(true)}>+</button>
                 {isCreateModalOpen && <CreateDiscussionModal onClose={() => setIsCreateModalOpen(false)} />}
-                {isDiscussionModalOpen && <DiscussionModal discussion={selectedDiscussion} onClose={() => setIsDiscussionModalOpen(false)} user={user} />}
+                {isDiscussionModalOpen && <DiscussionModal discussion={selectedDiscussion} onClose={() => setIsDiscussionModalOpen(false)} user={user} userData={userData} />}
                 <div className="discussion-list">
                     {discussions.map(discussion => (
                         <div key={discussion.id} className="discussion-item" onClick={() => openDiscussionModal(discussion)}>
