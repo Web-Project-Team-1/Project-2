@@ -5,7 +5,7 @@ import { AppContext } from '../../store/app.context';
 import { FavoritesContext } from '../../store/FavoritesContext';
 import { likeRecipe, getRecipeLikes, deleteRecipe } from '../../services/recipes.service';
 import CommentModal from './CommentModal';
-import { toast } from 'react-toastify'; // Import the toast library for toast notifications
+import { toast } from 'react-toastify'; 
 
 const Recipe = ({ id, title, description, image, creatorHandle, creationDate, onEdit, onDelete }) => {
     const { user, userData } = useContext(AppContext);
@@ -101,15 +101,12 @@ const Recipe = ({ id, title, description, image, creatorHandle, creationDate, on
     };
 
     const confirmDeleteRecipe = async () => {
-        console.log("Confirm delete initiated."); // Debug log
         if (isCreator) {
             try {
-                console.log("Deleting recipe with id:", id); // Debug log
                 await deleteRecipe(id);
                 if (onDelete) onDelete(id);
                 navigate('/recipes');
 
-                // Show success toast notification
                 toast.success('Recipe deleted successfully!');
             } catch (error) {
                 console.error("Error deleting recipe:", error);
@@ -214,7 +211,6 @@ const Recipe = ({ id, title, description, image, creatorHandle, creationDate, on
                 />
             )}
 
-            {/* Confirmation Modal */}
             {isConfirmDeleteOpen && (
                 <div className="confirmation-modal-overlay" onClick={cancelDeleteRecipe}>
                     <div className="confirmation-modal-container" onClick={(e) => e.stopPropagation()}>
