@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { addComment, getComments } from '../../services/recipes.service';
 import './CommentModal.css';
 
-const CommentModal = ({ onClose, recipeId, user }) => {
+const CommentModal = ({ onClose, recipeId, userData }) => {
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState('');
 
@@ -20,19 +20,18 @@ const CommentModal = ({ onClose, recipeId, user }) => {
     }, [recipeId]);
 
     const handleAddComment = async () => {
-        if (user.isBlocked) {
-            alert("You are currently blocked.");
-            return;
-        }
-
-        if (!user) {
+        if (!userData) {
             alert("You must be logged in to comment.");
             return;
         }
-        console.log(user);
-        
+
+        if (userData.isBlocked) {
+            alert("You are currently blocked from commenting.");
+            return;
+        }
+
         const commentData = {
-            author: user.email.split("@")[0] || 'Anonymous',
+            author: userData.handle || 'Anonymous',
             date: new Date().toString(),
             content: newComment,
         };

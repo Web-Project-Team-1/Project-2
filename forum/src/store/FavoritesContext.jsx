@@ -6,7 +6,7 @@ import { AppContext } from "./app.context";
 export const FavoritesContext = createContext();
 
 export const FavoritesProvider = ({ children }) => {
-    const { userData } = useContext(AppContext); // Use userData instead of user
+    const { userData } = useContext(AppContext);
     const [favorites, setFavorites] = useState([]);
 
     useEffect(() => {

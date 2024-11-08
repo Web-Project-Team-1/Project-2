@@ -6,7 +6,7 @@ import Recipe from '../../components/Recipe/Recipe';
 import './favorites.css';
 
 const Favorites = () => {
-    const { userData } = useContext(AppContext);  // Explicitly using userData.handle
+    const { userData } = useContext(AppContext);
     const { favorites } = useContext(FavoritesContext);
     const [favoriteRecipes, setFavoriteRecipes] = useState([]);
     const [error, setError] = useState(null);

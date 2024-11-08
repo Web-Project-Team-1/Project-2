@@ -17,7 +17,8 @@ const Recipe = ({ id, title, description, image, creatorHandle, creationDate, on
     const [showCommentModal, setShowCommentModal] = useState(false);
 
     const isFavorited = favorites.includes(id);
-    const isCreator = user && creatorHandle === user.email.split("@")[0];
+
+    const isCreator = user && userData?.handle === creatorHandle;
 
     const formatDate = (dateString) => {
         if (!dateString) return 'Unknown';
@@ -86,7 +87,7 @@ const Recipe = ({ id, title, description, image, creatorHandle, creationDate, on
             return;
         }
 
-        if (userData.isBlocked) {
+        if (userData?.isBlocked) {
             alert('You are blocked and cannot comment on recipes.');
             return;
         }
@@ -191,7 +192,7 @@ const Recipe = ({ id, title, description, image, creatorHandle, creationDate, on
                 <CommentModal
                     onClose={() => setShowCommentModal(false)}
                     recipeId={id}
-                    user={user}
+                    userData={userData}
                 />
             )}
         </>
