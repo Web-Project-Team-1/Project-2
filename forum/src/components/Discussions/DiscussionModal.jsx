@@ -6,7 +6,7 @@ const DiscussionModal = ({ onClose, discussion, user, userData, onDiscussionDele
     const [replies, setReplies] = useState([]);
     const [newReply, setNewReply] = useState('');
     const [replyToDelete, setReplyToDelete] = useState(null);
-    const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = useState(false); // state for the confirmation modal
+    const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = useState(false);
 
     useEffect(() => {
         const fetchReplies = async () => {
@@ -48,36 +48,34 @@ const DiscussionModal = ({ onClose, discussion, user, userData, onDiscussionDele
 
     const handleDeleteReply = async () => {
         if (replyToDelete) {
-            if (window.confirm("Are you sure you want to delete this reply?")) {
-                try {
-                    await deleteReply(discussion.id, replyToDelete.id);
-                    setReplies(replies.filter(r => r.id !== replyToDelete.id));
-                    setReplyToDelete(null);
-                } catch (error) {
-                    console.error("Error deleting reply:", error);
-                }
+            try {
+                await deleteReply(discussion.id, replyToDelete.id);
+                setReplies(replies.filter(r => r.id !== replyToDelete.id));
+                setReplyToDelete(null);
+            } catch (error) {
+                console.error("Error deleting reply:", error);
             }
         }
     };
 
     const handleDeleteDiscussion = () => {
-        setIsConfirmDeleteOpen(true); // Open confirmation modal
+        setIsConfirmDeleteOpen(true); 
     };
 
     const confirmDeleteDiscussion = async () => {
         try {
             await deleteDiscussion(discussion.id);
-            onDiscussionDeleted(discussion.id); // Update the discussions list
-            onClose(); // Close the discussion modal
-            setIsConfirmDeleteOpen(false); // Close confirmation modal
+            onDiscussionDeleted(discussion.id);
+            onClose(); 
         } catch (error) {
             console.error("Error deleting discussion:", error);
-            setIsConfirmDeleteOpen(false); // Close confirmation modal if error occurs
+        } finally {
+            setIsConfirmDeleteOpen(false); 
         }
     };
 
     const cancelDeleteDiscussion = () => {
-        setIsConfirmDeleteOpen(false); // Close the confirmation modal without deleting
+        setIsConfirmDeleteOpen(false); 
     };
 
     const isUserCreator = discussion.createdBy === (userData.handle || user.email.split("@")[0]);
@@ -95,15 +93,15 @@ const DiscussionModal = ({ onClose, discussion, user, userData, onDiscussionDele
                 <h3 className="replies-title">Replies</h3>
                 <div className="replies-list">
                     {replies.length > 0 ? (
-                        replies.map((reply, index) => (
-                            <div key={index} className="reply-item">
+                        replies.map((reply) => (
+                            <div key={reply.id} className="reply-item">
                                 <p><strong>{reply.createdBy}</strong> on {new Date(reply.createdOn).toLocaleString()}</p>
                                 <p>{reply.content}</p>
                                 {reply.createdBy === (user.displayName || user.email.split("@")[0]) && (
                                     <button
                                         onClick={() => setReplyToDelete(reply)}
                                         className="delete-reply-button">
-                                        Select to Delete
+                                        Delete Reply
                                     </button>
                                 )}
                             </div>
@@ -128,13 +126,14 @@ const DiscussionModal = ({ onClose, discussion, user, userData, onDiscussionDele
 
                 <button className="close-modal-button" onClick={onClose}>Close</button>
 
-                <button
-                    className={`delete-discussion-button ${isUserCreator ? '' : 'disabled'}`}
-                    onClick={isUserCreator ? handleDeleteDiscussion : null}
-                    disabled={!isUserCreator}
-                    title={isUserCreator ? '' : 'Only the creator can delete this discussion'}>
-                    Delete Discussion
-                </button>
+                {isUserCreator && (
+                    <button
+                        className="delete-discussion-button"
+                        onClick={handleDeleteDiscussion}
+                        title="Only the creator can delete this discussion">
+                        Delete Discussion
+                    </button>
+                )}
             </div>
 
             {/* Confirmation Modal */}

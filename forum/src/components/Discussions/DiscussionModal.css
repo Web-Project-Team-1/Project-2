@@ -11,6 +11,15 @@
     z-index: 1000;
 }
 
+.discussion-content {
+    max-width: 40ch;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    text-align: center;
+    margin: 0 auto;
+}
+
+
 .discussion-modal-container {
     background: rgba(30, 30, 30, 0.95);
     color: white;
@@ -20,6 +29,9 @@
     max-width: 90%;
     box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .discussion-label {
@@ -51,13 +63,21 @@
     margin-top: 10px;
     max-height: 300px;
     overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .reply-item {
     padding: 12px;
     background: rgba(255, 255, 255, 0.1);
     border-radius: 6px;
-    margin-bottom: 12px;
+    max-width: 40ch;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    text-align: center;
+    margin: 0 auto;
+    margin-bottom: 1rem;
 }
 
 .reply-item p {
@@ -104,6 +124,7 @@
     transition: background-color 0.3s;
     margin-top: 10px;
     font-size: 0.9em;
+    width: 308px;
 }
 
 .reply-button:hover {

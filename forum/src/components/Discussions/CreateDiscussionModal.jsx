@@ -15,6 +15,12 @@ const CreateDiscussionModal = ({ onClose, onDiscussionCreated }) => {
         setDiscussion(prev => ({ ...prev, [key]: value }));
     };
 
+    const handleInput = (e) => {
+        updateDiscussion('content', e.target.value);
+        e.target.style.height = 'auto'; 
+        e.target.style.height = `${e.target.scrollHeight}px`; 
+    };
+
     const handleCreateDiscussion = async () => {
         const { title, content } = discussion;
 
@@ -45,8 +51,8 @@ const CreateDiscussionModal = ({ onClose, onDiscussionCreated }) => {
                 createdOn: new Date().toISOString(),
             };
 
-            onDiscussionCreated(newDiscussion); // Trigger creation in Discussions.jsx
-            onClose(); // Close modal
+            onDiscussionCreated(newDiscussion); 
+            onClose(); 
         } catch (error) {
             console.error('Failed to create discussion:', error);
             alert('Failed to create discussion!');
@@ -75,11 +81,9 @@ const CreateDiscussionModal = ({ onClose, onDiscussionCreated }) => {
                     <label htmlFor="content">Content:</label>
                     <textarea
                         value={discussion.content}
-                        onChange={e => updateDiscussion('content', e.target.value)}
+                        onInput={handleInput} 
                         name="content"
                         id="content"
-                        cols="10"
-                        rows="6"
                         placeholder="Enter discussion content"
                         autoComplete="off"
                     />
