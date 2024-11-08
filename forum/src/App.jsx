@@ -19,7 +19,7 @@ import { ProfileProvider } from './store/ProfileNamesContext';
 import Discussions from './views/Discussions/Discussions';
 import AdminDashboard from './components/AdminDashboard/AdminDashboard';
 import { BlockAsAdminProvider } from "./store/BlockAsAdminContext";
-import { ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function App() {

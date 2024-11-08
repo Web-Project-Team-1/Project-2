@@ -15,9 +15,9 @@ const Recipe = ({ id, title, description, image, creatorHandle, creationDate, on
     const [likes, setLikes] = useState(0);
     const [isLiked, setIsLiked] = useState(false);
     const [showCommentModal, setShowCommentModal] = useState(false);
+    const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = useState(false); 
 
     const isFavorited = favorites.includes(id);
-
     const isCreator = user && userData?.handle === creatorHandle;
 
     const formatDate = (dateString) => {
@@ -95,8 +95,12 @@ const Recipe = ({ id, title, description, image, creatorHandle, creationDate, on
         setShowCommentModal(true);
     };
 
-    const handleDelete = async () => {
-        if (isCreator && window.confirm("Are you sure you want to delete this recipe?")) {
+    const handleDelete = () => {
+        setIsConfirmDeleteOpen(true);
+    };
+
+    const confirmDeleteRecipe = async () => {
+        if (isCreator) {
             try {
                 await deleteRecipe(id);
                 if (onDelete) onDelete(id);
@@ -104,8 +108,14 @@ const Recipe = ({ id, title, description, image, creatorHandle, creationDate, on
             } catch (error) {
                 console.error("Error deleting recipe:", error);
                 alert("Failed to delete the recipe. Please try again.");
+            } finally {
+                setIsConfirmDeleteOpen(false); 
             }
         }
+    };
+
+    const cancelDeleteRecipe = () => {
+        setIsConfirmDeleteOpen(false); 
     };
 
     return (
@@ -176,7 +186,7 @@ const Recipe = ({ id, title, description, image, creatorHandle, creationDate, on
 
                             <button
                                 className={`recipe-button delete ${isCreator ? '' : 'disabled'}`}
-                                onClick={isCreator ? handleDelete : (e) => e.preventDefault()}
+                                onClick={handleDelete} 
                                 title={!isCreator ? "Only the creator can delete." : ""}
                             >
                                 Delete
@@ -194,6 +204,19 @@ const Recipe = ({ id, title, description, image, creatorHandle, creationDate, on
                     recipeId={id}
                     userData={userData}
                 />
+            )}
+
+            {/* Confirmation Modal */}
+            {isConfirmDeleteOpen && (
+                <div className="confirmation-modal-overlay" onClick={cancelDeleteRecipe}>
+                    <div className="confirmation-modal-container" onClick={(e) => e.stopPropagation()}>
+                        <h3>Are you sure you want to delete this recipe?</h3>
+                        <div className="confirmation-buttons">
+                            <button onClick={confirmDeleteRecipe} className="confirm-button">Yes, Delete</button>
+                            <button onClick={cancelDeleteRecipe} className="cancel-button">No, Cancel</button>
+                        </div>
+                    </div>
+                </div>
             )}
         </>
     );

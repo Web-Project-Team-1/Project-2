@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { createRecipe } from "../../services/recipes.service";
 import { AppContext } from "../../store/app.context";
+import { toast } from "react-toastify"; // Importing toast
 import "./CreateRecipe.css";
 import { TITLE_MAX_LENGTH, TITLE_MIN_LENGTH, DESCRIPTION_MAX_LENGTH, DESCRIPTION_MIN_LENGTH } from "../../common/constants";
 
@@ -24,24 +25,27 @@ export default function CreateRecipes() {
     const { title, description, image } = recipe;
 
     if (userData.isBlocked) {
-      alert('You are blocked and cannot create recipes.');
+      toast.error('You are blocked and cannot create recipes.'); // Use toast for error
       return;
     }
 
     if (!title || !description || !image) {
-      return alert('Please fill in all fields!');
+      toast.error('Please fill in all fields!'); // Use toast for error
+      return;
     }
 
     if (title.length < TITLE_MIN_LENGTH || title.length > TITLE_MAX_LENGTH) {
-      return alert(`Title must be between ${TITLE_MIN_LENGTH} and ${TITLE_MAX_LENGTH} characters long.`);
+      toast.error(`Title must be between ${TITLE_MIN_LENGTH} and ${TITLE_MAX_LENGTH} characters long.`); // Use toast for error
+      return;
     }
 
     if (description.length < DESCRIPTION_MIN_LENGTH || description.length > DESCRIPTION_MAX_LENGTH) {
-      return alert(`Description must be between ${DESCRIPTION_MIN_LENGTH} and ${DESCRIPTION_MAX_LENGTH} characters long.`);
+      toast.error(`Description must be between ${DESCRIPTION_MIN_LENGTH} and ${DESCRIPTION_MAX_LENGTH} characters long.`); // Use toast for error
+      return;
     }
 
     if (!user || !userData?.handle) {
-      alert('User is not logged in or username is missing.');
+      toast.error('User is not logged in or username is missing.'); // Use toast for error
       return;
     }
 
@@ -49,10 +53,10 @@ export default function CreateRecipes() {
 
     try {
       await createRecipe(title, description, image, userData.handle);
-      alert('Recipe created successfully!');
+      toast.success('Recipe created successfully!'); // Use toast for success
       setRecipe({ title: '', description: '', image: null });
     } catch (error) {
-      alert('Failed to create recipe!');
+      toast.error('Failed to create recipe!'); // Use toast for error
     } finally {
       setIsSubmitting(false);
     }
