@@ -5,6 +5,7 @@ import { AppContext } from '../../store/app.context';
 import { FavoritesContext } from '../../store/FavoritesContext';
 import { likeRecipe, getRecipeLikes, deleteRecipe } from '../../services/recipes.service';
 import CommentModal from './CommentModal';
+import { toast } from 'react-toastify'; // Import the toast library for toast notifications
 
 const Recipe = ({ id, title, description, image, creatorHandle, creationDate, onEdit, onDelete }) => {
     const { user, userData } = useContext(AppContext);
@@ -100,17 +101,24 @@ const Recipe = ({ id, title, description, image, creatorHandle, creationDate, on
     };
 
     const confirmDeleteRecipe = async () => {
+        console.log("Confirm delete initiated."); // Debug log
         if (isCreator) {
             try {
+                console.log("Deleting recipe with id:", id); // Debug log
                 await deleteRecipe(id);
                 if (onDelete) onDelete(id);
                 navigate('/recipes');
+
+                // Show success toast notification
+                toast.success('Recipe deleted successfully!');
             } catch (error) {
                 console.error("Error deleting recipe:", error);
-                alert("Failed to delete the recipe. Please try again.");
+                toast.error("Failed to delete the recipe. Please try again.");
             } finally {
                 setIsConfirmDeleteOpen(false); 
             }
+        } else {
+            alert("You are not the creator of this recipe. You cannot delete it.");
         }
     };
 
