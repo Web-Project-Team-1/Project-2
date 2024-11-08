@@ -6,14 +6,14 @@ import Recipe from '../../components/Recipe/Recipe';
 import './favorites.css';
 
 const Favorites = () => {
-    const { user } = useContext(AppContext);
+    const { userData } = useContext(AppContext);  // Explicitly using userData.handle
     const { favorites } = useContext(FavoritesContext);
     const [favoriteRecipes, setFavoriteRecipes] = useState([]);
     const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchFavorites = async () => {
-            if (!user) return;
+            if (!userData?.handle) return;
 
             const recipes = [];
             const missingRecipes = [];
@@ -41,7 +41,7 @@ const Favorites = () => {
         };
 
         fetchFavorites();
-    }, [favorites, user]);
+    }, [favorites, userData]);
 
     if (error) {
         return <p>{error}</p>;

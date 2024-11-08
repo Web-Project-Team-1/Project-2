@@ -1,9 +1,9 @@
 import { ref, push, get, set, remove } from "firebase/database";
 import { db } from "../config/firebase-config";
 import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage";
-import { collection, getDocs } from "firebase/firestore";
 
-export const createRecipe = async (title, description, image, creatorUsername) => {
+// Function to create a new recipe in the database
+export const createRecipe = async (title, description, image, creatorHandle) => {
     const newRecipeRef = push(ref(db, 'recipes'));
     const id = newRecipeRef.key;
     const creationDate = new Date().toISOString();
@@ -22,7 +22,7 @@ export const createRecipe = async (title, description, image, creatorUsername) =
         description, 
         image: imageUrl, 
         createdOn: new Date().toString(),
-        createdBy: creatorUsername,
+        createdBy: creatorHandle,  // Use creatorHandle for author
         creationDate,
     };
 
@@ -35,6 +35,7 @@ export const createRecipe = async (title, description, image, creatorUsername) =
     }
 };
 
+// Function to retrieve all recipes from the database
 export const getAllRecipes = async () => {
     try {
         const snapshot = await get(ref(db, 'recipes'));
@@ -51,10 +52,11 @@ export const getAllRecipes = async () => {
     }
 };
 
-export const likeRecipe = async (recipeId, userId) => {
-    if (!recipeId || !userId) return;
+// Function to like or unlike a recipe based on user's previous action
+export const likeRecipe = async (recipeId, userHandle) => {
+    if (!recipeId || !userHandle) return;
 
-    const likeRef = ref(db, `recipes/${recipeId}/likes/${userId}`);
+    const likeRef = ref(db, `recipes/${recipeId}/likes/${userHandle}`);
     const likeCountRef = ref(db, `recipes/${recipeId}/likeCount`);
 
     try {
@@ -79,9 +81,10 @@ export const likeRecipe = async (recipeId, userId) => {
     }
 };
 
-export const getRecipeLikes = async (recipeId, userId) => {
+// Function to get the like count and whether a specific user has liked a recipe
+export const getRecipeLikes = async (recipeId, userHandle) => {
     const likeCountRef = ref(db, `recipes/${recipeId}/likeCount`);
-    const userLikeRef = ref(db, `recipes/${recipeId}/likes/${userId}`);
+    const userLikeRef = ref(db, `recipes/${recipeId}/likes/${userHandle}`);
 
     try {
         const [likeCountSnapshot, userLikeSnapshot] = await Promise.all([
@@ -99,38 +102,43 @@ export const getRecipeLikes = async (recipeId, userId) => {
     }
 };
 
+// Function to add a comment to a recipe
 export const addComment = async (recipeId, commentData) => {
     const commentRef = ref(db, `recipes/${recipeId}/comments`);
     const newCommentRef = push(commentRef);
     await set(newCommentRef, commentData);
 };
 
+// Function to retrieve all comments for a recipe
 export const getComments = async (recipeId) => {
     const snapshot = await get(ref(db, `recipes/${recipeId}/comments`));
     return snapshot.exists() ? Object.values(snapshot.val()) : [];
 };
 
-export const addToFavorites = async (recipeId, userId) => {
+// Function to add a recipe to the user's favorites
+export const addToFavorites = async (recipeId, userHandle) => {
     try {
-        await set(ref(db, `users/${userId}/favorites/${recipeId}`), { favorited: true });
+        await set(ref(db, `users/${userHandle}/favorites/${recipeId}`), { favorited: true });
     } catch (error) {
         console.error("Error adding to favorites:", error);
         throw error;
     }
 };
 
-export const removeFromFavorites = async (recipeId, userId) => {
+// Function to remove a recipe from the user's favorites
+export const removeFromFavorites = async (recipeId, userHandle) => {
     try {
-        await remove(ref(db, `users/${userId}/favorites/${recipeId}`));
+        await remove(ref(db, `users/${userHandle}/favorites/${recipeId}`));
     } catch (error) {
         console.error("Error removing from favorites:", error);
         throw error;
     }
 };
 
-export const getUserFavorites = async (userId) => {
+// Function to get the user's favorite recipes
+export const getUserFavorites = async (userHandle) => {
     try {
-        const snapshot = await get(ref(db, `users/${userId}/favorites`));
+        const snapshot = await get(ref(db, `users/${userHandle}/favorites`));
         return snapshot.exists() ? Object.keys(snapshot.val()) : [];
     } catch (error) {
         console.error("Error fetching user favorites:", error);
@@ -138,6 +146,7 @@ export const getUserFavorites = async (userId) => {
     }
 };
 
+// Function to retrieve a specific recipe by ID
 export const getRecipe = async (recipeId) => {
     try {
         const snapshot = await get(ref(db, `recipes/${recipeId}`));
@@ -153,6 +162,7 @@ export const getRecipe = async (recipeId) => {
     }
 };
 
+// Function to update an existing recipe's data
 export const updateRecipe = async (recipeId, updates) => {
     try {
         const recipeRef = ref(db, `recipes/${recipeId}`);
@@ -169,6 +179,7 @@ export const updateRecipe = async (recipeId, updates) => {
     }
 };
 
+// Function to delete a recipe from the database
 export const deleteRecipe = async (recipeId) => {
     try {
         const recipeRef = ref(db, `recipes/${recipeId}`);
@@ -179,8 +190,9 @@ export const deleteRecipe = async (recipeId) => {
     }
 };
 
+// Function to get the total count of recipes in the database
 export async function getRecipeCount() {
     const recipesRef = ref(db, 'recipes');
     const snapshot = await get(recipesRef);
     return snapshot.exists() ? Object.keys(snapshot.val()).length : 0;
-  }
+}

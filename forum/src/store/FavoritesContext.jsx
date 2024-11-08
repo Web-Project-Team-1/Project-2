@@ -6,19 +6,19 @@ import { AppContext } from "./app.context";
 export const FavoritesContext = createContext();
 
 export const FavoritesProvider = ({ children }) => {
-    const { user } = useContext(AppContext);
+    const { userData } = useContext(AppContext); // Use userData instead of user
     const [favorites, setFavorites] = useState([]);
 
     useEffect(() => {
-        if (user) {
+        if (userData?.handle) {
             fetchFavorites();
         }
-    }, [user]);
+    }, [userData]);
 
     const fetchFavorites = async () => {
-        if (!user) return;
+        if (!userData?.handle) return;
         try {
-            const snapshot = await get(ref(db, `users/${user.uid}/favorites`));
+            const snapshot = await get(ref(db, `users/${userData.handle}/favorites`));
             const favoritesData = snapshot.exists() ? snapshot.val() : {};
             setFavorites(Object.keys(favoritesData));
         } catch (error) {
@@ -27,9 +27,9 @@ export const FavoritesProvider = ({ children }) => {
     };
 
     const addToFavorites = async (recipeId) => {
-        if (!user) return;
+        if (!userData?.handle) return;
         try {
-            await set(ref(db, `users/${user.uid}/favorites/${recipeId}`), { favorited: true });
+            await set(ref(db, `users/${userData.handle}/favorites/${recipeId}`), { favorited: true });
             setFavorites((prev) => [...prev, recipeId]);
         } catch (error) {
             console.error("Error adding to favorites:", error);
@@ -37,9 +37,9 @@ export const FavoritesProvider = ({ children }) => {
     };
 
     const removeFromFavorites = async (recipeId) => {
-        if (!user) return;
+        if (!userData?.handle) return;
         try {
-            await remove(ref(db, `users/${user.uid}/favorites/${recipeId}`));
+            await remove(ref(db, `users/${userData.handle}/favorites/${recipeId}`));
             setFavorites((prev) => prev.filter((id) => id !== recipeId));
         } catch (error) {
             console.error("Error removing from favorites:", error);
