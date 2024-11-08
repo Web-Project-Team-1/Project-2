@@ -3,7 +3,7 @@ import { createDiscussion } from "../../services/discussions.service";
 import { AppContext } from "../../store/app.context";
 import "./CreateDiscussionModal.css";
 
-const CreateDiscussionModal = ({ onClose }) => {
+const CreateDiscussionModal = ({ onClose, onDiscussionCreated }) => {
     const { user, userData } = useContext(AppContext);
     const [discussion, setDiscussion] = useState({
         title: '',
@@ -19,7 +19,8 @@ const CreateDiscussionModal = ({ onClose }) => {
         const { title, content } = discussion;
 
         if (!title || !content) {
-            return alert('Please fill in all fields!');
+            alert('Please fill in all fields!');
+            return;
         }
 
         if (!user || !userData?.handle) {
@@ -35,11 +36,19 @@ const CreateDiscussionModal = ({ onClose }) => {
         setIsSubmitting(true);
 
         try {
-            await createDiscussion(title, content, userData.handle);
-            alert('Discussion created successfully!');
-            setDiscussion({ title: '', content: '' });
-            onClose();
+            const discussionId = await createDiscussion(title, content, userData.handle);
+            const newDiscussion = {
+                id: discussionId,
+                title,
+                content,
+                createdBy: userData.handle,
+                createdOn: new Date().toISOString(),
+            };
+
+            onDiscussionCreated(newDiscussion); // Trigger creation in Discussions.jsx
+            onClose(); // Close modal
         } catch (error) {
+            console.error('Failed to create discussion:', error);
             alert('Failed to create discussion!');
         } finally {
             setIsSubmitting(false);

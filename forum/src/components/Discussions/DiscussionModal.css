@@ -170,3 +170,67 @@
     opacity: 1;
     visibility: visible;
 }
+
+
+.confirmation-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.confirmation-modal-container {
+    background: rgb(46, 46, 46);
+    border: solid, orange;
+    color: white;
+    padding: 15px;
+    border-radius: 20px;
+    text-align: center;
+    max-width: 350px;
+    width: 100%;
+}
+
+.confirmation-modal-container h3 {
+    margin-bottom: 5px;
+}
+
+.confirm-button {
+    background-color: red;
+    color: white;
+    padding: 10px 20px;
+    max-width: 100px;
+    border: none;
+    cursor: pointer;
+    margin-right: 10px;
+    border-radius: 30px;
+}
+
+.confirm-button:hover {
+    background-color: darkred;
+}
+
+.cancel-button {
+    background-color: gray;
+    max-width: 100px;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 30px;
+}
+
+.cancel-button:hover {
+    background-color: darkgray;
+}
+
+.confirmation-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}

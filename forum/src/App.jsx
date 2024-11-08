@@ -18,7 +18,9 @@ import NotFound from './views/NotFound/NotFound';
 import { ProfileProvider } from './store/ProfileNamesContext';
 import Discussions from './views/Discussions/Discussions';
 import AdminDashboard from './components/AdminDashboard/AdminDashboard';
-import { BlockAsAdminProvider } from "./store/BlockAsAdminContext"; 
+import { BlockAsAdminProvider } from "./store/BlockAsAdminContext";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
     const [appState, setAppState] = useState({
@@ -57,7 +59,7 @@ function App() {
         <BrowserRouter>
             <AppContext.Provider value={{ ...appState, setAppState, updateUser }}>
                 <FavoritesProvider>
-                    <BlockAsAdminProvider> 
+                    <BlockAsAdminProvider>
                         <Header />
                         <Routes>
                             <Route path="/" element={<Home />} />
@@ -74,14 +76,15 @@ function App() {
                                 </Authenticated>
                             } />
                             <Route path="/favorites" element={<Authenticated><Favorites /></Authenticated>} />
-                            
                             {appState.isAdmin && <Route path="/admin" element={<AdminDashboard />} />}
-                            
                             <Route path="*" element={<NotFound />} />
                         </Routes>
-                    </BlockAsAdminProvider> 
+                    </BlockAsAdminProvider>
                 </FavoritesProvider>
             </AppContext.Provider>
+
+            {/* ToastContainer to handle toasts globally */}
+            <ToastContainer position="top-center" autoClose={3000} />
         </BrowserRouter>
     );
 }

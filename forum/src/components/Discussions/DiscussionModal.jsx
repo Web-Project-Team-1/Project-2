@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { addReply, getReplies, deleteReply, deleteDiscussion } from '../../services/discussions.service';
 import './DiscussionModal.css';
 
-const DiscussionModal = ({ onClose, discussion, user, userData }) => {
+const DiscussionModal = ({ onClose, discussion, user, userData, onDiscussionDeleted }) => {
     const [replies, setReplies] = useState([]);
     const [newReply, setNewReply] = useState('');
     const [replyToDelete, setReplyToDelete] = useState(null);
+    const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = useState(false); // state for the confirmation modal
 
     useEffect(() => {
         const fetchReplies = async () => {
@@ -59,15 +60,24 @@ const DiscussionModal = ({ onClose, discussion, user, userData }) => {
         }
     };
 
-    const handleDeleteDiscussion = async () => {
-        if (window.confirm("Are you sure you want to delete this discussion? This action cannot be undone.")) {
-            try {
-                await deleteDiscussion(discussion.id);
-                onClose();
-            } catch (error) {
-                console.error("Error deleting discussion:", error);
-            }
+    const handleDeleteDiscussion = () => {
+        setIsConfirmDeleteOpen(true); // Open confirmation modal
+    };
+
+    const confirmDeleteDiscussion = async () => {
+        try {
+            await deleteDiscussion(discussion.id);
+            onDiscussionDeleted(discussion.id); // Update the discussions list
+            onClose(); // Close the discussion modal
+            setIsConfirmDeleteOpen(false); // Close confirmation modal
+        } catch (error) {
+            console.error("Error deleting discussion:", error);
+            setIsConfirmDeleteOpen(false); // Close confirmation modal if error occurs
         }
+    };
+
+    const cancelDeleteDiscussion = () => {
+        setIsConfirmDeleteOpen(false); // Close the confirmation modal without deleting
     };
 
     const isUserCreator = discussion.createdBy === (userData.handle || user.email.split("@")[0]);
@@ -102,6 +112,7 @@ const DiscussionModal = ({ onClose, discussion, user, userData }) => {
                         <p>No replies yet. Be the first to reply!</p>
                     )}
                 </div>
+
                 <div className="add-reply-section">
                     <label className="reply-label" htmlFor="reply-input">Reply:</label>
                     <textarea
@@ -125,6 +136,19 @@ const DiscussionModal = ({ onClose, discussion, user, userData }) => {
                     Delete Discussion
                 </button>
             </div>
+
+            {/* Confirmation Modal */}
+            {isConfirmDeleteOpen && (
+                <div className="confirmation-modal-overlay" onClick={cancelDeleteDiscussion}>
+                    <div className="confirmation-modal-container" onClick={(e) => e.stopPropagation()}>
+                        <h3>Are you sure you want to delete this discussion?</h3>
+                        <div className="confirmation-buttons">
+                            <button onClick={confirmDeleteDiscussion} className="confirm-button">Yes, Delete</button>
+                            <button onClick={cancelDeleteDiscussion} className="cancel-button">No, Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

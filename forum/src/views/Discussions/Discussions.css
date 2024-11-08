@@ -109,3 +109,9 @@ h2 {
     font-size: 0.8em;
     color: #bbb;
 }
+
+.Toastify__progress-bar {
+    top: auto;
+    bottom: 0;
+    height: 4px;
+}
