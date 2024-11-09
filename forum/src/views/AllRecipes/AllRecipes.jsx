@@ -10,6 +10,7 @@ export default function AllRecipes() {
     const [showEditModal, setShowEditModal] = useState(false);
     const [currentRecipe, setCurrentRecipe] = useState(null);
     const [sortOrder, setSortOrder] = useState("newest");
+    const [selectedCategory, setSelectedCategory] = useState('');
     const [isAnonymousUser, setIsAnonymousUser] = useState(true);
 
     const fetchRecipes = async () => {
@@ -18,6 +19,10 @@ export default function AllRecipes() {
             let validRecipes = Object.values(data).filter(recipe =>
                 recipe.title && recipe.description && recipe.image
             );
+
+            if (selectedCategory) {
+                validRecipes = validRecipes.filter(recipe => recipe.category === selectedCategory);
+            }
 
             if (isAnonymousUser) {
                 const mostCommented = validRecipes
@@ -50,7 +55,7 @@ export default function AllRecipes() {
             setIsAnonymousUser(!user);
             fetchRecipes();
         });
-    }, []);
+    }, [selectedCategory]);
 
     const handleEdit = (recipe) => {
         setCurrentRecipe(recipe);
@@ -73,7 +78,22 @@ export default function AllRecipes() {
     return (
         <div className="all-recipes-background">
             <div className="sort-options">
-                <label htmlFor="sortOrder" className="sort-label">Sort by: </label>
+                <label htmlFor="category" className="sort-label">Category:</label>
+                <select
+                    id="category"
+                    value={selectedCategory}
+                    onChange={(e) => setSelectedCategory(e.target.value)}
+                    className="sort-select"
+                >
+                    <option value="">All</option>
+                    <option value="Desserts">Desserts</option>
+                    <option value="Healthy">Healthy</option>
+                    <option value="Vegan">Vegan</option>
+                    <option value="Salads">Salads</option>
+                    <option value="JunkFood">JunkFood</option>
+                </select>
+
+                <label htmlFor="sortOrder" className="sort-label">Sort by:</label>
                 <select
                     id="sortOrder"
                     value={sortOrder}
@@ -106,6 +126,7 @@ export default function AllRecipes() {
                     <p>No recipes available.</p>
                 )}
             </div>
+
             {showEditModal && currentRecipe && (
                 <EditModal
                     onClose={() => setShowEditModal(false)}

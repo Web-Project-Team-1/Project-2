@@ -2,7 +2,7 @@ import { ref, push, get, set, remove } from "firebase/database";
 import { db } from "../config/firebase-config";
 import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage";
 
-export const createRecipe = async (title, description, image, creatorHandle) => {
+export const createRecipe = async (title, description, image, category, creatorHandle) => {
     const newRecipeRef = push(ref(db, 'recipes'));
     const id = newRecipeRef.key;
     const creationDate = new Date().toISOString();
@@ -20,6 +20,7 @@ export const createRecipe = async (title, description, image, creatorHandle) => 
         title, 
         description, 
         image: imageUrl, 
+        category,
         createdOn: new Date().toString(),
         createdBy: creatorHandle,
         creationDate,
