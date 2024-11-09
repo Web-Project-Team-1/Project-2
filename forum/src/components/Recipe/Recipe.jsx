@@ -5,7 +5,7 @@ import { AppContext } from '../../store/app.context';
 import { FavoritesContext } from '../../store/FavoritesContext';
 import { likeRecipe, getRecipeLikes, deleteRecipe } from '../../services/recipes.service';
 import CommentModal from './CommentModal';
-import { toast } from 'react-toastify'; 
+import { toast } from 'react-toastify';
 
 const Recipe = ({ id, title, description, image, creatorHandle, creationDate, onEdit, onDelete }) => {
     const { user, userData } = useContext(AppContext);
@@ -16,10 +16,11 @@ const Recipe = ({ id, title, description, image, creatorHandle, creationDate, on
     const [likes, setLikes] = useState(0);
     const [isLiked, setIsLiked] = useState(false);
     const [showCommentModal, setShowCommentModal] = useState(false);
-    const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = useState(false); 
+    const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = useState(false);
 
     const isFavorited = favorites.includes(id);
     const isCreator = user && userData?.handle === creatorHandle;
+    const isAdmin = userData?.isAdmin; // Admin check
 
     const formatDate = (dateString) => {
         if (!dateString) return 'Unknown';
@@ -101,7 +102,7 @@ const Recipe = ({ id, title, description, image, creatorHandle, creationDate, on
     };
 
     const confirmDeleteRecipe = async () => {
-        if (isCreator) {
+        if (isAdmin || isCreator) {
             try {
                 await deleteRecipe(id);
                 if (onDelete) onDelete(id);
@@ -112,15 +113,15 @@ const Recipe = ({ id, title, description, image, creatorHandle, creationDate, on
                 console.error("Error deleting recipe:", error);
                 toast.error("Failed to delete the recipe. Please try again.");
             } finally {
-                setIsConfirmDeleteOpen(false); 
+                setIsConfirmDeleteOpen(false);
             }
         } else {
-            alert("You are not the creator of this recipe. You cannot delete it.");
+            alert("You do not have permission to delete this recipe.");
         }
     };
 
     const cancelDeleteRecipe = () => {
-        setIsConfirmDeleteOpen(false); 
+        setIsConfirmDeleteOpen(false);
     };
 
     return (
@@ -182,17 +183,17 @@ const Recipe = ({ id, title, description, image, creatorHandle, creationDate, on
                             </button>
 
                             <button
-                                className={`recipe-button edit ${isCreator ? '' : 'disabled'}`}
-                                onClick={isCreator ? onEdit : (e) => e.preventDefault()}
-                                title={!isCreator ? "Only the creator can edit." : ""}
+                                className={`recipe-button edit ${isAdmin || isCreator ? '' : 'disabled'}`}
+                                onClick={isAdmin || isCreator ? onEdit : (e) => e.preventDefault()}
+                                title={!isAdmin && !isCreator ? "Only the creator or admin can edit." : ""}
                             >
                                 Edit
                             </button>
 
                             <button
-                                className={`recipe-button delete ${isCreator ? '' : 'disabled'}`}
-                                onClick={handleDelete} 
-                                title={!isCreator ? "Only the creator can delete." : ""}
+                                className={`recipe-button delete ${isAdmin || isCreator ? '' : 'disabled'}`}
+                                onClick={handleDelete}
+                                title={!isAdmin && !isCreator ? "Only the creator or admin can delete." : ""}
                             >
                                 Delete
                             </button>

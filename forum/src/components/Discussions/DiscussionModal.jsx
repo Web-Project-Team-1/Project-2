@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { addReply, getReplies, deleteReply, deleteDiscussion } from '../../services/discussions.service';
+import { addReply, getReplies, deleteDiscussion } from '../../services/discussions.service';
 import './DiscussionModal.css';
 
 const DiscussionModal = ({ onClose, discussion, user, userData, onDiscussionDeleted }) => {
     const [replies, setReplies] = useState([]);
     const [newReply, setNewReply] = useState('');
-    const [replyToDelete, setReplyToDelete] = useState(null);
     const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = useState(false);
 
     useEffect(() => {
@@ -46,36 +45,24 @@ const DiscussionModal = ({ onClose, discussion, user, userData, onDiscussionDele
         }
     };
 
-    const handleDeleteReply = async () => {
-        if (replyToDelete) {
-            try {
-                await deleteReply(discussion.id, replyToDelete.id);
-                setReplies(replies.filter(r => r.id !== replyToDelete.id));
-                setReplyToDelete(null);
-            } catch (error) {
-                console.error("Error deleting reply:", error);
-            }
-        }
-    };
-
     const handleDeleteDiscussion = () => {
-        setIsConfirmDeleteOpen(true); 
+        setIsConfirmDeleteOpen(true);
     };
 
     const confirmDeleteDiscussion = async () => {
         try {
             await deleteDiscussion(discussion.id);
             onDiscussionDeleted(discussion.id);
-            onClose(); 
+            onClose();
         } catch (error) {
             console.error("Error deleting discussion:", error);
         } finally {
-            setIsConfirmDeleteOpen(false); 
+            setIsConfirmDeleteOpen(false);
         }
     };
 
     const cancelDeleteDiscussion = () => {
-        setIsConfirmDeleteOpen(false); 
+        setIsConfirmDeleteOpen(false);
     };
 
     const isUserCreator = discussion.createdBy === (userData.handle || user.email.split("@")[0]);
@@ -97,13 +84,6 @@ const DiscussionModal = ({ onClose, discussion, user, userData, onDiscussionDele
                             <div key={reply.id} className="reply-item">
                                 <p><strong>{reply.createdBy}</strong> on {new Date(reply.createdOn).toLocaleString()}</p>
                                 <p>{reply.content}</p>
-                                {reply.createdBy === (user.displayName || user.email.split("@")[0]) && (
-                                    <button
-                                        onClick={() => setReplyToDelete(reply)}
-                                        className="delete-reply-button">
-                                        Delete Reply
-                                    </button>
-                                )}
                             </div>
                         ))
                     ) : (
@@ -136,7 +116,6 @@ const DiscussionModal = ({ onClose, discussion, user, userData, onDiscussionDele
                 )}
             </div>
 
-            {/* Confirmation Modal */}
             {isConfirmDeleteOpen && (
                 <div className="confirmation-modal-overlay" onClick={cancelDeleteDiscussion}>
                     <div className="confirmation-modal-container" onClick={(e) => e.stopPropagation()}>
