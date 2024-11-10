@@ -11,7 +11,10 @@ export default function CreateRecipes() {
     title: '',
     description: '',
     image: null,
-    category: ''
+    category: '',
+    preparationTime: '',
+    portions: '',
+    ingredients: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -23,14 +26,14 @@ export default function CreateRecipes() {
   };
 
   const handleCreateRecipe = async () => {
-    const { title, description, image, category } = recipe;
+    const { title, description, image, category, preparationTime, portions, ingredients } = recipe;
 
     if (userData.isBlocked) {
       toast.error('You are blocked and cannot create recipes.');
       return;
     }
 
-    if (!title || !description || !image || !category) {
+    if (!title || !description || !image || !category || !preparationTime || !portions || !ingredients) {
       toast.error('Please fill in all fields!');
       return;
     }
@@ -53,9 +56,26 @@ export default function CreateRecipes() {
     setIsSubmitting(true);
 
     try {
-      await createRecipe(title, description, image, category, userData.handle);
+      await createRecipe(
+        title,
+        description,
+        image,
+        category,
+        preparationTime,
+        portions,
+        ingredients,
+        userData.handle
+      );
       toast.success('Recipe created successfully!');
-      setRecipe({ title: '', description: '', image: null, category: '' });
+      setRecipe({
+        title: '',
+        description: '',
+        image: null,
+        category: '',
+        preparationTime: '',
+        portions: '',
+        ingredients: ''
+      });
     } catch (error) {
       toast.error('Failed to create recipe!');
     } finally {
@@ -112,6 +132,40 @@ export default function CreateRecipes() {
             <option value="Salads">Salads</option>
             <option value="JunkFood">JunkFood</option>
           </select>
+        </div>
+        <div>
+          <label htmlFor="preparationTime">Preparation Time (mins):</label>
+          <input
+            value={recipe.preparationTime}
+            onChange={e => updateRecipe('preparationTime', e.target.value)}
+            type="number"
+            name="preparationTime"
+            id="preparationTime"
+            autoComplete="off"
+          />
+        </div>
+        <div>
+          <label htmlFor="portions">Portions:</label>
+          <input
+            value={recipe.portions}
+            onChange={e => updateRecipe('portions', e.target.value)}
+            type="number"
+            name="portions"
+            id="portions"
+            autoComplete="off"
+          />
+        </div>
+        <div>
+          <label htmlFor="ingredients">Ingredients:</label>
+          <textarea
+            value={recipe.ingredients}
+            onChange={e => updateRecipe('ingredients', e.target.value)}
+            name="ingredients"
+            id="ingredients"
+            cols="30"
+            rows="5"
+            autoComplete="off"
+          />
         </div>
         <div>
           <label htmlFor="image">Image:</label>

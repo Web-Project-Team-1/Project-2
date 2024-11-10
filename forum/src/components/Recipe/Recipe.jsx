@@ -7,7 +7,7 @@ import { likeRecipe, getRecipeLikes, deleteRecipe } from '../../services/recipes
 import CommentModal from './CommentModal';
 import { toast } from 'react-toastify';
 
-const Recipe = ({ id, title, description, image, creatorHandle, creationDate, onEdit, onDelete }) => {
+const Recipe = ({ id, title, description, image, preparationTime, portions, ingredients, creatorHandle, creationDate, onEdit, onDelete }) => {
     const { user, userData } = useContext(AppContext);
     const { favorites, addToFavorites, removeFromFavorites } = useContext(FavoritesContext);
     const navigate = useNavigate();
@@ -17,10 +17,11 @@ const Recipe = ({ id, title, description, image, creatorHandle, creationDate, on
     const [isLiked, setIsLiked] = useState(false);
     const [showCommentModal, setShowCommentModal] = useState(false);
     const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = useState(false);
+    const [showMoreInfo, setShowMoreInfo] = useState(false); 
 
     const isFavorited = favorites.includes(id);
     const isCreator = user && userData?.handle === creatorHandle;
-    const isAdmin = userData?.isAdmin; // Admin check
+    const isAdmin = userData?.isAdmin;
 
     const formatDate = (dateString) => {
         if (!dateString) return 'Unknown';
@@ -107,7 +108,6 @@ const Recipe = ({ id, title, description, image, creatorHandle, creationDate, on
                 await deleteRecipe(id);
                 if (onDelete) onDelete(id);
                 navigate('/recipes');
-
                 toast.success('Recipe deleted successfully!');
             } catch (error) {
                 console.error("Error deleting recipe:", error);
@@ -123,6 +123,8 @@ const Recipe = ({ id, title, description, image, creatorHandle, creationDate, on
     const cancelDeleteRecipe = () => {
         setIsConfirmDeleteOpen(false);
     };
+
+    const toggleMoreInfo = () => setShowMoreInfo(!showMoreInfo); 
 
     return (
         <>
@@ -144,7 +146,6 @@ const Recipe = ({ id, title, description, image, creatorHandle, creationDate, on
                         ) : (
                             <p>No image available</p>
                         )}
-
                         <p className="modal-description">{description}</p>
 
                         <div className="modal-user">
@@ -155,6 +156,20 @@ const Recipe = ({ id, title, description, image, creatorHandle, creationDate, on
                             <span className="recipe-date">
                                 Created on: {formatDate(creationDate)}
                             </span>
+                        </div>
+
+                        <div className="modal-details">
+                            <button onClick={toggleMoreInfo} className="show-more-button">
+                                {showMoreInfo ? "Show Less" : "Show More Information"}
+                            </button>
+
+                            {showMoreInfo && (
+                                <div className="additional-info">
+                                    <p>Preparation Time: {preparationTime ? preparationTime : "undefined"} mins</p>
+                                    <p>Portions: {portions}</p>
+                                    <p>Ingredients: {ingredients}</p>
+                                </div>
+                            )}
                         </div>
 
                         <div className="recipe-buttons">

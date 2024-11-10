@@ -11,7 +11,7 @@
     transition: transform 0.3s ease, border-color 0.3s ease;
     background: linear-gradient(to bottom right, #060606, #4c4a49);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
-
+    overflow: hidden; 
 }
 
 .recipe-card:hover {
@@ -22,7 +22,6 @@
     filter: brightness(1.2);
     box-shadow: 0 4px 8px rgba(255, 140, 0, 0.5);
 }
-
 
 .recipe-card:hover {
     transform: scale(1.05) rotateX(5deg) rotateY(5deg);
@@ -151,6 +150,7 @@
     z-index: 1000;
     opacity: 0;
     animation: fadeIn 0.4s ease forwards;
+    overflow-y: auto; 
 }
 
 .modal-content {
@@ -164,6 +164,8 @@
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
     transform: scale(0.95);
     animation: scaleUp 0.4s ease forwards;
+    overflow-y: auto; 
+    max-height: 80vh; 
 }
 
 .modal-title {
@@ -231,6 +233,57 @@
     color: gray;
 }
 
+.modal-details {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    overflow-y: auto; 
+    max-height: 40vh; 
+}
+
+.show-more-button {
+    padding: 10px 15px;
+    font-size: 14px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.show-more-button:hover {
+    background-color: #053466;
+    transform: scale(1.05);
+}
+
+.additional-info {
+    padding: 15px;
+    background-color: transparent;
+    border-radius: 8px;
+    margin-top: 10px;
+    transition: max-height 0.3s ease-in-out;
+}
+
+.additional-info p {
+    margin: 10px 0;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.additional-info p:first-child {
+    margin-top: 0;
+}
+
+.additional-info p:last-child {
+    margin-bottom: 0;
+}
 
 .recipe-button.disabled {
     background-color: #b3b3b3;
@@ -254,30 +307,22 @@
     border-radius: 4px;
     top: -10px;
     font-size: 0.85em;
-    white-space: nowrap;
-    z-index: 10;
-}
-
-.recipe-buttons {
-    position: relative;
 }
 
 @keyframes fadeIn {
-    from {
+    0% {
         opacity: 0;
     }
-
-    to {
+    100% {
         opacity: 1;
     }
 }
 
 @keyframes scaleUp {
-    from {
+    0% {
         transform: scale(0.95);
     }
-
-    to {
+    100% {
         transform: scale(1);
     }
 }

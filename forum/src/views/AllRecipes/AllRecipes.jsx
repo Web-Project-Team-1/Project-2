@@ -19,22 +19,22 @@ export default function AllRecipes() {
             let validRecipes = Object.values(data).filter(recipe =>
                 recipe.title && recipe.description && recipe.image
             );
-
+    
             if (selectedCategory) {
                 validRecipes = validRecipes.filter(recipe => recipe.category === selectedCategory);
             }
-
+    
             if (isAnonymousUser) {
                 const mostCommented = validRecipes
                     .slice()
                     .sort((a, b) => (b.commentCount || 0) - (a.commentCount || 0))
                     .slice(0, 10);
-
+    
                 const mostRecent = validRecipes
                     .slice()
                     .sort((a, b) => new Date(b.creationDate) - new Date(a.creationDate))
                     .slice(0, 10);
-
+    
                 const combinedRecipes = Array.from(new Set([...mostCommented, ...mostRecent]));
                 setRecipes(combinedRecipes);
             } else {
@@ -43,7 +43,7 @@ export default function AllRecipes() {
         } catch (error) {
             console.error("Failed to load recipes:", error);
         }
-    };
+    };    
 
     const handleRecipeDelete = (deletedRecipeId) => {
         setRecipes((prevRecipes) => prevRecipes.filter((recipe) => recipe.id !== deletedRecipeId));
@@ -116,6 +116,10 @@ export default function AllRecipes() {
                             title={recipe.title}
                             description={recipe.description}
                             image={recipe.image}
+                            category={recipe.category}
+                            preparationTime={recipe.preparationTime}
+                            portions={recipe.portions}
+                            ingredients={recipe.ingredients}
                             creatorHandle={recipe.createdBy}
                             creationDate={recipe.creationDate}
                             onEdit={() => handleEdit(recipe)}
@@ -133,6 +137,11 @@ export default function AllRecipes() {
                     recipeId={currentRecipe.id}
                     currentTitle={currentRecipe.title}
                     currentDescription={currentRecipe.description}
+                    currentImage={currentRecipe.image}
+                    currentCategory={currentRecipe.category}
+                    currentPreparationTime={currentRecipe.preparationTime}
+                    currentPortions={currentRecipe.portions}
+                    currentIngredients={currentRecipe.ingredients}
                     refetchRecipes={fetchRecipes}
                 />
             )}
