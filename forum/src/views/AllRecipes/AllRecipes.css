@@ -58,3 +58,16 @@
     border-color: #f08a06;
     box-shadow: 0 0 10px rgba(200, 178, 117, 0.8), 0 0 20px rgba(231, 217, 18, 0.5);
 }
+
+.pagination > button {
+    padding: 8px 12px;
+    width: 90px;
+    margin-right: 20px;
+    font-size: 14px;
+    border-radius: 20px;
+    background-color: orange;
+    color: #000000;
+    transition: border-color 0.3s ease, background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+

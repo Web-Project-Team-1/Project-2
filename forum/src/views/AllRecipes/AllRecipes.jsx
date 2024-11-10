@@ -12,6 +12,8 @@ export default function AllRecipes() {
     const [sortOrder, setSortOrder] = useState("newest");
     const [selectedCategory, setSelectedCategory] = useState('');
     const [isAnonymousUser, setIsAnonymousUser] = useState(true);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [recipesPerPage, setRecipesPerPage] = useState(10);
 
     const fetchRecipes = async () => {
         try {
@@ -43,7 +45,7 @@ export default function AllRecipes() {
         } catch (error) {
             console.error("Failed to load recipes:", error);
         }
-    };    
+    };
 
     const handleRecipeDelete = (deletedRecipeId) => {
         setRecipes((prevRecipes) => prevRecipes.filter((recipe) => recipe.id !== deletedRecipeId));
@@ -74,6 +76,17 @@ export default function AllRecipes() {
         }
         return 0;
     });
+
+    // Pagination Logic: Slice the sorted recipes based on the current page
+    const indexOfLastRecipe = currentPage * recipesPerPage;
+    const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage;
+    const currentRecipes = sortedRecipes.slice(indexOfFirstRecipe, indexOfLastRecipe);
+
+    // Change page handler
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+    // Calculate total pages
+    const totalPages = Math.ceil(sortedRecipes.length / recipesPerPage);
 
     return (
         <div className="all-recipes-background">
@@ -108,8 +121,8 @@ export default function AllRecipes() {
             </div>
 
             <div className="recipes-grid">
-                {sortedRecipes.length > 0 ? (
-                    sortedRecipes.map((recipe) => (
+                {currentRecipes.length > 0 ? (
+                    currentRecipes.map((recipe) => (
                         <Recipe
                             key={recipe.id}
                             id={recipe.id}
@@ -129,6 +142,21 @@ export default function AllRecipes() {
                 ) : (
                     <p>No recipes available.</p>
                 )}
+            </div>
+
+            <div className="pagination">
+                <button
+                    onClick={() => paginate(currentPage - 1)}
+                    disabled={currentPage === 1}
+                >
+                    Previous
+                </button>
+                <button
+                    onClick={() => paginate(currentPage + 1)}
+                    disabled={currentPage === totalPages}
+                >
+                    Next
+                </button>
             </div>
 
             {showEditModal && currentRecipe && (

@@ -28,14 +28,14 @@ const Discussions = () => {
 
     const handleDiscussionCreated = (newDiscussion) => {
         setDiscussions((prevDiscussions) => [...prevDiscussions, newDiscussion]);
-        toast.success("Discussion successfully created!"); // Toast alert for creation
+        toast.success("Discussion successfully created!"); 
     };
 
     const handleDiscussionDeleted = (discussionId) => {
         setDiscussions((prevDiscussions) =>
             prevDiscussions.filter((discussion) => discussion.id !== discussionId)
         );
-        toast.success("Discussion successfully deleted."); // Toast alert for deletion
+        toast.success("Discussion successfully deleted."); 
     };
 
     const openDiscussionModal = (discussion) => {
@@ -79,12 +79,11 @@ const Discussions = () => {
                     ))}
                 </div>
 
-                {/* ToastContainer with progress bar enabled */}
                 <ToastContainer
                     position="top-center"
                     autoClose={3000}
-                    hideProgressBar={false} // Enables the progress bar
-                    progressStyle={{ background: "green" }} // Styles the progress bar as green
+                    hideProgressBar={false} 
+                    progressStyle={{ background: "green" }} 
                 />
             </div>
         </div>
