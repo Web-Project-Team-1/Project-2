@@ -6,6 +6,7 @@ import DiscussionModal from '../../components/Discussions/DiscussionModal';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './Discussions.css';
+import { Filter } from 'bad-words';
 
 const Discussions = () => {
     const { user, userData } = useContext(AppContext);
@@ -17,11 +18,18 @@ const Discussions = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [discussionsPerPage] = useState(12);
 
+    const filter = new Filter();
+
     useEffect(() => {
         const fetchDiscussions = async () => {
             try {
                 const data = await getAllDiscussions();
-                setDiscussions(data);
+                const censoredDiscussions = data.map(discussion => ({
+                    ...discussion,
+                    title: filter.clean(discussion.title),
+                    content: filter.clean(discussion.content),
+                }));
+                setDiscussions(censoredDiscussions);
             } catch (error) {
                 console.error("Error fetching discussions:", error);
             }
@@ -30,7 +38,13 @@ const Discussions = () => {
     }, []);
 
     const handleDiscussionCreated = (newDiscussion) => {
-        setDiscussions((prevDiscussions) => [...prevDiscussions, newDiscussion]);
+        const censoredDiscussion = {
+            ...newDiscussion,
+            title: filter.clean(newDiscussion.title),
+            content: filter.clean(newDiscussion.content),
+        };
+
+        setDiscussions((prevDiscussions) => [...prevDiscussions, censoredDiscussion]);
         toast.success("Discussion successfully created!");
     };
 

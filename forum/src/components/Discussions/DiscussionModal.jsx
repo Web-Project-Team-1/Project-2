@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { addReply, getReplies, deleteDiscussion } from '../../services/discussions.service';
 import './DiscussionModal.css';
+import { Filter } from 'bad-words';
 
 const DiscussionModal = ({ onClose, discussion, user, userData, onDiscussionDeleted }) => {
     const [replies, setReplies] = useState([]);
@@ -29,8 +30,12 @@ const DiscussionModal = ({ onClose, discussion, user, userData, onDiscussionDele
             return;
         }
 
+        const filter = new Filter();
+
+        const censoredReply = filter.clean(newReply);
+
         const replyData = {
-            content: newReply,
+            content: censoredReply,
             createdBy: userData?.handle || user.displayName,
             createdOn: new Date().toISOString(),
         };

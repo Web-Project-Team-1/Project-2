@@ -4,6 +4,7 @@ import { AppContext } from "../../store/app.context";
 import { toast } from "react-toastify";
 import "./CreateRecipe.css";
 import { TITLE_MAX_LENGTH, TITLE_MIN_LENGTH, DESCRIPTION_MAX_LENGTH, DESCRIPTION_MIN_LENGTH } from "../../common/constants";
+import { Filter } from 'bad-words';
 
 export default function CreateRecipes() {
   const { user, userData } = useContext(AppContext);
@@ -18,6 +19,8 @@ export default function CreateRecipes() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const filter = new Filter();
+
   const updateRecipe = (key, value) => {
     setRecipe(prevRecipe => ({
       ...prevRecipe,
@@ -28,22 +31,25 @@ export default function CreateRecipes() {
   const handleCreateRecipe = async () => {
     const { title, description, image, category, preparationTime, portions, ingredients } = recipe;
 
+    const censoredTitle = filter.clean(title);
+    const censoredDescription = filter.clean(description);
+
     if (userData.isBlocked) {
       toast.error('You are blocked and cannot create recipes.');
       return;
     }
 
-    if (!title || !description || !image || !category || !preparationTime || !portions || !ingredients) {
+    if (!censoredTitle || !censoredDescription || !image || !category || !preparationTime || !portions || !ingredients) {
       toast.error('Please fill in all fields!');
       return;
     }
 
-    if (title.length < TITLE_MIN_LENGTH || title.length > TITLE_MAX_LENGTH) {
+    if (censoredTitle.length < TITLE_MIN_LENGTH || censoredTitle.length > TITLE_MAX_LENGTH) {
       toast.error(`Title must be between ${TITLE_MIN_LENGTH} and ${TITLE_MAX_LENGTH} characters long.`);
       return;
     }
 
-    if (description.length < DESCRIPTION_MIN_LENGTH || description.length > DESCRIPTION_MAX_LENGTH) {
+    if (censoredDescription.length < DESCRIPTION_MIN_LENGTH || censoredDescription.length > DESCRIPTION_MAX_LENGTH) {
       toast.error(`Description must be between ${DESCRIPTION_MIN_LENGTH} and ${DESCRIPTION_MAX_LENGTH} characters long.`);
       return;
     }
@@ -57,8 +63,8 @@ export default function CreateRecipes() {
 
     try {
       await createRecipe(
-        title,
-        description,
+        censoredTitle,
+        censoredDescription,
         image,
         category,
         preparationTime,
@@ -176,7 +182,7 @@ export default function CreateRecipes() {
           />
         </div>
         <button onClick={handleCreateRecipe} disabled={isSubmitting}>
-          Create
+          {isSubmitting ? 'Creating...' : 'Create'}
         </button>
       </div>
     </div>

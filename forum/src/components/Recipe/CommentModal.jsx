@@ -1,16 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { addComment, getComments } from '../../services/recipes.service';
+import { Filter } from 'bad-words';
 import './CommentModal.css';
 
 const CommentModal = ({ onClose, recipeId, userData }) => {
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState('');
 
+    const filter = new Filter();
+
     useEffect(() => {
         const fetchComments = async () => {
             try {
                 const fetchedComments = await getComments(recipeId);
-                setComments(fetchedComments || []);
+                const censoredComments = fetchedComments.map(comment => ({
+                    ...comment,
+                    content: filter.clean(comment.content),
+                }));
+                setComments(censoredComments || []);
             } catch (error) {
                 console.error("Error fetching comments:", error);
             }
@@ -30,10 +37,12 @@ const CommentModal = ({ onClose, recipeId, userData }) => {
             return;
         }
 
+        const censoredComment = filter.clean(newComment);
+
         const commentData = {
             author: userData.handle || 'Anonymous',
             date: new Date().toString(),
-            content: newComment,
+            content: censoredComment,
         };
 
         try {
