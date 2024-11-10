@@ -3,6 +3,8 @@ import { AppContext } from "../../store/app.context";
 import { useNavigate } from "react-router-dom";
 import { registerUser } from "../../services/auth.service";
 import { createUserHandle, getUserByHandle } from "../../services/users.service";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import './Register.css';
 
 export default function Register() {
@@ -17,7 +19,12 @@ export default function Register() {
 
     const register = () => {
         if (!user.handle || !user.email || !user.password) {
-            return alert('Please enter a username, email, and password');
+            return toast.warning('Please enter a username, email, and password', {
+                position: "top-center",
+                autoClose: 3000,
+                hideProgressBar: false,
+                progressStyle: { backgroundColor: "#ffc107" },
+            });
         }
 
         getUserByHandle(user.handle)
@@ -38,14 +45,33 @@ export default function Register() {
                             },
                             userData: null,
                         });
-                        navigate('/');
+
+                        toast.success('Registration successful!', {
+                            position: "top-center",
+                            autoClose: 2000,
+                            hideProgressBar: false,
+                            progressStyle: { backgroundColor: "#28a745" },
+                        });
+
+                        setTimeout(() => navigate('/'));
                     })
                     .catch(error => {
                         console.error('Register failed', error);
+                        toast.error('Failed to create user handle. Please try again.', {
+                            position: "top-center",
+                            autoClose: 3000,
+                            hideProgressBar: false,
+                            progressStyle: { backgroundColor: "#dc3545" },
+                        });
                     });
             })
             .catch(error => {
-                alert(error.message);
+                toast.error(error.message, {
+                    position: "top-center",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    progressStyle: { backgroundColor: "#dc3545" },
+                });
             });
     };
 
@@ -100,6 +126,7 @@ export default function Register() {
                     </div>
                 </div>
             </div>
+            <ToastContainer />
         </div>
     );
 }

@@ -48,8 +48,7 @@ export default function Profile() {
 
     const handleNamesChange = async () => {
         try {
-            const handle = user.email.split('@')[0];
-            await updateUserNames(user.uid, handle, firstName, lastName);
+            await updateUserNames(user.uid, userData.handle, firstName, lastName);
             setUser({ ...user, firstName, lastName, displayName: `${firstName} ${lastName}` });
         } catch (error) {
             console.error("Error updating names:", error);
