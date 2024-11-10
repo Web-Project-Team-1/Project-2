@@ -14,6 +14,9 @@ const Discussions = () => {
     const [selectedDiscussion, setSelectedDiscussion] = useState(null);
     const [isDiscussionModalOpen, setIsDiscussionModalOpen] = useState(false);
 
+    const [currentPage, setCurrentPage] = useState(1);
+    const [discussionsPerPage] = useState(12);
+
     useEffect(() => {
         const fetchDiscussions = async () => {
             try {
@@ -28,20 +31,28 @@ const Discussions = () => {
 
     const handleDiscussionCreated = (newDiscussion) => {
         setDiscussions((prevDiscussions) => [...prevDiscussions, newDiscussion]);
-        toast.success("Discussion successfully created!"); 
+        toast.success("Discussion successfully created!");
     };
 
     const handleDiscussionDeleted = (discussionId) => {
         setDiscussions((prevDiscussions) =>
             prevDiscussions.filter((discussion) => discussion.id !== discussionId)
         );
-        toast.success("Discussion successfully deleted."); 
+        toast.success("Discussion successfully deleted.");
     };
 
     const openDiscussionModal = (discussion) => {
         setSelectedDiscussion(discussion);
         setIsDiscussionModalOpen(true);
     };
+
+    const indexOfLastDiscussion = currentPage * discussionsPerPage;
+    const indexOfFirstDiscussion = indexOfLastDiscussion - discussionsPerPage;
+    const currentDiscussions = discussions.slice(indexOfFirstDiscussion, indexOfLastDiscussion);
+
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+    const totalPages = Math.ceil(discussions.length / discussionsPerPage);
 
     return (
         <div className="discussions-background">
@@ -67,7 +78,7 @@ const Discussions = () => {
                 )}
 
                 <div className="discussion-list">
-                    {discussions.map(discussion => (
+                    {currentDiscussions.map(discussion => (
                         <div
                             key={discussion.id}
                             className="discussion-item"
@@ -79,11 +90,26 @@ const Discussions = () => {
                     ))}
                 </div>
 
+                <div className="pagination">
+                    <button
+                        onClick={() => paginate(currentPage - 1)}
+                        disabled={currentPage === 1}
+                    >
+                        Previous
+                    </button>
+                    <button
+                        onClick={() => paginate(currentPage + 1)}
+                        disabled={currentPage === totalPages}
+                    >
+                        Next
+                    </button>
+                </div>
+
                 <ToastContainer
                     position="top-center"
                     autoClose={3000}
-                    hideProgressBar={false} 
-                    progressStyle={{ background: "green" }} 
+                    hideProgressBar={false}
+                    progressStyle={{ background: "green" }}
                 />
             </div>
         </div>

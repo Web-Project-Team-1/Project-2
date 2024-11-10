@@ -19,13 +19,13 @@ const DiscussionModal = ({ onClose, discussion, user, userData, onDiscussionDele
     }, [discussion]);
 
     const handleAddReply = async () => {
-        if (user.isBlocked) {
-            alert("You are currently blocked.");
+        if (!user) {
+            alert("You must be logged in to reply.");
             return;
         }
 
-        if (!user) {
-            alert("You must be logged in to reply.");
+        if (user.isBlocked) {
+            alert("You are currently blocked.");
             return;
         }
 
@@ -75,13 +75,15 @@ const DiscussionModal = ({ onClose, discussion, user, userData, onDiscussionDele
 
                 <label className="discussion-label" htmlFor="discussion-content">Content:</label>
                 <p className="discussion-content" id="discussion-content">{discussion.content}</p>
-                <p className="discussion-meta"><small>Created by {discussion.createdBy} on {new Date(discussion.createdOn).toLocaleString()}</small></p>
+                <p className="discussion-meta">
+                    <small>Created by {discussion.createdBy} on {new Date(discussion.createdOn).toLocaleString()}</small>
+                </p>
 
                 <h3 className="replies-title">Replies</h3>
                 <div className="replies-list">
                     {replies.length > 0 ? (
-                        replies.map((reply) => (
-                            <div key={reply.id} className="reply-item">
+                        replies.map((reply, index) => (
+                            <div key={reply.id || index} className="reply-item">
                                 <p><strong>{reply.createdBy}</strong> on {new Date(reply.createdOn).toLocaleString()}</p>
                                 <p>{reply.content}</p>
                             </div>
