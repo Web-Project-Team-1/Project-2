@@ -29,13 +29,11 @@
 .discussion-modal-container {
     background: rgba(30, 30, 30, 0.95);
     color: white;
-    padding: 25px;
     border-radius: 12px;
     width: 1000px;
     height: 850px;
     box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
     position: relative;
-    display: flex;
     flex-direction: column;
     align-items: center;
     overflow-y: auto;
@@ -122,7 +120,7 @@
 }
 
 .reply-textarea {
-    width: 98%;
+    width: 80%;
     padding: 8px;
     border: 1px solid #555;
     border-radius: 4px;
@@ -147,7 +145,7 @@
     transition: background-color 0.3s;
     margin-top: 10px;
     font-size: 0.9em;
-    width: 550px;
+    width: 565px;
 }
 
 .reply-button:hover {
@@ -178,6 +176,7 @@
     cursor: pointer;
     margin: 15px 0px 0px;
     font-size: 14px;
+    margin-bottom: 10px;
 }
 
 .delete-discussion-button.disabled {
