@@ -17,6 +17,12 @@
     overflow-wrap: break-word;
     text-align: center;
     margin: 0 auto;
+    color: white;
+    margin-bottom: 20px;
+    background-color: #585151;
+    padding: 10px;
+    font-size: 1.5em;
+    border-radius: 6px;
 }
 
 
@@ -25,13 +31,14 @@
     color: white;
     padding: 25px;
     border-radius: 12px;
-    width: 600px;
-    max-width: 90%;
+    width: 800px;
+    max-width: 95%;
     box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow-y: auto;
 }
 
 .discussion-label {
@@ -69,15 +76,16 @@
 }
 
 .reply-item {
-    padding: 12px;
+    padding: 16px;
     background: rgba(255, 255, 255, 0.1);
     border-radius: 6px;
-    max-width: 40ch;
+    max-width: 600px;
     word-wrap: break-word;
     overflow-wrap: break-word;
     text-align: center;
     margin: 0 auto;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
+    font-size: 1.1em;
 }
 
 .reply-item p {
@@ -100,15 +108,16 @@
 }
 
 .reply-textarea {
-    width: 94%;
+    width: 98%;
     padding: 8px;
     border: 1px solid #555;
     border-radius: 4px;
     background: rgba(255, 255, 255, 0.1);
     color: white;
     resize: none;
-    max-height: 50px;
+    height: 100px;
 }
+
 
 .reply-textarea::placeholder {
     color: #ccc;
@@ -124,7 +133,7 @@
     transition: background-color 0.3s;
     margin-top: 10px;
     font-size: 0.9em;
-    width: 308px;
+    width: 428px;
 }
 
 .reply-button:hover {
