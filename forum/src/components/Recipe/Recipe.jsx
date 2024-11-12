@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './Recipe.css';
 import { AppContext } from '../../store/app.context';
 import { FavoritesContext } from '../../store/FavoritesContext';
-import { likeRecipe, getRecipeLikes, deleteRecipe } from '../../services/recipes.service';
+import { likeRecipe, getRecipeLikes, deleteRecipe, getCommentCount } from '../../services/recipes.service';
 import CommentModal from './CommentModal';
 import { toast } from 'react-toastify';
 
@@ -15,9 +15,10 @@ const Recipe = ({ id, title, description, image, preparationTime, portions, ingr
     const [isExpanded, setIsExpanded] = useState(false);
     const [likes, setLikes] = useState(0);
     const [isLiked, setIsLiked] = useState(false);
+    const [commentCount, setCommentCount] = useState(0);
     const [showCommentModal, setShowCommentModal] = useState(false);
     const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = useState(false);
-    const [showMoreInfo, setShowMoreInfo] = useState(false); 
+    const [showMoreInfo, setShowMoreInfo] = useState(false);
 
     const isFavorited = favorites.includes(id);
     const isCreator = user && userData?.handle === creatorHandle;
@@ -46,7 +47,17 @@ const Recipe = ({ id, title, description, image, preparationTime, portions, ingr
             }
         };
 
+        const fetchCommentCount = async () => {
+            try {
+                const count = await getCommentCount(id);
+                setCommentCount(count);
+            } catch (error) {
+                console.error("Error fetching comment count:", error);
+            }
+        };
+
         fetchLikes();
+        fetchCommentCount();
     }, [id, user]);
 
     const openModal = () => setIsExpanded(true);
@@ -98,6 +109,10 @@ const Recipe = ({ id, title, description, image, preparationTime, portions, ingr
         setShowCommentModal(true);
     };
 
+    const incrementCommentCount = () => {
+        setCommentCount(commentCount + 1);
+    };
+
     const handleDelete = () => {
         setIsConfirmDeleteOpen(true);
     };
@@ -124,7 +139,7 @@ const Recipe = ({ id, title, description, image, preparationTime, portions, ingr
         setIsConfirmDeleteOpen(false);
     };
 
-    const toggleMoreInfo = () => setShowMoreInfo(!showMoreInfo); 
+    const toggleMoreInfo = () => setShowMoreInfo(!showMoreInfo);
 
     return (
         <>
@@ -194,7 +209,7 @@ const Recipe = ({ id, title, description, image, preparationTime, portions, ingr
                                 onClick={user ? handleComment : (e) => e.preventDefault()}
                                 title={!user ? "Please log in to comment on the recipe." : ""}
                             >
-                                Comment
+                                Comment ➾{commentCount}
                             </button>
 
                             <button
@@ -224,6 +239,7 @@ const Recipe = ({ id, title, description, image, preparationTime, portions, ingr
                     onClose={() => setShowCommentModal(false)}
                     recipeId={id}
                     userData={userData}
+                    onCommentAdded={incrementCommentCount}
                 />
             )}
 

@@ -3,7 +3,7 @@ import { addComment, getComments } from '../../services/recipes.service';
 import { Filter } from 'bad-words';
 import './CommentModal.css';
 
-const CommentModal = ({ onClose, recipeId, userData }) => {
+const CommentModal = ({ onClose, recipeId, userData, onCommentAdded }) => {
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState('');
 
@@ -49,6 +49,10 @@ const CommentModal = ({ onClose, recipeId, userData }) => {
             await addComment(recipeId, commentData);
             setComments([...comments, commentData]);
             setNewComment('');
+
+            if (onCommentAdded) {
+                onCommentAdded();
+            }
         } catch (error) {
             console.error("Error adding comment:", error);
         }

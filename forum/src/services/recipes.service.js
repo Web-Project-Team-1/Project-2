@@ -27,6 +27,8 @@ export const createRecipe = async (title, description, image, category, preparat
         createdOn: new Date().toString(),
         createdBy: creatorHandle,
         creationDate,
+        commentCount: 0,
+        likeCount: 0
     };
 
     try {
@@ -106,11 +108,22 @@ export const addComment = async (recipeId, commentData) => {
     const commentRef = ref(db, `recipes/${recipeId}/comments`);
     const newCommentRef = push(commentRef);
     await set(newCommentRef, commentData);
+
+    const commentCountRef = ref(db, `recipes/${recipeId}/commentCount`);
+    const commentCountSnapshot = await get(commentCountRef);
+    const currentCommentCount = commentCountSnapshot.val() || 0;
+    await set(commentCountRef, currentCommentCount + 1);
 };
 
 export const getComments = async (recipeId) => {
     const snapshot = await get(ref(db, `recipes/${recipeId}/comments`));
     return snapshot.exists() ? Object.values(snapshot.val()) : [];
+};
+
+export const getCommentCount = async (recipeId) => {
+    const commentCountRef = ref(db, `recipes/${recipeId}/commentCount`);
+    const snapshot = await get(commentCountRef);
+    return snapshot.exists() ? snapshot.val() : 0;
 };
 
 export const addToFavorites = async (recipeId, userHandle) => {
