@@ -275,7 +275,33 @@
 .confirmation-buttons {
     display: flex;
     justify-content: space-between;
-    /* This will evenly space the buttons */
     gap: 10px;
-    /* Optional, adds space between buttons */
+}
+
+.delete-reply-button {
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 0.8em;
+    width: 30px;
+    height: 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.delete-reply-button:hover {
+    background: #c82333;
+}
+
+.delete-reply-button.disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+}
+
+.delete-reply-button.disabled:hover {
+    background: #6c757d;
 }

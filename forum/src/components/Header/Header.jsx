@@ -2,7 +2,7 @@ import { NavLink } from 'react-router-dom';
 import './Header.css';
 import logo from '../../resources/cooking.png';
 import defaultProfilePic from '../../resources/default-profile-pic.jpg';
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { AppContext } from '../../store/app.context';
 import { logoutUser } from "../../services/auth.service";
 import { useNavigate } from 'react-router-dom';
@@ -11,11 +11,13 @@ export default function Header() {
     const { user, userData, setAppState } = useContext(AppContext);
     const navigate = useNavigate();
     const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+    const [hasLoggedIn, setHasLoggedIn] = useState(false);
 
     const logout = () => {
         logoutUser()
             .then(() => {
                 setAppState({ user: null, userData: null });
+                setIsDropdownVisible(false);
                 navigate('/login');
             })
             .catch((error) => {
@@ -23,8 +25,23 @@ export default function Header() {
             });
     };
 
-    const handleMouseEnter = () => setIsDropdownVisible(true);
+    const handleMouseEnter = () => {
+        if (!hasLoggedIn) {
+            setIsDropdownVisible(true);
+        }
+    };
+
     const handleMouseLeave = () => setIsDropdownVisible(false);
+
+    useEffect(() => {
+        if (user) {
+            setHasLoggedIn(true);
+            setTimeout(() => setHasLoggedIn(false), 500);
+        } else {
+            setHasLoggedIn(false);
+        }
+        setIsDropdownVisible(false);
+    }, [user]);
 
     return (
         <header className="header">

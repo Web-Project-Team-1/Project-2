@@ -2,6 +2,8 @@ import React, { useContext, useState, useEffect, useRef } from 'react';
 import { AppContext } from '../../store/app.context';
 import { ProfileNamesContext } from '../../store/ProfileNamesContext';
 import { uploadProfilePicture, updateUserNames } from '../../services/users.service';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './Profile.css';
 import { FIRST_NAME_MAX_LENGTH, FIRST_NAME_MIN_LENGTH, LAST_NAME_MAX_LENGTH, LAST_NAME_MIN_LENGTH } from '../../common/constants';
 import { useNavigate } from 'react-router-dom';
@@ -41,7 +43,10 @@ export default function Profile() {
                 updateUser({ ...user, photoURL: newPictureUrl });
             } catch (error) {
                 console.error("Error uploading profile picture:", error);
-                alert("Failed to upload profile picture. Please try again.");
+                toast.error("Failed to upload profile picture. Please try again.", {
+                    position: "top-center",
+                    autoClose: 3000,
+                });
             }
         }
     };
@@ -52,6 +57,10 @@ export default function Profile() {
             setUser({ ...user, firstName, lastName, displayName: `${firstName} ${lastName}` });
         } catch (error) {
             console.error("Error updating names:", error);
+            toast.error("Failed to update names. Please try again.", {
+                position: "top-center",
+                autoClose: 3000,
+            });
         }
     };
 
@@ -71,19 +80,31 @@ export default function Profile() {
             await handleNamesChange();
 
             setIsSettingsOpen(false);
-            alert('Profile settings saved successfully!');
+            toast.success("Profile settings saved successfully!", {
+                position: "top-center",
+                autoClose: 3000,
+            });
         } catch (error) {
             console.error("Error saving settings:", error);
-            alert("Failed to save settings. Please try again.");
+            toast.error("Failed to save settings. Please try again.", {
+                position: "top-center",
+                autoClose: 3000,
+            });
         }
     };
 
     const validateFirstName = (name) => {
         if (name.length < FIRST_NAME_MIN_LENGTH) {
-            alert(`First name must be at least ${FIRST_NAME_MIN_LENGTH} characters long.`);
+            toast.error(`First name must be at least ${FIRST_NAME_MIN_LENGTH} characters long.`, {
+                position: "top-center",
+                autoClose: 3000,
+            });
             return false;
         } else if (name.length > FIRST_NAME_MAX_LENGTH) {
-            alert(`First name cannot exceed ${FIRST_NAME_MAX_LENGTH} characters.`);
+            toast.error(`First name cannot exceed ${FIRST_NAME_MAX_LENGTH} characters.`, {
+                position: "top-center",
+                autoClose: 3000,
+            });
             return false;
         }
         return true;
@@ -91,10 +112,16 @@ export default function Profile() {
 
     const validateLastName = (name) => {
         if (name.length < LAST_NAME_MIN_LENGTH) {
-            alert(`Last name must be at least ${LAST_NAME_MIN_LENGTH} characters long.`);
+            toast.error(`Last name must be at least ${LAST_NAME_MIN_LENGTH} characters long.`, {
+                position: "top-center",
+                autoClose: 3000,
+            });
             return false;
         } else if (name.length > LAST_NAME_MAX_LENGTH) {
-            alert(`Last name cannot exceed ${LAST_NAME_MAX_LENGTH} characters.`);
+            toast.error(`Last name cannot exceed ${LAST_NAME_MAX_LENGTH} characters.`, {
+                position: "top-center",
+                autoClose: 3000,
+            });
             return false;
         }
         return true;
@@ -152,6 +179,7 @@ export default function Profile() {
                     <p>Account Created: {userData?.createdOn.slice(0, 10) || 'Unknown'}</p>
                 </div>
             </div>
+            <ToastContainer />
         </div>
     );
 }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { addReply, getReplies, deleteDiscussion } from '../../services/discussions.service';
+import { addReply, getReplies, deleteDiscussion, deleteReply } from '../../services/discussions.service'; // Make sure deleteReply is defined in discussions.service
 import './DiscussionModal.css';
 import { Filter } from 'bad-words';
 
@@ -7,6 +7,7 @@ const DiscussionModal = ({ onClose, discussion, user, userData, onDiscussionDele
     const [replies, setReplies] = useState([]);
     const [newReply, setNewReply] = useState('');
     const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = useState(false);
+    const [replyToDelete, setReplyToDelete] = useState(null);
 
     useEffect(() => {
         const fetchReplies = async () => {
@@ -15,7 +16,6 @@ const DiscussionModal = ({ onClose, discussion, user, userData, onDiscussionDele
                 setReplies(fetchedReplies || []);
             }
         };
-
         fetchReplies();
     }, [discussion]);
 
@@ -24,14 +24,12 @@ const DiscussionModal = ({ onClose, discussion, user, userData, onDiscussionDele
             alert("You must be logged in to reply.");
             return;
         }
-
         if (user.isBlocked) {
             alert("You are currently blocked.");
             return;
         }
 
         const filter = new Filter();
-
         const censoredReply = filter.clean(newReply);
 
         const replyData = {
@@ -70,7 +68,17 @@ const DiscussionModal = ({ onClose, discussion, user, userData, onDiscussionDele
         setIsConfirmDeleteOpen(false);
     };
 
-    const isUserCreator = discussion.createdBy === (userData.handle || user.email.split("@")[0]);
+    const handleDeleteReply = async (replyId) => {
+        try {
+            await deleteReply(discussion.id, replyId);
+            setReplies(replies.filter(reply => reply.id !== replyId));
+        } catch (error) {
+            console.error("Error deleting reply:", error);
+        }
+    };
+
+    const isAdmin = userData?.isAdmin;
+    const isUserCreator = discussion.createdBy === (userData?.handle || user.email.split("@")[0]);
 
     return (
         <div className="discussion-modal-overlay" onClick={onClose}>
@@ -87,10 +95,19 @@ const DiscussionModal = ({ onClose, discussion, user, userData, onDiscussionDele
                 <h3 className="replies-title">Replies</h3>
                 <div className="replies-list">
                     {replies.length > 0 ? (
-                        replies.map((reply, index) => (
-                            <div key={reply.id || index} className="reply-item">
+                        replies.map((reply) => (
+                            <div key={reply.id} className="reply-item">
                                 <p><strong>{reply.createdBy}</strong> on {new Date(reply.createdOn).toLocaleString()}</p>
                                 <p>{reply.content}</p>
+                                {(reply.createdBy === userData?.handle || isAdmin) && (
+                                    <button
+                                        className="delete-reply-button"
+                                        onClick={() => handleDeleteReply(reply.id)}
+                                        title="Delete Reply"
+                                    >
+                                        🗑️
+                                    </button>
+                                )}
                             </div>
                         ))
                     ) : (
@@ -113,11 +130,11 @@ const DiscussionModal = ({ onClose, discussion, user, userData, onDiscussionDele
 
                 <button className="close-modal-button" onClick={onClose}>Close</button>
 
-                {isUserCreator && (
+                {(isUserCreator || isAdmin) && (
                     <button
                         className="delete-discussion-button"
                         onClick={handleDeleteDiscussion}
-                        title="Only the creator can delete this discussion">
+                        title="Only the creator or an admin can delete this discussion">
                         Delete Discussion
                     </button>
                 )}

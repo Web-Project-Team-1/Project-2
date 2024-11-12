@@ -34,12 +34,12 @@ export default function Login() {
 
             setAppState({ user: credential.user, userData: fetchedUserData });
 
-            toast.success('Login successful!', {
-                position: "top-center",
-                autoClose: 2000,
-                hideProgressBar: false,
-                progressStyle: { backgroundColor: "#28a745" },
-            });
+            // toast.success('Login successful!', {
+            //     position: "top-center",
+            //     autoClose: 2000,
+            //     hideProgressBar: false,
+            //     progressStyle: { backgroundColor: "#28a745" },
+            // });
 
             setRedirectToProfile(true);
         } catch (error) {
@@ -62,7 +62,7 @@ export default function Login() {
 
     useEffect(() => {
         if (redirectToProfile && userData) {
-            navigate('/profile');
+            navigate('/');
         }
     }, [redirectToProfile, userData, navigate]);
 

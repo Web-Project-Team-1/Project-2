@@ -46,12 +46,12 @@ export default function Register() {
                             userData: null,
                         });
 
-                        toast.success('Registration successful!', {
-                            position: "top-center",
-                            autoClose: 2000,
-                            hideProgressBar: false,
-                            progressStyle: { backgroundColor: "#28a745" },
-                        });
+                        // toast.success('Registration successful!', {
+                        //     position: "top-center",
+                        //     autoClose: 3000,
+                        //     hideProgressBar: false,
+                        //     progressStyle: { backgroundColor: "#28a745" },
+                        // });
 
                         setTimeout(() => navigate('/'));
                     })
