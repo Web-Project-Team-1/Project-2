@@ -16,7 +16,7 @@ const Discussions = () => {
     const [isDiscussionModalOpen, setIsDiscussionModalOpen] = useState(false);
 
     const [currentPage, setCurrentPage] = useState(1);
-    const [discussionsPerPage] = useState(12);
+    const [discussionsPerPage] = useState(9);
 
     const filter = new Filter();
 

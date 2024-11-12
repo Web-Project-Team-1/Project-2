@@ -55,9 +55,9 @@
     flex-direction: column;
     justify-content: space-between;
     padding: 8px;
-    border: 1px solid #c90e0e;
+    border: 2px solid rgb(0, 0, 0);
     border-radius: 5px;
-    background-color: #ffffff;
+    background-color: #1b1414a6;
     transition: box-shadow 0.3s;
     box-sizing: border-box;
     align-items: center;
@@ -70,7 +70,7 @@
 
 .user-email-text {
     font-size: 0.9rem;
-    color: #333;
+    color: white;
     font-weight: bold;
     margin-bottom: 4px;
     text-align: center;
@@ -86,20 +86,20 @@
 }
 
 .promote-button {
-    background-color: #28a745;
+    background-color: #0e7225;
     color: white;
     font-size: 0.8rem;
     padding: 6px 12px;
-    border-radius: 50%;
-    width: 80px;
-    height: 80px;
+    border-radius: 45%;
+    width: 100px;
+    height: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .promote-button:hover {
-    background-color: #218838;
+    background-color: rgb(47, 163, 159);
 }
 
 .button-container {
