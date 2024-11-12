@@ -149,7 +149,7 @@ export default function Profile() {
                 )}
 
                 <div className="profile-footer">
-                    <p>Account Created: {userData?.createdOn || 'Unknown'}</p>
+                    <p>Account Created: {userData?.createdOn.slice(0, 10) || 'Unknown'}</p>
                 </div>
             </div>
         </div>
