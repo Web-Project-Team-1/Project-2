@@ -98,7 +98,7 @@ const AdminDashboard = () => {
                             </span>
                             <div className="user-status">
                                 {user.isAdmin ? (
-                                    <span className="admin-text"> 🔑 Admin</span>
+                                    <span className="admin-text">🔑 Admin</span>
                                 ) : (
                                     <button className="promote-button" onClick={() => promoteToAdmin(user.handle)}>
                                         Promote to Admin
@@ -127,7 +127,6 @@ const AdminDashboard = () => {
             </div>
         </div>
     );
-
 };
 
 export default AdminDashboard;
