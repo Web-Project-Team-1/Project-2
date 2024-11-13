@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { addReply, getReplies, deleteDiscussion, deleteReply } from '../../services/discussions.service'; // Make sure deleteReply is defined in discussions.service
+import { addReply, getReplies, deleteDiscussion, deleteReply } from '../../services/discussions.service';
 import './DiscussionModal.css';
 import { Filter } from 'bad-words';
 
@@ -116,41 +116,44 @@ const DiscussionModal = ({ onClose, discussion, user, userData, onDiscussionDele
                 </div>
 
                 <div className="add-reply-section">
-                    <label className="reply-label" htmlFor="reply-input">Reply:</label>
-                    <textarea
-                        className="reply-textarea"
-                        id="reply-input"
-                        value={newReply}
-                        onChange={(e) => setNewReply(e.target.value)}
-                        placeholder="Write your reply here..."
-                        autoComplete="off"
-                    />
-                    <button className="reply-button" onClick={handleAddReply}>Add Reply</button>
-                </div>
-
-                <button className="close-modal-button" onClick={onClose}>Close</button>
-
-                {(isUserCreator || isAdmin) && (
-                    <button
-                        className="delete-discussion-button"
-                        onClick={handleDeleteDiscussion}
-                        title="Only the creator or an admin can delete this discussion">
-                        Delete Discussion
-                    </button>
-                )}
-            </div>
-
-            {isConfirmDeleteOpen && (
-                <div className="confirmation-modal-overlay" onClick={cancelDeleteDiscussion}>
-                    <div className="confirmation-modal-container" onClick={(e) => e.stopPropagation()}>
-                        <h3>Are you sure you want to delete this discussion?</h3>
-                        <div className="confirmation-buttons">
-                            <button onClick={confirmDeleteDiscussion} className="confirm-button">Yes, Delete</button>
-                            <button onClick={cancelDeleteDiscussion} className="cancel-button">No, Cancel</button>
+                    {/* Updated to wrap the textarea and buttons in a reply-container */}
+                    <div className="reply-container">
+                        <textarea
+                            className="reply-textarea"
+                            id="reply-input"
+                            value={newReply}
+                            onChange={(e) => setNewReply(e.target.value)}
+                            placeholder="Write your reply here..."
+                            autoComplete="off"
+                        />
+                        {/* Wrap the buttons in a button-group for vertical alignment */}
+                        <div className="button-group">
+                            <button className="reply-button" onClick={handleAddReply}>Add Reply</button>
+                            <button className="close-modal-button" onClick={onClose}>Close</button>
+                            {(isUserCreator || isAdmin) && (
+                                <button
+                                    className="delete-discussion-button"
+                                    onClick={handleDeleteDiscussion}
+                                    title="Only the creator or an admin can delete this discussion">
+                                    Delete Discussion
+                                </button>
+                            )}
                         </div>
                     </div>
                 </div>
-            )}
+
+                {isConfirmDeleteOpen && (
+                    <div className="confirmation-modal-overlay" onClick={cancelDeleteDiscussion}>
+                        <div className="confirmation-modal-container" onClick={(e) => e.stopPropagation()}>
+                            <h3>Are you sure you want to delete this discussion?</h3>
+                            <div className="confirmation-buttons">
+                                <button onClick={confirmDeleteDiscussion} className="confirm-button">Yes, Delete</button>
+                                <button onClick={cancelDeleteDiscussion} className="cancel-button">No, Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                )}
+            </div>
         </div>
     );
 };
